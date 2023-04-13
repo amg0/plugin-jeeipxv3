@@ -51,13 +51,13 @@ public static function daemon() {
   if ( $endtime - $starttime < $seconds )
   {
     $ms = floor(($seconds - ($endtime - $starttime))*1000000);
-    log::add(JEEIPXV3, 'info', __METHOD__ . ' sleeping microsec:'.$ms);
+    log::add(JEEIPXV3, 'info', __METHOD__ . ' sleeping millisec:'.$ms/1000);
     usleep($ms);
   }
 }
 
 public static function deamon_info() {
-  log::add(JEEIPXV3, 'debug', __METHOD__);
+  //log::add(JEEIPXV3, 'debug', __METHOD__);
   $return = array();
   $return['log'] = '';
   $return['state'] = 'nok';
