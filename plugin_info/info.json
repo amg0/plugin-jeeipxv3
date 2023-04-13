@@ -1,0 +1,27 @@
+{
+	"id" : "jeeipxv3",
+	"name" : "jeeipxv3",
+	"description" : {
+		"fr_FR": "Plugin pour interfacer Jeedom avec IPXv3"
+	},
+	"licence" : "AGPL",
+	"author" : "amg0",
+	"require" : "4.3.17",
+	"category" : "home automation protocol",
+	"hasDependency" : false,
+	"hasOwnDeamon" : true,
+	"maxDependancyInstallTime" : 0,
+	"changelog" : "https://amg0.github.io/plugin-jeeipxv3/#language#/changelog",
+	"documentation" : "https://amg0.github.io/plugin-jeeipxv3/#language#/",
+	"changelog_beta" : "https://amg0.github.io/plugin-jeeipxv3/#language#/beta/changelog",
+	"documentation_beta" : "https://amg0.github.io/plugin-jeeipxv3/#language#/beta/",
+	"link" : {
+		"forum":"Lien vers le forum",
+		"video" : "Lien vers une video"
+	},
+	"language": [
+		"fr_FR",
+		"en_US"
+	],
+	"compatibility": ""
+}
