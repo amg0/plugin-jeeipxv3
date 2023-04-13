@@ -45,6 +45,8 @@ public static function daemon() {
   //
 
   $seconds = config::byKey('refresh_freq', JEEIPXV3, 180, true);
+  log::add(JEEIPXV3, 'debug', __METHOD__ . ' refresh_freq: '.$seconds);
+  
   $endtime = microtime (true);     // current time in sec as a float
   if ( $endtime - $starttime < $seconds )
   {
@@ -55,7 +57,7 @@ public static function daemon() {
 }
 
 public static function deamon_info() {
-  //log::add(JEEIPXV3, 'debug', __METHOD__);
+  log::add(JEEIPXV3, 'debug', __METHOD__);
   $return = array();
   $return['log'] = '';
   $return['state'] = 'nok';
