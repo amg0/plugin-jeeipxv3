@@ -36,6 +36,28 @@ class jeeipxv3 extends eqLogic {
 
   /*     * ***********************Methode static*************************** */
 /*     * ***********************Methode static*************************** */
+public static function createOrUpdateCommand( $eqlogic, $name, $logicalid, $type, $subtype, $is_visible, $generic_type) {
+  $cmd = $eqlogic->getCmd(null, $logicalid);
+  if (!is_object($cmd)) {
+    $cmd = new jeeipxv3Cmd();
+    $cmd->setName($name);
+    $cmd->setEqLogic_id($eqlogic->getId());
+    $cmd->setType($type);
+    $cmd->setSubType($subtype);
+    $cmd->setLogicalId($logicalid);
+    $cmd->setIsVisible($is_visible);
+    $cmd->setDisplay('generic_type', $generic_type);
+    // $cmd->setUnite('');
+    // $cmd->setIsHistorized(0);
+    $cmd->save();
+  } else {
+    if ($cmd->getDisplay('generic_type') == "") {
+      $cmd->setDisplay('generic_type', $generic_type);
+      $cmd->save();
+    }
+  }
+}
+
 public static function daemon() {
   log::add(JEEIPXV3, 'debug', __METHOD__ . ' running: start');
   $starttime = microtime (true);   // current time in sec as a float
@@ -232,29 +254,6 @@ public static function deamon_changeAutoMode($mode) {
 
 }
 
-class utils {
-  public static function createOrUpdateCommand( $eqlogic, $name, $logicalid, $type, $subtype, $is_visible, $generic_type) {
-		$cmd = $eqlogic->getCmd(null, $logicalid);
-		if (!is_object($cmd)) {
-			$cmd = new jeeipxv3Cmd();
-			$cmd->setName($name);
-			$cmd->setEqLogic_id($eqlogic->getId());
-			$cmd->setType($type);
-			$cmd->setSubType($subtype);
-			$cmd->setLogicalId($logicalid);
-			$cmd->setIsVisible($is_visible);
-			$cmd->setDisplay('generic_type', $generic_type);
-      // $cmd->setUnite('');
-			// $cmd->setIsHistorized(0);
-			$cmd->save();
-		} else {
-			if ($cmd->getDisplay('generic_type') == "") {
-				$cmd->setDisplay('generic_type', $generic_type);
-				$cmd->save();
-			}
-		}
-  }
-}
 
 class jeeipxv3Cmd extends cmd {
   /*     * *************************Attributs****************************** */
