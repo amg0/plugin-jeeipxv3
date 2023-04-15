@@ -171,6 +171,7 @@ public static function deamon_changeAutoMode($mode) {
   public function postSave() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $this->readConfigurationFromIPX();
+    $this->createOrUpdateCommands();
   }
 
   // Fonction exécutée automatiquement avant la suppression de l'équipement
@@ -215,6 +216,10 @@ public static function deamon_changeAutoMode($mode) {
     // no return value
   }
   */
+  public function createOrUpdateCommands() {
+    utils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+    utils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 1, 'GENERIC_INFO' );
+  }
 
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
@@ -225,6 +230,30 @@ public static function deamon_changeAutoMode($mode) {
   }
   /*     * **********************Getteur Setteur*************************** */
 
+}
+
+class utils {
+  public static function createOrUpdateCommand( $eqlogic, $name, $logicalid, $type, $subtype, $is_visible, $generic_type) {
+		$cmd = $eqlogic->getCmd(null, $logicalid);
+		if (!is_object($cmd)) {
+			$cmd = new jeeipxv3Cmd();
+			$cmd->setName($name);
+			$cmd->setEqLogic_id($eqlogic->getId());
+			$cmd->setType($type);
+			$cmd->setSubType($subtype);
+			$cmd->setLogicalId($logicalid);
+			$cmd->setIsVisible($is_visible);
+			$cmd->setDisplay('generic_type', $generic_type);
+      // $cmd->setUnite('');
+			// $cmd->setIsHistorized(0);
+			$cmd->save();
+		} else {
+			if ($cmd->getDisplay('generic_type') == "") {
+				$cmd->setDisplay('generic_type', $generic_type);
+				$cmd->save();
+			}
+		}
+  }
 }
 
 class jeeipxv3Cmd extends cmd {
