@@ -255,8 +255,26 @@ public static function deamon_changeAutoMode($mode) {
 }
 
 class myutils {
-  public static function myfunc() {
-    return 0;
+  public static function createOrUpdateCommand( $eqlogic, $name, $logicalid, $type, $subtype, $is_visible, $generic_type) {
+    $cmd = $eqlogic->getCmd(null, $logicalid);
+    if (!is_object($cmd)) {
+      $cmd = new jeeipxv3Cmd();
+      $cmd->setName($name);
+      $cmd->setEqLogic_id($eqlogic->getId());
+      $cmd->setType($type);
+      $cmd->setSubType($subtype);
+      $cmd->setLogicalId($logicalid);
+      $cmd->setIsVisible($is_visible);
+      $cmd->setDisplay('generic_type', $generic_type);
+      // $cmd->setUnite('');
+      // $cmd->setIsHistorized(0);
+      $cmd->save();
+    } else {
+      if ($cmd->getDisplay('generic_type') == "") {
+        $cmd->setDisplay('generic_type', $generic_type);
+        $cmd->save();
+      }
+    }
   }
 }
 
