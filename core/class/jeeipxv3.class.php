@@ -232,8 +232,7 @@ public static function deamon_changeAutoMode($mode) {
 	}
 
   public function ipxHttpCall($action) {
-    $url - $this->getUrl();
-    $url .= $action;
+    $url = $this->getUrl() . $action;
     $result = file_get_contents($url);
     if ($result===false) {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' file_get_contents returned false');
