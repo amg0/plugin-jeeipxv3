@@ -43,7 +43,7 @@ public static function daemon() {
   //
   // TODO:  implement the refresh
   //
-  foreach (self::byType('jeeipxv3') as $eqLogic) {
+  foreach (self::byType(JEEIPXV3) as $eqLogic) {
     $eqLogic->refreshFromIPX();
   }
 
