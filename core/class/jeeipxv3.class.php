@@ -235,6 +235,7 @@ public static function deamon_changeAutoMode($mode) {
 
 class myutils {
   public static function createOrUpdateCommand( $eqlogic, $name, $logicalid, $type, $subtype, $is_visible, $generic_type) {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' name:' . $name);
     $cmd = $eqlogic->getCmd(null, $logicalid);
     if (!is_object($cmd)) {
       $cmd = new jeeipxv3Cmd();
