@@ -240,7 +240,7 @@ public static function deamon_changeAutoMode($mode) {
       throw new Exception(__('IPX ne répond pas', __FILE__));
     }
     $this->checkAndUpdateCmd('status', 1);
-    $this->checkAndUpdateCmd('lasthttp', $result);
+    $this->checkAndUpdateCmd('lasthttp', json_encode($result) );
     $this->checkAndUpdateCmd('updatetime', time());
     return $result;
   }
