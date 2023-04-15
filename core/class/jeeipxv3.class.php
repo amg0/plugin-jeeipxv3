@@ -236,9 +236,11 @@ public static function deamon_changeAutoMode($mode) {
     $result = file_get_contents($url);
     if ($result===false) {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' file_get_contents returned false');
+      $this->checkAndUpdateCmd('status', 0);
       throw new Exception(__('IPX ne répond pas', __FILE__));
     }
-    $this->checkAndUpdateCmd('status', $result);
+    $this->checkAndUpdateCmd('status', 1);
+    $this->checkAndUpdateCmd('lasthttp', $result);
     $this->checkAndUpdateCmd('updatetime', time());
     return $result;
   }
@@ -246,6 +248,7 @@ public static function deamon_changeAutoMode($mode) {
   public function createOrUpdateCommands() {
     myutils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
     myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
+    myutils::createOrUpdateCommand( $this, 'Last Status', 'lasthttp', 'info', 'string', 0, 'GENERIC_INFO' );
   }
 
   public function refreshFromIPX() {
