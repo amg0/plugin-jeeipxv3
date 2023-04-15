@@ -217,6 +217,18 @@ public static function deamon_changeAutoMode($mode) {
     // no return value
   }
   */
+	public function getUrl() {
+		$url = 'http://';
+		if ($this->getConfiguration('username') != '') {
+			$url .= $this->getConfiguration('username') . ':' . $this->getConfiguration('password') . '@';
+		}
+		$url .= $this->getConfiguration('ipaddr');
+		if ($this->getConfiguration('port') != '') {
+			$url .= ':' . $this->getConfiguration('port');
+		}
+		return $url . "/";
+	}
+
   public function createOrUpdateCommands() {
     myutils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
     myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 1, 'GENERIC_INFO' );
@@ -228,6 +240,8 @@ public static function deamon_changeAutoMode($mode) {
 
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+    $url = $this->getUrl();
+    log::add(JEEIPXV3, 'debug', 'url:'.$url);
   }
   /*     * **********************Getteur Setteur*************************** */
 
