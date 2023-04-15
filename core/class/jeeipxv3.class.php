@@ -44,7 +44,7 @@ public static function daemon() {
   // TODO:  implement the refresh
   //
   foreach (self::byType('jeeipxv3') as $eqLogic) {
-    $eqLogic->refresh();
+    $eqLogic->refreshFromIPX();
   }
 
   $seconds = config::byKey('refresh_freq', JEEIPXV3, 180, true);
