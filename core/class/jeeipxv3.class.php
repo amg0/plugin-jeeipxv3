@@ -36,27 +36,6 @@ class jeeipxv3 extends eqLogic {
 
   /*     * ***********************Methode static*************************** */
 /*     * ***********************Methode static*************************** */
-public static function createOrUpdateCommand( $eqlogic, $name, $logicalid, $type, $subtype, $is_visible, $generic_type) {
-  $cmd = $eqlogic->getCmd(null, $logicalid);
-  if (!is_object($cmd)) {
-    $cmd = new jeeipxv3Cmd();
-    $cmd->setName($name);
-    $cmd->setEqLogic_id($eqlogic->getId());
-    $cmd->setType($type);
-    $cmd->setSubType($subtype);
-    $cmd->setLogicalId($logicalid);
-    $cmd->setIsVisible($is_visible);
-    $cmd->setDisplay('generic_type', $generic_type);
-    // $cmd->setUnite('');
-    // $cmd->setIsHistorized(0);
-    $cmd->save();
-  } else {
-    if ($cmd->getDisplay('generic_type') == "") {
-      $cmd->setDisplay('generic_type', $generic_type);
-      $cmd->save();
-    }
-  }
-}
 
 public static function daemon() {
   log::add(JEEIPXV3, 'debug', __METHOD__ . ' running: start');
@@ -239,8 +218,8 @@ public static function deamon_changeAutoMode($mode) {
   }
   */
   public function createOrUpdateCommands() {
-    self::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
-    self::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 1, 'GENERIC_INFO' );
+    myutils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+    myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 1, 'GENERIC_INFO' );
   }
 
   public function refreshFromIPX() {
