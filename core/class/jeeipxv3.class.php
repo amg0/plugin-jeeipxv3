@@ -233,7 +233,7 @@ public static function deamon_changeAutoMode($mode) {
 
   public function createOrUpdateCommands() {
     myutils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 1, 'GENERIC_INFO' );
+    myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
   }
 
   public function refreshFromIPX() {
