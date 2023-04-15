@@ -231,6 +231,19 @@ public static function deamon_changeAutoMode($mode) {
     return $url;
 	}
 
+  public function ipxHttpCall($action) {
+    $url - $this->getUrl();
+    $url .= $action;
+    $result = file_get_contents($url);
+    if ($result===false) {
+      log::add(JEEIPXV3, 'warning', __METHOD__ .' file_get_contents returned false');
+      throw new Exception(__('IPX ne répond pas', __FILE__));
+    }
+    $this->checkAndUpdateCmd('status', $result);
+    $this->checkAndUpdateCmd('updatetime', time());
+    return $result;
+  }
+
   public function createOrUpdateCommands() {
     myutils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
     myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
@@ -238,16 +251,14 @@ public static function deamon_changeAutoMode($mode) {
 
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $url = $this->getUrl();
-    $eqLogic_cmd = $this->getCmd(null, 'updatetime');
-    if (is_object($eqLogic_cmd)) {
-      $eqLogic_cmd->event(time());
-    }
+    $xml = $this->ipxHttpCall('globalstatus.xml');
+    return $xml;
   }
 
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $url = $this->getUrl();
+    $xml = $this->ipxHttpCall('globalstatus.xml');
+    return $xml;
   }
   /*     * **********************Getteur Setteur*************************** */
 
