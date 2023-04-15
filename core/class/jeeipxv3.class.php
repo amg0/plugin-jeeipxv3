@@ -226,7 +226,9 @@ public static function deamon_changeAutoMode($mode) {
 		if ($this->getConfiguration('port') != '') {
 			$url .= ':' . $this->getConfiguration('port');
 		}
-		return $url . "/";
+    $url .= "/";
+    log::add(JEEIPXV3, 'debug', 'url:'.$url);
+    return $url;
 	}
 
   public function createOrUpdateCommands() {
@@ -236,12 +238,12 @@ public static function deamon_changeAutoMode($mode) {
 
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+    $url = $this->getUrl();
   }
 
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $url = $this->getUrl();
-    log::add(JEEIPXV3, 'debug', 'url:'.$url);
   }
   /*     * **********************Getteur Setteur*************************** */
 
