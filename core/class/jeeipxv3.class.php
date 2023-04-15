@@ -239,8 +239,8 @@ public static function deamon_changeAutoMode($mode) {
   }
   */
   public function createOrUpdateCommands() {
-    //utils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
-    //utils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 1, 'GENERIC_INFO' );
+    self::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+    self::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 1, 'GENERIC_INFO' );
   }
 
   public function refreshFromIPX() {
