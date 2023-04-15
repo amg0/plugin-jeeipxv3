@@ -239,8 +239,9 @@ public static function deamon_changeAutoMode($mode) {
       $this->checkAndUpdateCmd('status', 0);
       throw new Exception(__('IPX ne répond pas', __FILE__));
     }
+    log::add(JEEIPXV3, 'warning', __METHOD__ .' file_get_contents returned:'.json_encode($result));
     $this->checkAndUpdateCmd('status', 1);
-    $this->checkAndUpdateCmd('lasthttp', json_encode($result) );
+    $this->checkAndUpdateCmd('lasthttp', $result );
     $this->checkAndUpdateCmd('updatetime', time());
     return $result;
   }
