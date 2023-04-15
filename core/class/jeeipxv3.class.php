@@ -254,6 +254,12 @@ public static function deamon_changeAutoMode($mode) {
 
 }
 
+class myutils {
+  public static function myfunc() {
+    return 0;
+  }
+}
+
 
 class jeeipxv3Cmd extends cmd {
   /*     * *************************Attributs****************************** */
