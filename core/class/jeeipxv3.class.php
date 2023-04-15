@@ -227,12 +227,12 @@ public static function deamon_changeAutoMode($mode) {
 			$url .= ':' . $this->getConfiguration('port');
 		}
     $url .= "/";
-    log::add(JEEIPXV3, 'debug', 'url:'.$url);
     return $url;
 	}
 
   public function ipxHttpCall($action) {
     $url = $this->getUrl() . $action;
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' url:'.$url);
     $result = file_get_contents($url);
     if ($result===false) {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' file_get_contents returned false');
