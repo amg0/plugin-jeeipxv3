@@ -239,6 +239,10 @@ public static function deamon_changeAutoMode($mode) {
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $url = $this->getUrl();
+    $eqLogic_cmd = $this->getCmd(null, 'updatetime');
+    if (is_object($eqLogic_cmd)) {
+      $eqLogic_cmd->event(time());
+    }
   }
 
   public function readConfigurationFromIPX() {
