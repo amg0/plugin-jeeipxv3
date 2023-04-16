@@ -265,7 +265,7 @@ public static function deamon_changeAutoMode($mode) {
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     //$xml = $this->refreshFromIPX();
-    return //$xml;
+    return; //$xml;
   }
 
   public function createOrUpdateCommands() {
