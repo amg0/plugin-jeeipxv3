@@ -18,7 +18,6 @@
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
-
 class jeeipxv3_relay extends eqLogic {
   /*     * *************************Attributs****************************** */
 

@@ -251,12 +251,6 @@ public static function deamon_changeAutoMode($mode) {
     $this->checkAndUpdateCmd('version', (string) $xml->version );
     $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );
     $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
-    return $xml;
-  }
-
-  public function readConfigurationFromIPX() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $xml = $this->refreshFromIPX();
 
     $id = $this->getId().'_led0';
     if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
@@ -265,8 +259,13 @@ public static function deamon_changeAutoMode($mode) {
       $eqLogic->setName($this->getId().'_Relai 1');
       $eqLogic->save();
     }
-
     return $xml;
+  }
+
+  public function readConfigurationFromIPX() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+    //$xml = $this->refreshFromIPX();
+    return //$xml;
   }
 
   public function createOrUpdateCommands() {
