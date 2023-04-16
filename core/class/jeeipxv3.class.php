@@ -19,6 +19,8 @@
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 const JEEIPXV3 = 'jeeipxv3';     // plugin logical name
 
+include_file('core', 'jeeipxv3_relay', 'class', JEEIPXV3);
+
 class jeeipxv3 extends eqLogic {
   /*     * *************************Attributs****************************** */
 
@@ -248,30 +250,29 @@ public static function deamon_changeAutoMode($mode) {
     if ($this->getConfiguration('ipaddr')!='') {
       $xml = $this->ipxHttpCallXML('globalstatus.xml');    
       $this->checkAndUpdateCmd('updatetime', time());
-      $this->checkAndUpdateCmd('version', (string) $xml->version );
-      $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );
+      $this->checkAndUpdateCmd('version', (string) $xml->version ); // have to cast to string
+      $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );  // have to cast to string
       $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
-  
-      $id = $this->getId().'_led0';
-      if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
-        $eqLogic = new jeeipxv3_relay();
-        $eqLogic->setLogicalId($id);
-        $eqLogic->setName($this->getId().'_led0');
-        $eqLogic->setIsEnable(1);
-        $eqLogic->setIsVisible(1);
-        //$eqLogic->setCategory($category,'1');
-        $eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
-        $eqLogic->save();
-
-        return $xml;
-
-      }
+      return $xml;
     }
-    return '';
+    return null;
   }
 
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+  
+    $id = $this->getId().'_led0';
+    if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
+      $eqLogic = new jeeipxv3_relay();
+      $eqLogic->setLogicalId($id);
+      $eqLogic->setName($this->getId().'_led0');
+      $eqLogic->setIsEnable(1);
+      $eqLogic->setIsVisible(1);
+      //$eqLogic->setCategory($category,'1');
+      $eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
+      $eqLogic->save();
+    }
+
     //$xml = $this->refreshFromIPX();
     return; //$xml;
   }
@@ -339,54 +340,4 @@ class jeeipxv3Cmd extends cmd {
 
   /*     * **********************Getteur Setteur*************************** */
 
-}
-
-
-class jeeipxv3_relay extends eqLogic {
-  // Fonction exécutée automatiquement avant la création de l'équipement
-  public function preInsert() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $this->setEqType_name('jeeipxv3_relay');
-  }
-
-  // Fonction exécutée automatiquement après la création de l'équipement
-  public function postInsert() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-  }
-
-  // Fonction exécutée automatiquement avant la mise à jour de l'équipement
-  public function preUpdate() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-  }
-
-  // Fonction exécutée automatiquement après la mise à jour de l'équipement
-  public function postUpdate() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-  }
-
-  // Fonction exécutée automatiquement avant la sauvegarde (création ou mise à jour) de l'équipement
-  public function preSave() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-  }
-
-  // Fonction exécutée automatiquement après la sauvegarde (création ou mise à jour) de l'équipement
-  public function postSave() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-  }
-
-  // Fonction exécutée automatiquement avant la suppression de l'équipement
-  public function preRemove() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-  }
-
-  // Fonction exécutée automatiquement après la suppression de l'équipement
-  public function postRemove() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-  }
-}
-
-class jeeipxv3_relayCmd extends cmd {
-  // Exécution d'une commande
-  public function execute($_options = array()) {
-  }
 }
