@@ -254,33 +254,24 @@ public static function deamon_changeAutoMode($mode) {
       $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
       return $xml;
   
-      /*
       $id = $this->getId().'_led0';
       if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
         $eqLogic = new jeeipxv3_relay();
         $eqLogic->setLogicalId($id);
-        $eqLogic->setName($this->getId().'_Relai 1');
+        $eqLogic->setName($this->getId().'_led0');
+        $eqLogic->setIsEnable(1);
+        $eqLogic->setIsVisible(1);
+        //$eqLogic->setCategory($category,'1');
+        $eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
         $eqLogic->save();
+        
       }
-      */
     }
     return '';
   }
 
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    
-    $id = $this->getId().'_led0';
-    if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
-      $eqLogic = new jeeipxv3_relay();
-      $eqLogic->setLogicalId($id);
-      $eqLogic->setName($this->getId().'_led0');
-      $eqLogic->setIsEnable(1);
-      $eqLogic->setIsVisible(1);
-      //$eqLogic->setCategory($category,'1');
-      $eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
-      $eqLogic->save();
-    }
     //$xml = $this->refreshFromIPX();
     return; //$xml;
   }
