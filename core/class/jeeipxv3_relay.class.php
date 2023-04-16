@@ -76,6 +76,7 @@ class jeeipxv3_relay extends eqLogic {
   // Fonction exécutée automatiquement avant la création de l'équipement
   public function preInsert() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+    $this->setIsVisible(0);
   }
 
   // Fonction exécutée automatiquement après la création de l'équipement
