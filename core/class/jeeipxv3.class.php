@@ -19,8 +19,6 @@
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 const JEEIPXV3 = 'jeeipxv3';     // plugin logical name
 
-include_file('core', 'jeeipxv3_relay', 'class', JEEIPXV3);
-
 class jeeipxv3 extends eqLogic {
   /*     * *************************Attributs****************************** */
 
