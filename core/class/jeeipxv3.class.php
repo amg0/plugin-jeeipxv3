@@ -269,6 +269,14 @@ public static function deamon_changeAutoMode($mode) {
 
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+    
+    $id = $this->getId().'_led0';
+    if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
+      $eqLogic = new jeeipxv3_relay();
+      $eqLogic->setLogicalId($id);
+      $eqLogic->setName($this->getId().'_led0');
+      $eqLogic->save();
+    }
     //$xml = $this->refreshFromIPX();
     return; //$xml;
   }
