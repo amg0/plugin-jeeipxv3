@@ -275,6 +275,10 @@ public static function deamon_changeAutoMode($mode) {
       $eqLogic = new jeeipxv3_relay();
       $eqLogic->setLogicalId($id);
       $eqLogic->setName($this->getId().'_led0');
+      $eqLogic->setIsEnable(1);
+      $eqLogic->setIsVisible(1);
+      //$eqLogic->setCategory($category,'1');
+      $eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
       $eqLogic->save();
     }
     //$xml = $this->refreshFromIPX();
