@@ -239,10 +239,10 @@ public static function deamon_changeAutoMode($mode) {
       $this->checkAndUpdateCmd('status', 0);
       throw new Exception(__('IPX ne répond pas', __FILE__));
     }
-    
-    log::add(JEEIPXV3, 'info', __METHOD__ .' simplexml_load_file returned:'.json_encode($result));
-    log::add(JEEIPXV3, 'info', __METHOD__ .' version:' . $result->version );
-    log::add(JEEIPXV3, 'info', __METHOD__ .' config_mac:' . $result->config_mac );
+
+    // log::add(JEEIPXV3, 'info', __METHOD__ .' simplexml_load_file returned:'.json_encode($result));
+    // log::add(JEEIPXV3, 'info', __METHOD__ .' version:' . $result->version );
+    // log::add(JEEIPXV3, 'info', __METHOD__ .' config_mac:' . $result->config_mac );
     
     $this->checkAndUpdateCmd('status', 1);
     $this->checkAndUpdateCmd('updatetime', time());
@@ -259,8 +259,9 @@ public static function deamon_changeAutoMode($mode) {
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $xml = $this->ipxHttpCallXML('globalstatus.xml');
-    log::add(JEEIPXV3, 'info', __METHOD__ .' version:' . $xml->version );
-    $this->checkAndUpdateCmd('version', $xml->version );
+    //log::add(JEEIPXV3, 'info', __METHOD__ .' version:' . $xml->version );
+    
+    $this->checkAndUpdateCmd('version', (string) $xml->version );
     $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
     return $xml;
   }
