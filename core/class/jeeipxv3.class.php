@@ -232,7 +232,6 @@ public static function deamon_changeAutoMode($mode) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' url:'.$url);
 
     $result = simplexml_load_file($url); 
-
     if ($result===false) {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' simplexml_load_file returned false');
       $this->checkAndUpdateCmd('status', 0);
