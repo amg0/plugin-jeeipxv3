@@ -246,22 +246,25 @@ public static function deamon_changeAutoMode($mode) {
 
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $xml = $this->ipxHttpCallXML('globalstatus.xml');    
-    $this->checkAndUpdateCmd('updatetime', time());
-    $this->checkAndUpdateCmd('version', (string) $xml->version );
-    $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );
-    $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
-
-    /*
-    $id = $this->getId().'_led0';
-    if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
-      $eqLogic = new jeeipxv3_relay();
-      $eqLogic->setLogicalId($id);
-      $eqLogic->setName($this->getId().'_Relai 1');
-      $eqLogic->save();
+    if ($this->getConfiguration('ipaddr')!='') {
+      $xml = $this->ipxHttpCallXML('globalstatus.xml');    
+      $this->checkAndUpdateCmd('updatetime', time());
+      $this->checkAndUpdateCmd('version', (string) $xml->version );
+      $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );
+      $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
+      return $xml;
+  
+      /*
+      $id = $this->getId().'_led0';
+      if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
+        $eqLogic = new jeeipxv3_relay();
+        $eqLogic->setLogicalId($id);
+        $eqLogic->setName($this->getId().'_Relai 1');
+        $eqLogic->save();
+      }
+      */
     }
-    */
-    return $xml;
+    return '';
   }
 
   public function readConfigurationFromIPX() {
