@@ -17,11 +17,9 @@
 
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
-const JEEIPXV3 = 'jeeipxv3';     // plugin logical name
 
-include_file('core', 'jeeipxv3_relai', 'class', JEEIPXV3);
 
-class jeeipxv3 extends eqLogic {
+class jeeipxv3_relay extends eqLogic {
   /*     * *************************Attributs****************************** */
 
   /*
@@ -38,74 +36,6 @@ class jeeipxv3 extends eqLogic {
 
   /*     * ***********************Methode static*************************** */
 /*     * ***********************Methode static*************************** */
-
-public static function daemon() {
-  log::add(JEEIPXV3, 'debug', __METHOD__ . ' running: start');
-  $starttime = microtime (true);   // current time in sec as a float
-
-  //
-  // TODO:  implement the refresh
-  //
-  foreach (self::byType(JEEIPXV3) as $eqLogic) {
-    $eqLogic->refreshFromIPX();
-  }
-
-  $seconds = config::byKey('refresh_freq', JEEIPXV3, 120, true);
-  $endtime = microtime (true);     // current time in sec as a float
-  if ( $endtime - $starttime < $seconds )
-  {
-    $ms = floor(($seconds - ($endtime - $starttime))*1000000);
-    log::add(JEEIPXV3, 'info', sprintf('%s refresh_freq:%d sleeping for millisec:%d',__METHOD__,$seconds,$ms/1000) );
-    usleep($ms);
-  }
-}
-
-public static function deamon_info() {
-  //log::add(JEEIPXV3, 'debug', __METHOD__);
-  $return = array();
-  $return['log'] = '';
-  $return['state'] = 'nok';
-  $cron = cron::byClassAndFunction(JEEIPXV3, 'daemon');
-  if (is_object($cron) && $cron->running()) {
-    $return['state'] = 'ok';
-  }
-  $return['launchable'] = 'ok';
-  return $return;
-}
-
-public static function deamon_start($debug = false) {
-  log::add(JEEIPXV3, 'debug', __METHOD__);
-  self::deamon_stop();
-  $deamon_info = self::deamon_info();
-  if ($deamon_info['launchable'] != 'ok') {
-    throw new Exception(__('Veuillez vérifier la configuration', __FILE__));
-  }
-  $cron = cron::byClassAndFunction(JEEIPXV3, 'daemon');
-  if (!is_object($cron)) {
-    throw new Exception(__('Tâche cron introuvable', __FILE__));
-  }
-  $cron->run();
-}
-
-public static function deamon_stop() {
-  log::add(JEEIPXV3, 'debug', __METHOD__);
-  $cron = cron::byClassAndFunction(JEEIPXV3, 'daemon');
-  if (!is_object($cron)) {
-    throw new Exception(__('Tâche cron introuvable', __FILE__));
-  }
-  $cron->halt();
-}
-
-public static function deamon_changeAutoMode($mode) {
-  log::add(JEEIPXV3, 'debug', __METHOD__.'('.$mode.')');
-  $cron = cron::byClassAndFunction(JEEIPXV3, 'daemon');
-  if (!is_object($cron)) {
-    throw new Exception(__('Tâche cron introuvable', __FILE__));
-  }
-  $cron->setEnable($mode);
-  $cron->save();
-}
-
   /*
   * Fonction exécutée automatiquement toutes les minutes par Jeedom
   public static function cron() {}
@@ -171,8 +101,6 @@ public static function deamon_changeAutoMode($mode) {
   // Fonction exécutée automatiquement après la sauvegarde (création ou mise à jour) de l'équipement
   public function postSave() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $this->createOrUpdateCommands();
-    $this->readConfigurationFromIPX();
   }
 
   // Fonction exécutée automatiquement avant la suppression de l'équipement
@@ -217,88 +145,13 @@ public static function deamon_changeAutoMode($mode) {
     // no return value
   }
   */
-	public function getUrl() {
-		$url = 'http://';
-		if ($this->getConfiguration('username') != '') {
-			$url .= $this->getConfiguration('username') . ':' . $this->getConfiguration('password') . '@';
-		}
-		$url .= $this->getConfiguration('ipaddr');
-		if ($this->getConfiguration('port') != '') {
-			$url .= ':' . $this->getConfiguration('port');
-		}
-    return $url."/";
-	}
-
-  public function ipxHttpCallXML($action) {
-    $url = $this->getUrl() . $action;
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' url:'.$url);
-
-    $result = simplexml_load_file($url); 
-    if ($result===false) {
-      log::add(JEEIPXV3, 'warning', __METHOD__ .' simplexml_load_file returned false');
-      $this->checkAndUpdateCmd('status', 0);
-      throw new Exception(__('IPX ne répond pas', __FILE__));
-    }
-    $this->checkAndUpdateCmd('status', 1);
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' simplexml_load_file returned:'.json_encode($result)); 
-    return $result;
-  }
-
-  public function refreshFromIPX() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $xml = $this->ipxHttpCallXML('globalstatus.xml');    
-    $this->checkAndUpdateCmd('updatetime', time());
-    $this->checkAndUpdateCmd('version', (string) $xml->version );
-    $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );
-    $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
-    return $xml;
-  }
-
-  public function readConfigurationFromIPX() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $xml = $this->refreshFromIPX();
-    return $xml;
-  }
-
-  public function createOrUpdateCommands() {
-    myutils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
-  }
 
   /*     * **********************Getteur Setteur*************************** */
 
 }
 
-class myutils {
-  public static function createOrUpdateCommand( $eqlogic, $name, $logicalid, $type, $subtype, $is_visible, $generic_type) {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' name:' . $name);
-    $cmd = $eqlogic->getCmd(null, $logicalid);
-    if (!is_object($cmd)) {
-      $cmd = new jeeipxv3Cmd();
-      $cmd->setName($name);
-      $cmd->setEqLogic_id($eqlogic->getId());
-      $cmd->setType($type);
-      $cmd->setSubType($subtype);
-      $cmd->setLogicalId($logicalid);
-      $cmd->setIsVisible($is_visible);
-      $cmd->setDisplay('generic_type', $generic_type);
-      // $cmd->setUnite('');
-      // $cmd->setIsHistorized(0);
-      $cmd->save();
-    } else {
-      if ($cmd->getDisplay('generic_type') == "") {
-        $cmd->setDisplay('generic_type', $generic_type);
-        $cmd->save();
-      }
-    }
-  }
-}
 
-
-class jeeipxv3Cmd extends cmd {
+class jeeipxv3_relayCmd extends cmd {
   /*     * *************************Attributs****************************** */
 
   /*
