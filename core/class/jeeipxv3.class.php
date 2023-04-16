@@ -19,7 +19,7 @@
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 const JEEIPXV3 = 'jeeipxv3';     // plugin logical name
 
-include_file('core', 'jeeipxv3_relai', 'class', JEEIPXV3);
+include_file('core', 'jeeipxv3_relay', 'class', JEEIPXV3);
 
 class jeeipxv3 extends eqLogic {
   /*     * *************************Attributs****************************** */
@@ -259,7 +259,7 @@ public static function deamon_changeAutoMode($mode) {
     $xml = $this->refreshFromIPX();
 
     if (!is_object(self::byLogicalId('led0', 'ipx800_relai'))) {
-      $eqLogic = new jeeipxv3_relai();
+      $eqLogic = new jeeipxv3_relay();
       $eqLogic->setLogicalId('led0');
       $eqLogic->setName('Relai 1');
       $eqLogic->save();
