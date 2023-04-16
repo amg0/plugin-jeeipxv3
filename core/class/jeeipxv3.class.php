@@ -230,18 +230,17 @@ public static function deamon_changeAutoMode($mode) {
     return $url;
 	}
 
-  public function ipxHttpCall($action) {
+  public function ipxHttpCallXML($action) {
     $url = $this->getUrl() . $action;
     log::add(JEEIPXV3, 'debug', __METHOD__ .' url:'.$url);
-    $result = file_get_contents($url);
+    $result = simplexml_load_file($url); //file_get_contents($url);
     if ($result===false) {
-      log::add(JEEIPXV3, 'warning', __METHOD__ .' file_get_contents returned false');
+      log::add(JEEIPXV3, 'warning', __METHOD__ .' simplexml_load_file returned false');
       $this->checkAndUpdateCmd('status', 0);
       throw new Exception(__('IPX ne répond pas', __FILE__));
     }
-    log::add(JEEIPXV3, 'warning', __METHOD__ .' file_get_contents returned:'.json_encode($result));
+    log::add(JEEIPXV3, 'warning', __METHOD__ .' simplexml_load_file returned:'.json_encode($result));
     $this->checkAndUpdateCmd('status', 1);
-    $this->checkAndUpdateCmd('lasthttp', $result );
     $this->checkAndUpdateCmd('updatetime', time());
     return $result;
   }
@@ -249,18 +248,19 @@ public static function deamon_changeAutoMode($mode) {
   public function createOrUpdateCommands() {
     myutils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
     myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'Last Status', 'lasthttp', 'info', 'string', 0, 'GENERIC_INFO' );
+    myutils::createOrUpdateCommand( $this, 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
   }
 
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $xml = $this->ipxHttpCall('globalstatus.xml');
+    $xml = $this->ipxHttpCallXML('globalstatus.xml');
+    $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
     return $xml;
   }
 
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $xml = $this->ipxHttpCall('globalstatus.xml');
+    $xml = $this->refreshFromIPX();
     return $xml;
   }
   /*     * **********************Getteur Setteur*************************** */
