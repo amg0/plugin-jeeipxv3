@@ -48,14 +48,12 @@ public static function daemon() {
     $eqLogic->refreshFromIPX();
   }
 
-  $seconds = config::byKey('refresh_freq', JEEIPXV3, 180, true);
-  log::add(JEEIPXV3, 'debug', __METHOD__ . ' refresh_freq: '.$seconds);
-  
+  $seconds = config::byKey('refresh_freq', JEEIPXV3, 120, true);
   $endtime = microtime (true);     // current time in sec as a float
   if ( $endtime - $starttime < $seconds )
   {
     $ms = floor(($seconds - ($endtime - $starttime))*1000000);
-    log::add(JEEIPXV3, 'info', __METHOD__ . ' sleeping millisec:'.$ms/1000);
+    log::add(JEEIPXV3, 'info', sprintf('%s refresh_freq:%d sleeping for millisec:%d',__METHOD__,$seconds,$ms/1000) );
     usleep($ms);
   }
 }
@@ -171,8 +169,8 @@ public static function deamon_changeAutoMode($mode) {
   // Fonction exécutée automatiquement après la sauvegarde (création ou mise à jour) de l'équipement
   public function postSave() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $this->readConfigurationFromIPX();
     $this->createOrUpdateCommands();
+    $this->readConfigurationFromIPX();
   }
 
   // Fonction exécutée automatiquement avant la suppression de l'équipement
@@ -226,19 +224,21 @@ public static function deamon_changeAutoMode($mode) {
 		if ($this->getConfiguration('port') != '') {
 			$url .= ':' . $this->getConfiguration('port');
 		}
-    $url .= "/";
-    return $url;
+    return $url."/";
 	}
 
   public function ipxHttpCallXML($action) {
     $url = $this->getUrl() . $action;
     log::add(JEEIPXV3, 'debug', __METHOD__ .' url:'.$url);
-    $result = simplexml_load_file($url); //file_get_contents($url);
+
+    $result = simplexml_load_file($url); 
+
     if ($result===false) {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' simplexml_load_file returned false');
       $this->checkAndUpdateCmd('status', 0);
       throw new Exception(__('IPX ne répond pas', __FILE__));
     }
+    $this->checkAndUpdateCmd('status', 1);
     log::add(JEEIPXV3, 'debug', __METHOD__ .' simplexml_load_file returned:'.json_encode($result)); 
     return $result;
   }
@@ -246,7 +246,6 @@ public static function deamon_changeAutoMode($mode) {
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $xml = $this->ipxHttpCallXML('globalstatus.xml');    
-    $this->checkAndUpdateCmd('status', 1);
     $this->checkAndUpdateCmd('updatetime', time());
     $this->checkAndUpdateCmd('version', (string) $xml->version );
     $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );
