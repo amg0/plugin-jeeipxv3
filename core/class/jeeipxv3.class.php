@@ -247,6 +247,7 @@ public static function deamon_changeAutoMode($mode) {
 
   public function createOrUpdateCommands() {
     myutils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+    myutils::createOrUpdateCommand( $this, 'Version', 'version', 'info', 'strubg', 1, 'GENERIC_INFO' );
     myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
     myutils::createOrUpdateCommand( $this, 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
   }
@@ -255,6 +256,7 @@ public static function deamon_changeAutoMode($mode) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $xml = $this->ipxHttpCallXML('globalstatus.xml');
     $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
+    $this->checkAndUpdateCmd('version', $xml->version );
     return $xml;
   }
 
