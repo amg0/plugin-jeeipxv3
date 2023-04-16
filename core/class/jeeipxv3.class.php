@@ -252,7 +252,6 @@ public static function deamon_changeAutoMode($mode) {
       $this->checkAndUpdateCmd('version', (string) $xml->version );
       $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );
       $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
-      return $xml;
   
       $id = $this->getId().'_led0';
       if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
@@ -264,7 +263,9 @@ public static function deamon_changeAutoMode($mode) {
         //$eqLogic->setCategory($category,'1');
         $eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
         $eqLogic->save();
-        
+
+        return $xml;
+
       }
     }
     return '';
