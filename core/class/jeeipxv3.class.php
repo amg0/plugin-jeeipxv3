@@ -271,11 +271,11 @@ public static function deamon_changeAutoMode($mode) {
     if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
       $eqLogic = new jeeipxv3_relay();
       $eqLogic->setLogicalId($id);
-      $eqLogic->setName($this->getName().':led0');
+      $eqLogic->setName($this->getName().' : led0');
       $eqLogic->setIsEnable(1);
       $eqLogic->setIsVisible(1);
       //$eqLogic->setCategory($category,'1');
-      $eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
+      $eqLogic->setObject_id( $this->getObject_id() );  // same parent as root parent
       $eqLogic->save();
     }
 
