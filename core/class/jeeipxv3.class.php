@@ -256,7 +256,7 @@ public static function deamon_changeAutoMode($mode) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $xml = $this->ipxHttpCallXML('globalstatus.xml');
     $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
-    $this->checkAndUpdateCmd('version', $xml->version );
+    $this->checkAndUpdateCmd('version', $xml->response->version );
     return $xml;
   }
 
