@@ -239,29 +239,17 @@ public static function deamon_changeAutoMode($mode) {
       $this->checkAndUpdateCmd('status', 0);
       throw new Exception(__('IPX ne répond pas', __FILE__));
     }
-
-    // log::add(JEEIPXV3, 'info', __METHOD__ .' simplexml_load_file returned:'.json_encode($result));
-    // log::add(JEEIPXV3, 'info', __METHOD__ .' version:' . $result->version );
-    // log::add(JEEIPXV3, 'info', __METHOD__ .' config_mac:' . $result->config_mac );
-    
-    $this->checkAndUpdateCmd('status', 1);
-    $this->checkAndUpdateCmd('updatetime', time());
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' simplexml_load_file returned:'.json_encode($result)); 
     return $result;
-  }
-
-  public function createOrUpdateCommands() {
-    myutils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
   }
 
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $xml = $this->ipxHttpCallXML('globalstatus.xml');
-    //log::add(JEEIPXV3, 'info', __METHOD__ .' version:' . $xml->version );
-    
+    $xml = $this->ipxHttpCallXML('globalstatus.xml');    
+    $this->checkAndUpdateCmd('status', 1);
+    $this->checkAndUpdateCmd('updatetime', time());
     $this->checkAndUpdateCmd('version', (string) $xml->version );
+    $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );
     $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
     return $xml;
   }
@@ -271,6 +259,15 @@ public static function deamon_changeAutoMode($mode) {
     $xml = $this->refreshFromIPX();
     return $xml;
   }
+
+  public function createOrUpdateCommands() {
+    myutils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+    myutils::createOrUpdateCommand( $this, 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
+    myutils::createOrUpdateCommand( $this, 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
+    myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
+    myutils::createOrUpdateCommand( $this, 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
+  }
+
   /*     * **********************Getteur Setteur*************************** */
 
 }
