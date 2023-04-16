@@ -341,3 +341,52 @@ class jeeipxv3Cmd extends cmd {
   /*     * **********************Getteur Setteur*************************** */
 
 }
+
+
+class jeeipxv3_relay extends eqLogic {
+  // Fonction exécutée automatiquement avant la création de l'équipement
+  public function preInsert() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+  }
+
+  // Fonction exécutée automatiquement après la création de l'équipement
+  public function postInsert() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+  }
+
+  // Fonction exécutée automatiquement avant la mise à jour de l'équipement
+  public function preUpdate() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+  }
+
+  // Fonction exécutée automatiquement après la mise à jour de l'équipement
+  public function postUpdate() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+  }
+
+  // Fonction exécutée automatiquement avant la sauvegarde (création ou mise à jour) de l'équipement
+  public function preSave() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+  }
+
+  // Fonction exécutée automatiquement après la sauvegarde (création ou mise à jour) de l'équipement
+  public function postSave() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+  }
+
+  // Fonction exécutée automatiquement avant la suppression de l'équipement
+  public function preRemove() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+  }
+
+  // Fonction exécutée automatiquement après la suppression de l'équipement
+  public function postRemove() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+  }
+}
+
+class jeeipxv3_relayCmd extends cmd {
+  // Exécution d'une commande
+  public function execute($_options = array()) {
+  }
+}
