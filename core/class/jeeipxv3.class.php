@@ -257,11 +257,19 @@ public static function deamon_changeAutoMode($mode) {
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $xml = $this->refreshFromIPX();
+
+    if (!is_object(self::byLogicalId('led0', 'ipx800_relai'))) {
+      $eqLogic = new jeeipxv3_relai();
+      $eqLogic->setLogicalId('led0');
+      $eqLogic->setName('Relai 1');
+      $eqLogic->save();
+    }
+
     return $xml;
   }
 
   public function createOrUpdateCommands() {
-    myutils::createOrUpdateCommand( $this, 'Status', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+    myutils::createOrUpdateCommand( $this, 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
     myutils::createOrUpdateCommand( $this, 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
     myutils::createOrUpdateCommand( $this, 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
     myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
