@@ -252,6 +252,7 @@ public static function deamon_changeAutoMode($mode) {
     $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );
     $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
 
+    /*
     $id = $this->getId().'_led0';
     if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
       $eqLogic = new jeeipxv3_relay();
@@ -259,6 +260,7 @@ public static function deamon_changeAutoMode($mode) {
       $eqLogic->setName($this->getId().'_Relai 1');
       $eqLogic->save();
     }
+    */
     return $xml;
   }
 
