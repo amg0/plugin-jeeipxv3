@@ -258,11 +258,12 @@ public static function deamon_changeAutoMode($mode) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $xml = $this->refreshFromIPX();
 
-    if (!is_object(self::byLogicalId('led0', 'jeeipxv3_relay'))) {
-      // $eqLogic = new jeeipxv3_relay();
-      // $eqLogic->setLogicalId('led0');
-      // $eqLogic->setName('Relai 1');
-      // $eqLogic->save();
+    $id = $this->getId().'_led0';
+    if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
+      $eqLogic = new jeeipxv3_relay();
+      $eqLogic->setLogicalId($id);
+      $eqLogic->setName($this->getId().'_Relai 1');
+      $eqLogic->save();
     }
 
     return $xml;
