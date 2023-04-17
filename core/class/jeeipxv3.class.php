@@ -170,7 +170,7 @@ public static function deamon_changeAutoMode($mode) {
   // Fonction exécutée automatiquement après la sauvegarde (création ou mise à jour) de l'équipement
   public function postSave() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $type = $eqLogic->getConfiguration('type',null);
+    $type = $this->getConfiguration('type',null);
     if (is_null($type)) {
       $this->createOrUpdateCommands();
       $this->readConfigurationFromIPX();
