@@ -16,7 +16,8 @@
 */
 
 /* * ***************************Includes********************************* */
-require_once __DIR__  . '/../../../../core/php/core.inc.php';
+require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+
 
 class jeeipxv3_relay extends eqLogic {
   // Fonction exécutée automatiquement avant la création de l'équipement
