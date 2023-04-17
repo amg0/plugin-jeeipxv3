@@ -282,7 +282,7 @@ public static function deamon_changeAutoMode($mode) {
   public function createOrUpdateChildEQ($category,$type,$child) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     //$child = ;
-    $eqLogic = self::byLogicalId( $this->getChildID($child) );
+    $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
 
     if (!is_object($eqLogic)) {
        log::add(JEEIPXV3, 'info', __METHOD__.sprintf(' for child:%s',$childid));
