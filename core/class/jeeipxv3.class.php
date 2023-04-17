@@ -302,7 +302,7 @@ public static function deamon_changeAutoMode($mode) {
        // but should we verify that the old parent id is still a valid object ???
        //$eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
     }
-    $eqLogic->setName($device->name);
+    $eqLogic->setName( $this->getName() . "_" . $child );
     $eqLogic->save(); 
   }
   /*     * **********************Getteur Setteur*************************** */
