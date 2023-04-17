@@ -254,7 +254,7 @@ public static function deamon_changeAutoMode($mode) {
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
 
-    if (($eqLogic->getIsEnable() == 1) && ($this->getConfiguration('ipaddr')!='')) {
+    if (($this->getIsEnable() == 1) && ($this->getConfiguration('ipaddr')!='')) {
       $xml = $this->ipxHttpCallXML('globalstatus.xml');    
       $this->checkAndUpdateCmd('updatetime', time());
       $this->checkAndUpdateCmd('version', (string) $xml->version ); // have to cast to string
