@@ -180,6 +180,8 @@ public static function deamon_changeAutoMode($mode) {
   // Fonction exécutée automatiquement avant la suppression de l'équipement
   public function preRemove() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+    
+    // TODO -- remove all child EQ
   }
 
   // Fonction exécutée automatiquement après la suppression de l'équipement
@@ -285,7 +287,7 @@ public static function deamon_changeAutoMode($mode) {
     $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
 
     if (!is_object($eqLogic)) {
-       log::add(JEEIPXV3, 'info', __METHOD__.sprintf(' for child:%s',$childid));
+       log::add(JEEIPXV3, 'info', __METHOD__.sprintf(' for child:%s',$child));
        $eqLogic = new jeeipxv3();
        $eqLogic->setEqType_name(JEEIPXV3);
        $eqLogic->setLogicalId( $this->getChildID($child) );
