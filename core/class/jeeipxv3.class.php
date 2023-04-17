@@ -17,7 +17,6 @@
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
-include_file('core', 'jeeipxv3_relay', 'class', 'jeeipxv3');
 const JEEIPXV3 = 'jeeipxv3';     // plugin logical name
 
 class jeeipxv3 extends eqLogic {
@@ -178,12 +177,6 @@ public static function deamon_changeAutoMode($mode) {
   // Fonction exécutée automatiquement avant la suppression de l'équipement
   public function preRemove() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-
-    $id = $this->getId().'_led0';
-    $eqLogic = self::byLogicalId( $id, 'jeeipxv3_relay');
-    if (is_object($eqLogic)) {
-      $eqLogic->remove();
-    }
   }
 
   // Fonction exécutée automatiquement après la suppression de l'équipement
@@ -267,16 +260,6 @@ public static function deamon_changeAutoMode($mode) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
   
     $id = $this->getId().'_led0';
-    if (!is_object(self::byLogicalId( $id, 'jeeipxv3_relay'))) {
-      $eqLogic = new jeeipxv3_relay();
-      $eqLogic->setLogicalId($id);
-      $eqLogic->setName($this->getName().' : led0');
-      $eqLogic->setIsEnable(1);
-      $eqLogic->setIsVisible(1);
-      //$eqLogic->setCategory($category,'1');
-      $eqLogic->setObject_id( $this->getObject_id() );  // same parent as root parent
-      $eqLogic->save();
-    }
 
     //$xml = $this->refreshFromIPX();
     return; //$xml;
