@@ -1,4 +1,4 @@
-<div class="row row-overflow">
+
 	<!-- Page d'accueil du plugin -->
 	<div class="col-xs-12 eqLogicThumbnailDisplay">
 		<legend><i class="fas fa-cog"></i>  {{Gestion}}</legend>
@@ -159,4 +159,3 @@
 
 		</div><!-- /.tab-content -->
 	</div><!-- /.eqLogic -->
-</div><!-- /.row row-overflow -->
