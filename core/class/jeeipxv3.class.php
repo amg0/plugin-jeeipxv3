@@ -170,8 +170,11 @@ public static function deamon_changeAutoMode($mode) {
   // Fonction exécutée automatiquement après la sauvegarde (création ou mise à jour) de l'équipement
   public function postSave() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    $this->createOrUpdateCommands();
-    $this->readConfigurationFromIPX();
+    $type = $eqLogic->getConfiguration('type',null);
+    if (is_null($type)) {
+      $this->createOrUpdateCommands();
+      $this->readConfigurationFromIPX();
+    }
   }
 
   // Fonction exécutée automatiquement avant la suppression de l'équipement
@@ -216,6 +219,11 @@ public static function deamon_changeAutoMode($mode) {
     // no return value
   }
   */
+
+  public function getChildID($suffix) {
+    return $this->getId()."_".$suffix;
+  }
+
 	public function getUrl() {
 		$url = 'http://';
 		if ($this->getConfiguration('username') != '') {
@@ -245,7 +253,8 @@ public static function deamon_changeAutoMode($mode) {
 
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    if ($this->getConfiguration('ipaddr')!='') {
+
+    if (($eqLogic->getIsEnable() == 1) && ($this->getConfiguration('ipaddr')!='')) {
       $xml = $this->ipxHttpCallXML('globalstatus.xml');    
       $this->checkAndUpdateCmd('updatetime', time());
       $this->checkAndUpdateCmd('version', (string) $xml->version ); // have to cast to string
@@ -257,11 +266,8 @@ public static function deamon_changeAutoMode($mode) {
   }
 
   public function readConfigurationFromIPX() {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-  
-    $id = $this->getId().'_led0';
-
-    //$xml = $this->refreshFromIPX();
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());  
+    createOrUpdateChildEQ( 'light', 'led', 'led0' );
     return; //$xml;
   }
 
@@ -273,6 +279,32 @@ public static function deamon_changeAutoMode($mode) {
     myutils::createOrUpdateCommand( $this, 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
   }
 
+  public function createOrUpdateChildEQ($category,$type,$child) {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+    //$child = ;
+    $eqLogic = self::byLogicalId( $this->getChildID($child) );
+
+    if (!is_object($eqLogic)) {
+       log::add(JEEIPXV3, 'info', __METHOD__.sprintf(' for child:%s',$childid));
+       $eqLogic = new jeeipxv3();
+       $eqLogic->setEqType_name(JEEIPXV3);
+       $eqLogic->setLogicalId( $this->getChildID($child) );
+       $eqLogic->setConfiguration('type', $type);
+       $eqLogic->setConfiguration('rootid', $this->getId());
+       //$eqLogic->setConfiguration('ipaddr', $this->getConfiguration('ipaddr'));
+       $eqLogic->setIsEnable(1);
+       $eqLogic->setIsVisible(1);
+       $eqLogic->setCategory( $category ,'1');
+       $eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
+    }
+    else {
+       // todo : if object is not new, try not to change its parent ID
+       // but should we verify that the old parent id is still a valid object ???
+       //$eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
+    }
+    $eqLogic->setName($device->name);
+    $eqLogic->save(); 
+  }
   /*     * **********************Getteur Setteur*************************** */
 
 }
