@@ -200,6 +200,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
 		</div><!-- /.tab-content -->
 	</div><!-- /.eqLogic -->
+	<?php include_file('desktop', 'jeeipxv3_relay', 'php', 'jeeipxv3'); ?>
 </div><!-- /.row row-overflow -->
 
 <!-- Inclusion du fichier javascript du plugin (dossier, nom_du_fichier, extension_du_fichier, id_du_plugin) -->
