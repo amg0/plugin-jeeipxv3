@@ -262,6 +262,9 @@ public static function deamon_changeAutoMode($mode) {
       $this->checkAndUpdateCmd('version', (string) $xml->version ); // have to cast to string
       $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );  // have to cast to string
       $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
+
+      $led0 = $xml->xpath("led0")[0];
+      log::add(JEEIPXV3, 'debug', __METHOD__ .' led0:' . $led0);
       return $xml;
     }
     return null;
