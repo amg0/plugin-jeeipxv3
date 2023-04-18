@@ -27,8 +27,11 @@ $("#table_cmd").sortable({
 /* Fonction permettant l'affichage de l'équipement */
 function printEqLogic(eqLogic) {
   // TODO get the proper icon from eqlogic and set it into the IMG attribute
-  console.log(eqLogic);
+  // console.log(eqLogic);
   //$('#icon_visu').attr('src', 'plugins/reolink/desktop/img/camera' + _eqLogic.id + '.png')
+  if (eqLogic.configuration.type != null ) {
+    $(".jeeipxv3-root").hide();
+  }
 }
 
 /* Fonction permettant l'affichage des commandes dans l'équipement */

@@ -127,36 +127,38 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 
 							<legend><i class="fas fa-cogs"></i> {{Paramètres spécifiques}}</legend>
-							<div class="form-group">
-								<label class="col-sm-4 control-label">{{IP}}
-									<sup><i class="fas fa-question-circle tooltips" title="{{Renseignez l adresse IP de l'équipement}}"></i></sup>
-								</label>
-								<div class="col-sm-6">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ipaddr" placeholder="{{Adresse IP}}">
+							<div class="jeeipxv3-root">
+								<div class="form-group">
+									<label class="col-sm-4 control-label">{{IP}}
+										<sup><i class="fas fa-question-circle tooltips" title="{{Renseignez l adresse IP de l'équipement}}"></i></sup>
+									</label>
+									<div class="col-sm-6">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ipaddr" placeholder="{{Adresse IP}}">
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label">{{Port}}
-									<sup><i class="fas fa-question-circle tooltips" title="{{Renseignez le port de l'équipement}}"></i></sup>
-								</label>
-								<div class="col-sm-6">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="port" placeholder="{{Port}}">
+								<div class="form-group">
+									<label class="col-sm-4 control-label">{{Port}}
+										<sup><i class="fas fa-question-circle tooltips" title="{{Renseignez le port de l'équipement}}"></i></sup>
+									</label>
+									<div class="col-sm-6">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="port" placeholder="{{Port}}">
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label">{{User Name}}
-									<sup><i class="fas fa-question-circle tooltips" title="{{Renseignez l utilisateur de l'équipement}}"></i></sup>
-								</label>
-								<div class="col-sm-6">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="username" placeholder="{{Utilisateur}}">
+								<div class="form-group">
+									<label class="col-sm-4 control-label">{{User Name}}
+										<sup><i class="fas fa-question-circle tooltips" title="{{Renseignez l utilisateur de l'équipement}}"></i></sup>
+									</label>
+									<div class="col-sm-6">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="username" placeholder="{{Utilisateur}}">
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label"> {{Mot de passe}}
-									<sup><i class="fas fa-question-circle tooltips" title="{{Renseignez le mot de passe}}"></i></sup>
-								</label>
-								<div class="col-sm-6">
-									<input type="text" class="eqLogicAttr form-control inputPassword" data-l1key="configuration" data-l2key="password">
+								<div class="form-group">
+									<label class="col-sm-4 control-label"> {{Mot de passe}}
+										<sup><i class="fas fa-question-circle tooltips" title="{{Renseignez le mot de passe}}"></i></sup>
+									</label>
+									<div class="col-sm-6">
+										<input type="text" class="eqLogicAttr form-control inputPassword" data-l1key="configuration" data-l2key="password">
+									</div>
 								</div>
 							</div>
 						</div>
