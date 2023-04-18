@@ -274,11 +274,11 @@ public static function deamon_changeAutoMode($mode) {
   }
 
   public function createOrUpdateCommands() {
-    myutils::createOrUpdateCommand( $this, 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
-    myutils::createOrUpdateCommand( $this, 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
+    $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+    $this->createOrUpdateCommand( 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
+    $this->createOrUpdateCommand( 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
+    $this->createOrUpdateCommand( 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
+    $this->createOrUpdateCommand( 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
   }
 
   public function createOrUpdateChildEQ($category,$type,$child) {
@@ -287,7 +287,7 @@ public static function deamon_changeAutoMode($mode) {
     $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
 
     if (!is_object($eqLogic)) {
-       log::add(JEEIPXV3, 'info', __METHOD__.sprintf(' for child:%s',$child));
+       log::add(JEEIPXV3, 'info', __METHOD__.sprintf('create for child:%s',$child));
        $eqLogic = new jeeipxv3();
        $eqLogic->setEqType_name(JEEIPXV3);
        $eqLogic->setLogicalId( $this->getChildID($child) );
@@ -298,27 +298,23 @@ public static function deamon_changeAutoMode($mode) {
        $eqLogic->setIsVisible(1);
        $eqLogic->setCategory( $category ,'1');
        $eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
+       $eqLogic->setName( $this->getName() . "_" . $child );
+       $eqLogic->save(); 
     }
     else {
        // todo : if object is not new, try not to change its parent ID
        // but should we verify that the old parent id is still a valid object ???
        //$eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
     }
-    $eqLogic->setName( $this->getName() . "_" . $child );
-    $eqLogic->save(); 
   }
-  /*     * **********************Getteur Setteur*************************** */
 
-}
-
-class myutils {
-  public static function createOrUpdateCommand( $eqlogic, $name, $logicalid, $type, $subtype, $is_visible, $generic_type) {
+  public function createOrUpdateCommand( $name, $logicalid, $type, $subtype, $is_visible, $generic_type) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' name:' . $name);
-    $cmd = $eqlogic->getCmd(null, $logicalid);
+    $cmd = $this->getCmd(null, $logicalid);
     if (!is_object($cmd)) {
       $cmd = new jeeipxv3Cmd();
       $cmd->setName($name);
-      $cmd->setEqLogic_id($eqlogic->getId());
+      $cmd->setEqLogic_id($this->getId());
       $cmd->setType($type);
       $cmd->setSubType($subtype);
       $cmd->setLogicalId($logicalid);
@@ -334,6 +330,9 @@ class myutils {
       }
     }
   }
+
+  /*     * **********************Getteur Setteur*************************** */
+
 }
 
 
