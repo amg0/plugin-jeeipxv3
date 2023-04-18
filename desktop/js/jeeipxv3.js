@@ -31,6 +31,8 @@ function printEqLogic(eqLogic) {
   //$('#icon_visu').attr('src', 'plugins/reolink/desktop/img/camera' + _eqLogic.id + '.png')
   if (eqLogic.configuration.type != null ) {
     $(".jeeipxv3-root").hide();
+  } else {
+    $(".jeeipxv3-root").show();
   }
 }
 
