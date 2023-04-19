@@ -322,7 +322,7 @@ public static function deamon_changeAutoMode($mode) {
     }
   }
 
-  public function createOrUpdateCommand( $name, $logicalid, $type, $subtype, $is_visible, $generic_type, $targetcmdid) {
+  public function createOrUpdateCommand( $name, $logicalid, $type, $subtype, $is_visible, $generic_type, $targetcmdid=NULL) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' name:' . $name);
     $cmd = $this->getCmd(null, $logicalid);
     if (!is_object($cmd)) {
