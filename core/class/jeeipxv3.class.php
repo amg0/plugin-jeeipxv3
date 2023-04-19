@@ -375,6 +375,9 @@ class jeeipxv3Cmd extends cmd {
   // Exécution d'une commande
   public function execute($_options = array()) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' options:' . json_encode($_options));
+    $eqLogic = $this->getEqLogic(); //Récupération de l’eqLogic
+    $cmdid = $this->getLogicalId();
+    log::add(JEEIPXV3, 'debug', __METHOD__ . sprintf('eqlogic:%s cmd:%s',$eqLogic->getId(), $cmdid));
   }
 
   /*     * **********************Getteur Setteur*************************** */
