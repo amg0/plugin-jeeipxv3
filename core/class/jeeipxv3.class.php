@@ -41,11 +41,11 @@ public static function daemon() {
   log::add(JEEIPXV3, 'debug', __METHOD__ . ' running: start');
   $starttime = microtime (true);   // current time in sec as a float
 
-  //
-  // TODO:  implement the refresh
-  //
   foreach (self::byType(JEEIPXV3) as $eqLogic) {
-    $eqLogic->refreshFromIPX();
+    // only the root equipment must refresh data from the IPX
+    if (is_null( $eqLogic->getConfiguration('type',null) )) {
+      $eqLogic->refreshFromIPX();
+    }
   }
 
   $seconds = config::byKey('refresh_freq', JEEIPXV3, 120, true);
@@ -172,14 +172,13 @@ public static function deamon_changeAutoMode($mode) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $type = $this->getConfiguration('type',null);
     switch($type) {
-      case 'led': {
+      case 'led': { // Relay
         $cmdEtat = $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'On', 'btn_on', 'action', 'other', 1, 'LIGHT_ON', (int) $cmdEtat->getId() );
         $this->createOrUpdateCommand( 'Off', 'btn_off', 'action', 'other', 1, 'LIGHT_OFF', (int) $cmdEtat->getId() );
-
         break;
       }
-      default: {
+      default: {  // Root Equipment
         $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
@@ -375,6 +374,7 @@ class jeeipxv3Cmd extends cmd {
 
   // Exécution d'une commande
   public function execute($_options = array()) {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' options:' . json_encode($_options));
   }
 
   /*     * **********************Getteur Setteur*************************** */
