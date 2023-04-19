@@ -173,7 +173,10 @@ public static function deamon_changeAutoMode($mode) {
     $type = $this->getConfiguration('type',null);
     switch($type) {
       case 'led': {
-        $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+        $cmdEtat = $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+        $this->createOrUpdateCommand( 'On', 'btn_on', 'action', 'other', 1, 'LIGHT_ON', (int) $cmdEtat->getId() );
+        $this->createOrUpdateCommand( 'Off', 'btn_off', 'action', 'other', 1, 'LIGHT_OFF', (int) $cmdEtat->getId() );
+
         break;
       }
       default: {
@@ -319,7 +322,7 @@ public static function deamon_changeAutoMode($mode) {
     }
   }
 
-  public function createOrUpdateCommand( $name, $logicalid, $type, $subtype, $is_visible, $generic_type) {
+  public function createOrUpdateCommand( $name, $logicalid, $type, $subtype, $is_visible, $generic_type, $targetcmdid) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' name:' . $name);
     $cmd = $this->getCmd(null, $logicalid);
     if (!is_object($cmd)) {
@@ -331,6 +334,9 @@ public static function deamon_changeAutoMode($mode) {
       $cmd->setLogicalId($logicalid);
       $cmd->setIsVisible($is_visible);
       $cmd->setDisplay('generic_type', $generic_type);
+      if (!is_null($targetcmdid)) {
+        $cmd->setValue( (int) $targetcmdid );
+      } 
       // $cmd->setUnite('');
       // $cmd->setIsHistorized(0);
       $cmd->save();
@@ -340,6 +346,7 @@ public static function deamon_changeAutoMode($mode) {
         $cmd->save();
       }
     }
+    return $cmd;
   }
 
   /*     * **********************Getteur Setteur*************************** */
