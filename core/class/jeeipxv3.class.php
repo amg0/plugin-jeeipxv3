@@ -239,6 +239,13 @@ public static function deamon_changeAutoMode($mode) {
     return $this->getId()."_".$suffix;
   }
 
+  public function getRoot()
+  {
+     log::add(JEEIPXV3, 'debug', __METHOD__);
+     $idroot = $this->getConfiguration('rootid',null);
+     return ( $idroot==null) ? $this : eqLogic::byId($idroot);
+  }
+
 	public function getUrl() {
 		$url = 'http://';
 		if ($this->getConfiguration('username') != '') {
@@ -376,8 +383,9 @@ class jeeipxv3Cmd extends cmd {
   public function execute($_options = array()) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' options:' . json_encode($_options));
     $eqLogic = $this->getEqLogic(); //Récupération de l’eqLogic
+    $root = $eqLogic->getRoot();
     $cmdid = $this->getLogicalId();
-    log::add(JEEIPXV3, 'debug', __METHOD__ . sprintf('eqlogic:%s cmd:%s',$eqLogic->getId(), $cmdid));
+    log::add(JEEIPXV3, 'debug', __METHOD__ . sprintf(' root:%s eqlogic:%s cmd:%s',$root->getId(),$eqLogic->getId(), $cmdid));
   }
 
   /*     * **********************Getteur Setteur*************************** */
