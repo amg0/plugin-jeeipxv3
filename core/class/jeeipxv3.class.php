@@ -171,9 +171,20 @@ public static function deamon_changeAutoMode($mode) {
   public function postSave() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $type = $this->getConfiguration('type',null);
-    if (is_null($type)) {
-      $this->createOrUpdateCommands();
-      $this->readConfigurationFromIPX();
+    switch($type) {
+      case 'led': {
+        $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+        break;
+      }
+      default: {
+        $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+        $this->createOrUpdateCommand( 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
+        $this->createOrUpdateCommand( 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
+        $this->createOrUpdateCommand( 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
+        $this->createOrUpdateCommand( 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
+        $this->readConfigurationFromIPX();
+        break;
+      }
     }
   }
 
@@ -265,6 +276,10 @@ public static function deamon_changeAutoMode($mode) {
 
       $led0 = $xml->xpath("led0")[0];
       log::add(JEEIPXV3, 'debug', __METHOD__ .' led0:' . $led0);
+      $eqLogic = self::byLogicalId( $this->getChildID('led0') , JEEIPXV3);
+      if (is_object($eqLogic)) {
+        $eqLogic->checkAndUpdateCmd('status', $led0);
+      }
       return $xml;
     }
     return null;
@@ -272,16 +287,9 @@ public static function deamon_changeAutoMode($mode) {
 
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());  
+    //$xml=
     $this->createOrUpdateChildEQ( 'light', 'led', 'led0' );
     return; //$xml;
-  }
-
-  public function createOrUpdateCommands() {
-    $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
-    $this->createOrUpdateCommand( 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
-    $this->createOrUpdateCommand( 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
-    $this->createOrUpdateCommand( 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
-    $this->createOrUpdateCommand( 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
   }
 
   public function createOrUpdateChildEQ($category,$type,$child) {
@@ -296,7 +304,6 @@ public static function deamon_changeAutoMode($mode) {
        $eqLogic->setLogicalId( $this->getChildID($child) );
        $eqLogic->setConfiguration('type', $type);
        $eqLogic->setConfiguration('rootid', $this->getId());
-       //$eqLogic->setConfiguration('ipaddr', $this->getConfiguration('ipaddr'));
        $eqLogic->setIsEnable(1);
        $eqLogic->setIsVisible(1);
        $eqLogic->setCategory( $category ,'1');
