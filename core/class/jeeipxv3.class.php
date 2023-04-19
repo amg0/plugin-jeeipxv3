@@ -278,6 +278,7 @@ public static function deamon_changeAutoMode($mode) {
       log::add(JEEIPXV3, 'debug', __METHOD__ .' led0:' . $led0);
       $eqLogic = self::byLogicalId( $this->getChildID('led0') , JEEIPXV3);
       if (is_object($eqLogic)) {
+        log::add(JEEIPXV3, 'debug', __METHOD__ .' found the eqlogic:' . $this->getChildID('led0'));
         $eqLogic->checkAndUpdateCmd('status', $led0);
       }
       return $xml;
