@@ -288,10 +288,11 @@ public static function deamon_changeAutoMode($mode) {
       throw new Exception('L\'ipx ne repond pas.');
     }
 
-    $callbackurl = sprintf("/core/api/jeeApi.php?apikey=%s&type=event&plugin=jeeipxv3&id=%s&mac=\$M&I=\$I&O=\$O&A=\$A",
+    $callbackurl = sprintf("/core/api/jeeApi.php?apikey=%s&type=event&plugin=jeeipxv3&id=%s&mac=%$M&I=%$I&O=%$O&A=%$A",
       jeedom::getApiKey(JEEIPXV3),
       $this->getId()
     );    
+    
     $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&cmd1=%s", urlencode($callbackurl) );
     log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling 2 ' . $url);
     $result = file_get_contents($url);
