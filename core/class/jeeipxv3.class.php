@@ -274,6 +274,17 @@ public static function deamon_changeAutoMode($mode) {
     return $result;
   }
 
+  private static function genShortKey() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ );
+    $key = jeedom::getApiKey(JEEIPXV3);
+    if (strlen($key)>32) {
+      $NewsKey = config::genKey($_car=32);															 																							 
+      $key = config::save('api', $NewsKey, JEEIPXV3);		
+      log::add(JEEIPXV3, 'debug', __METHOD__ . ' new 32 key:' . $NewsKey);									 
+    }
+    return $key;
+  }
+
 	public function configPush() {
     log::add(JEEIPXV3, 'debug', __METHOD__ );
     $jeedomip = config::byKey("internalAddr");
@@ -290,7 +301,7 @@ public static function deamon_changeAutoMode($mode) {
 
     $data='I=$I&O=$O&A=$A'; //'mac=$M&I=$I&O=$O&A=$A';
     $callbackurl = sprintf("/core/api/jeeApi.php?apikey=%s&type=event&plugin=jeeipxv3&id=%s&%s",
-      jeedom::getApiKey(JEEIPXV3),
+      self::genShortKey(),
       $this->getId(),
       $data
     );
