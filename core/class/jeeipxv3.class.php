@@ -294,7 +294,7 @@ public static function deamon_changeAutoMode($mode) {
       $this->getId(),
       $data
     );    
-    
+    log::add(JEEIPXV3, 'debug', __METHOD__ . ' callback url ' . $callbackurl); 
     $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&cmd1=%s", urlencode($callbackurl) );
     log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling 2 ' . $url);
     $result = file_get_contents($url);
