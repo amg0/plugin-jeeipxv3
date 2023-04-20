@@ -184,6 +184,7 @@ public static function deamon_changeAutoMode($mode) {
         $this->createOrUpdateCommand( 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
+        $this->createOrUpdateCommand( 'Config Push', 'configpush', 'action', 'other', 1, '' );
         $this->readConfigurationFromIPX();
         break;
       }
@@ -273,7 +274,35 @@ public static function deamon_changeAutoMode($mode) {
     return $result;
   }
 
+	public function configPush() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ );
+    $jeedomip = config::byKey("internalAddr");
+    $jeedomport = config::byKey("internalPort");
+    $ipxurl = $this->getUrl();
 
+    $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&server=%s&port=%s&pass=&enph=1",$jeedomip,$jeedomport);
+    log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling '.url);
+    $result = @file_get_contents($url);
+		if ($result === false) {
+      log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
+      throw new Exception('L\'ipx ne repond pas.');
+    }
+
+    $callbackurl = sprintf("core/api/jeeApi.php?apikey=%s&type=event&plugin=jeeipxv3&id=%s&mac=$M&I=$I&O=$O&A=$A",
+      jeedom::getApiKey(JEEIPXV3),
+      $this->getId()
+    );    
+    $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&cmd1=%s", urlencode($callbackurl) );
+    log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling '.url);
+    $result = @file_get_contents($url);
+		if ($result === false) {
+      log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
+      throw new Exception('L\'ipx ne repond pas.');
+    }
+	}
+
+  // callback push from IPX
+  // http://192.168.0.9/core/api/jeeApi.php?apikey=6LXWhtxed1IPbY1mWxHvtG0jYcxCiHMdXOUC1xsvVi30O6LsDNxWKLfhjnHfnDVd&type=event&plugin=jeeipxv3&id=3912&mac=$M&I=$I&O=$O&A=$A
   public function event() 
   {
      log::add(JEEIPXV3, 'debug', __METHOD__ .' param toto:'.init('toto'));
@@ -283,6 +312,9 @@ public static function deamon_changeAutoMode($mode) {
      
      /*
 http://192.168.0.9/core/api/jeeApi.php?apikey=6LXWhtxed1IPbY1mWxHvtG0jYcxCiHMdXOUC1xsvVi30O6LsDNxWKLfhjnHfnDVd&type=event&plugin=jeeipxv3&id=2597&toto=titi
+http://192.168.0.9/core/api/jeeApi.php?apikey=6LXWhtxed1IPbY1mWxHvtG0jYcxCiHMdXOUC1xsvVi30O6LsDNxWKLfhjnHfnDVd&type=event&plugin=jeeipxv3&id=3912&mac=$M&I=$I&O=$O&A=$A
+server: 192.168.0.17 port:3480
+/data_request?id=lr_IPX800_Handler&mac=$M&deviceID=71&I=$I&O=$O&A=$A
      */
   }
   
@@ -399,6 +431,11 @@ class jeeipxv3Cmd extends cmd {
     $root = $eqLogic->getRoot();
     $cmdid = $this->getLogicalId();
     log::add(JEEIPXV3, 'debug', __METHOD__ . sprintf(' root:%s eqlogic:%s cmd:%s',$root->getId(),$eqLogic->getId(), $cmdid));
+    switch ($cmdid) {
+      case 'configpush':
+        $root->configPush();
+        break;
+    }
   }
 
   /*     * **********************Getteur Setteur*************************** */
