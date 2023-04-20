@@ -273,6 +273,19 @@ public static function deamon_changeAutoMode($mode) {
     return $result;
   }
 
+
+  public function event() 
+  {
+     log::add(JEEIPXV3, 'debug', __METHOD__ .' param toto:'.init('toto'));
+     log::add(JEEIPXV3, 'debug', __METHOD__ .' $_GET:'.json_encode($_GET));
+     log::add(JEEIPXV3, 'debug', __METHOD__ .' $_POST:'.json_encode($_POST));
+     log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
+     
+     /*
+http://192.168.0.9/core/api/jeeApi.php?apikey=6LXWhtxed1IPbY1mWxHvtG0jYcxCiHMdXOUC1xsvVi30O6LsDNxWKLfhjnHfnDVd&type=event&plugin=jeeipxv3&id=2597&toto=titi
+     */
+  }
+  
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
 
