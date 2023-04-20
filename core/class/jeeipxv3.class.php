@@ -280,7 +280,7 @@ public static function deamon_changeAutoMode($mode) {
     $jeedomport = config::byKey("internalPort");
     $ipxurl = $this->getUrl();
 
-    $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&server=%s&port=%s&pass=user%3Apass&enph=1",$jeedomip,$jeedomport);
+    $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&server=%s&port=%s&pass=user:pass&enph=1",$jeedomip,$jeedomport);
     log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling 1 ' . $url);
     $result = file_get_contents($url);
 		if ($result === false) {
