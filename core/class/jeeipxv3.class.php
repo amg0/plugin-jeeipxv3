@@ -290,7 +290,7 @@ public static function deamon_changeAutoMode($mode) {
 
     $data='I=$I&O=$O&A=$A'; //'mac=$M&I=$I&O=$O&A=$A';
     $callbackurl = sprintf("/core/api/jeeApi.php?apikey=%s&type=event&plugin=jeeipxv3&id=%s&%s",
-      jeedom::getApiKey('core'),
+      jeedom::getApiKey(JEEIPXV3),
       $this->getId(),
       $data
     );
