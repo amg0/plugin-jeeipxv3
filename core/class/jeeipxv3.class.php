@@ -281,8 +281,8 @@ public static function deamon_changeAutoMode($mode) {
     $ipxurl = $this->getUrl();
 
     $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&server=%s&port=%s&pass=user%3Apass&enph=1",$jeedomip,$jeedomport);
-    log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling ' . $url);
-    $result = @file_get_contents($url);
+    log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling 1 ' . $url);
+    $result = file_get_contents($url);
 		if ($result === false) {
       log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
       throw new Exception('L\'ipx ne repond pas.');
@@ -293,8 +293,8 @@ public static function deamon_changeAutoMode($mode) {
       $this->getId()
     );    
     $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&cmd1=%s", urlencode($callbackurl) );
-    log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling ' . $url);
-    $result = @file_get_contents($url);
+    log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling 2 ' . $url);
+    $result = file_get_contents($url);
 		if ($result === false) {
       log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
       throw new Exception('L\'ipx ne repond pas.');
