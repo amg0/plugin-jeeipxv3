@@ -290,14 +290,14 @@ public static function deamon_changeAutoMode($mode) {
 
     $data='I=$I&O=$O&A=$A'; //'mac=$M&I=$I&O=$O&A=$A';
     $callbackurl = sprintf("/core/api/jeeApi.php?apikey=%s&type=event&plugin=jeeipxv3&id=%s&%s",
-      jeedom::getApiKey(JEEIPXV3),
+      jeedom::getApiKey('core'),
       $this->getId(),
       $data
     );
-    $callbackurl = sprintf("/core/api/jeeApi.php?type=event&plugin=jeeipxv3&id=%s&%s",
-    $this->getId(),
-    $data
-    );      
+    // $callbackurl = sprintf("/core/api/jeeApi.php?type=event&plugin=jeeipxv3&id=%s&%s",
+    // $this->getId(),
+    // $data
+    // );      
     log::add(JEEIPXV3, 'debug', __METHOD__ . ' callback url ' . $callbackurl); 
     $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&cmd1=%s", urlencode($callbackurl) );
     log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling 2 ' . $url);
