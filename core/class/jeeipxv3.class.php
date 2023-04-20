@@ -184,7 +184,7 @@ public static function deamon_changeAutoMode($mode) {
         $this->createOrUpdateCommand( 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
-        $this->createOrUpdateCommand( 'Config Push', 'configpush', 'action', 'other', 1, '' );
+        $this->createOrUpdateCommand( 'Config Push', 'configpush', 'action', 'other', 0, '' );
         $this->readConfigurationFromIPX();
         break;
       }
@@ -280,8 +280,8 @@ public static function deamon_changeAutoMode($mode) {
     $jeedomport = config::byKey("internalPort");
     $ipxurl = $this->getUrl();
 
-    $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&server=%s&port=%s&pass=&enph=1",$jeedomip,$jeedomport);
-    log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling '.url);
+    $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&server=%s&port=%s&pass=user%3Apass&enph=1",$jeedomip,$jeedomport);
+    log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling ' . $url);
     $result = @file_get_contents($url);
 		if ($result === false) {
       log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
@@ -293,7 +293,7 @@ public static function deamon_changeAutoMode($mode) {
       $this->getId()
     );    
     $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&cmd1=%s", urlencode($callbackurl) );
-    log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling '.url);
+    log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling ' . $url);
     $result = @file_get_contents($url);
 		if ($result === false) {
       log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
