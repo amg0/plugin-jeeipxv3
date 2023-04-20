@@ -278,8 +278,8 @@ public static function deamon_changeAutoMode($mode) {
     log::add(JEEIPXV3, 'debug', __METHOD__ );
     $key = jeedom::getApiKey(JEEIPXV3);
     if (strlen($key)>32) {
-      $NewsKey = config::genKey($_car=32);															 																							 
-      $key = config::save('api', $NewsKey, JEEIPXV3);		
+      $key = config::genKey($_car=32);															 																							 
+      $save = config::save('api', $key, JEEIPXV3);		
       log::add(JEEIPXV3, 'debug', __METHOD__ . ' new 32 key:' . $NewsKey);									 
     }
     return $key;
