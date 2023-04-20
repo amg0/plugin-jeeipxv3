@@ -329,10 +329,14 @@ public static function deamon_changeAutoMode($mode) {
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
      
      /*
-http://192.168.0.9/core/api/jeeApi.php?apikey=6LXWhtxed1IPbY1mWxHvtG0jYcxCiHMdXOUC1xsvVi30O6LsDNxWKLfhjnHfnDVd&type=event&plugin=jeeipxv3&id=2597&toto=titi
-http://192.168.0.9/core/api/jeeApi.php?apikey=6LXWhtxed1IPbY1mWxHvtG0jYcxCiHMdXOUC1xsvVi30O6LsDNxWKLfhjnHfnDVd&type=event&plugin=jeeipxv3&id=3912&mac=$M&I=$I&O=$O&A=$A
+http://192.168.0.9/core/api/jeeApi.php?apikey=xxxx&type=event&plugin=jeeipxv3&id=2597&toto=titi
+http://192.168.0.9/core/api/jeeApi.php?apikey=xxxxx&type=event&plugin=jeeipxv3&id=3912&mac=$M&I=$I&O=$O&A=$A
 server: 192.168.0.17 port:3480
 /data_request?id=lr_IPX800_Handler&mac=$M&deviceID=71&I=$I&O=$O&A=$A
+0055|[2023-04-20 23:56:30]DEBUG : jeeipxv3::event $_GET:{"apikey":"xxx","type":"event","plugin":"jeeipxv3","id":"3912","I":"00000000000000000000000000000000","O":"00000000000000000000000000000000","A":"183","190":"","0":""}
+0056|[2023-04-20 23:56:30]DEBUG : jeeipxv3::event $_POST:[]
+0057|[2023-04-20 23:56:30]DEBUG : jeeipxv3::event $_REQUEST:{"apikey":"xxx","type":"event","plugin":"jeeipxv3","id":"3912","I":"00000000000000000000000000000000","O":"00000000000000000000000000000000","A":"183","190":"","0":""}
+
      */
   }
   
