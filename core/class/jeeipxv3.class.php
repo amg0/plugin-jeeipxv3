@@ -293,7 +293,11 @@ public static function deamon_changeAutoMode($mode) {
       jeedom::getApiKey(JEEIPXV3),
       $this->getId(),
       $data
-    );    
+    );
+    $callbackurl = sprintf("/core/api/jeeApi.php?type=event&plugin=jeeipxv3&id=%s&%s",
+    $this->getId(),
+    $data
+    );      
     log::add(JEEIPXV3, 'debug', __METHOD__ . ' callback url ' . $callbackurl); 
     $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&cmd1=%s", urlencode($callbackurl) );
     log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling 2 ' . $url);
