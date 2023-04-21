@@ -335,7 +335,8 @@ public static function deamon_changeAutoMode($mode) {
       $len = strlen($inArray);
       log::add(JEEIPXV3, 'debug', __METHOD__ .' len:'.$len);
       for ($i = 0; $i < $len; $i++) {
-        $childid = $this->getChildID( 'led' . $i );
+        log::add(JEEIPXV3, 'debug', __METHOD__ .' $i:'.$i);
+        $childid = $eqLogic->getChildID( 'led' . $i );
         $child = self::byLogicalId( $childid, JEEIPXV3);
         if (is_object($child)) {
           $child->checkAndUpdateCmd('status', (int)$inArray[$i]);  
