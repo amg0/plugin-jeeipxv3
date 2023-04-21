@@ -331,17 +331,16 @@ public static function deamon_changeAutoMode($mode) {
 
      if (is_object($eqLogic)) {
 
-      $inArray = init('I');
-      $len = strlen($inArray);
-      log::add(JEEIPXV3, 'debug', __METHOD__ .' len:'.$len);
+      $outArray = init('O');
+      $len = strlen($outArray);
+
       for ($i = 0; $i < $len; $i++) {
-        log::add(JEEIPXV3, 'debug', __METHOD__ .' $i:'.$i);
         $childid = $eqLogic->getChildID( 'led' . $i );
         $child = self::byLogicalId( $childid, JEEIPXV3);
         if (is_object($child)) {
-          $child->checkAndUpdateCmd('status', (int)$inArray[$i]);  
+          $child->checkAndUpdateCmd('status', (int)$outArray[$i]);  
         } else {
-          log::add(JEEIPXV3, 'warning', __METHOD__ .' did not find child EQlogic for id:' . $childid);
+          log::add(JEEIPXV3, 'debug', __METHOD__ .' skipping:' . 'led' . $i);
         }
       }
 
