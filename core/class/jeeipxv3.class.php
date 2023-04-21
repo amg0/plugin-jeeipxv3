@@ -197,14 +197,12 @@ public static function deamon_changeAutoMode($mode) {
 
     // if this is a root EqLogic then lets search for all its children
     $type = $this->getConfiguration('type',null);
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' $type:' . json_encode($type));
 
     if (is_null($type)) { 
       $idroot = $this->getId();
-      log::add(JEEIPXV3, 'debug', __METHOD__ .' searching for:' . $idroot);
       foreach (self::byType(JEEIPXV3) as $eqLogic) {
         // if it is a children, then remove it
-        if ($idroot == $this->getConfiguration('rootid',null) ) {
+        if ($idroot == $eqLogic->getConfiguration('rootid',null) ) {
           $eqLogic->remove();    
         }
       }
