@@ -184,7 +184,7 @@ public static function deamon_changeAutoMode($mode) {
         $this->createOrUpdateCommand( 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
-        $this->createOrUpdateCommand( 'Config Push', 'configpush', 'action', 'other', 'GENERIC_ACTION', '' );
+        $this->createOrUpdateCommand( 'Config Push', 'configpush', 'action', 'other', 0, 'GENERIC_ACTION' );
         $this->readConfigurationFromIPX();
         break;
       }
