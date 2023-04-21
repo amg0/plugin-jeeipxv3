@@ -326,10 +326,13 @@ public static function deamon_changeAutoMode($mode) {
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
      
      $eqLogicId = init('id');
-     $eqLogic = self::byLogicalId( $eqLogicId , JEEIPXV3);
+     $eqLogic = self::byId( $eqLogicId , JEEIPXV3);
+
      if (is_object($eqLogic)) {
+
       $inArray = (string) init('I');
       $len = strlen($inArray);
+      
       for ($i = 0; $i < $len; $i++){
         $childid = $this->getChildID( 'led' . $i );
         $child = self::byLogicalId( $childid, JEEIPXV3);
@@ -339,6 +342,7 @@ public static function deamon_changeAutoMode($mode) {
           log::add(JEEIPXV3, 'warning', __METHOD__ .' did not find child EQlogic for id:' . $childid);
         }
       }
+
      } else {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' received events on unknown EQlogic id:' . $eqLogicId);
      }
