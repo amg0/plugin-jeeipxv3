@@ -335,13 +335,7 @@ public static function deamon_changeAutoMode($mode) {
       $len = strlen($outArray);
 
       for ($i = 0; $i < $len; $i++) {
-        $childid = $eqLogic->getChildID( 'led' . $i );
-        $child = self::byLogicalId( $childid, JEEIPXV3);
-        if (is_object($child)) {
-          $child->checkAndUpdateCmd('status', (int)$outArray[$i]);  
-        } else {
-          log::add(JEEIPXV3, 'debug', __METHOD__ .' skipping:' . 'led' . $i);
-        }
+        $eqLogic->updateChild( 'led' . $i , (int)$outArray[$i]);
       }
 
      } else {
@@ -359,6 +353,16 @@ server: 192.168.0.17 port:3480
      */
   }
   
+  public function updateChild($child, int $value) {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf("child:'%s' value:%s",$child,$value));
+    $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
+    if (is_object($eqLogic)) {
+      $eqLogic->checkAndUpdateCmd('status', $value);
+    } else {
+      log::add(JEEIPXV3, 'debug', __METHOD__ .' did found the eqlogic for child:' .$child);
+    }
+  }
+
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
 
@@ -370,12 +374,7 @@ server: 192.168.0.17 port:3480
       $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
 
       $led0 = $xml->xpath("led0")[0];
-      log::add(JEEIPXV3, 'debug', __METHOD__ .' led0:' . $led0);
-      $eqLogic = self::byLogicalId( $this->getChildID('led0') , JEEIPXV3);
-      if (is_object($eqLogic)) {
-        log::add(JEEIPXV3, 'debug', __METHOD__ .' found the eqlogic:' . $this->getChildID('led0'));
-        $eqLogic->checkAndUpdateCmd('status', (int)$led0);
-      }
+      $this->updateChild( 'led0' , (int)$led0);
       return $xml;
     }
     return null;
