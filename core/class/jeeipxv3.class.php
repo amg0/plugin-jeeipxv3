@@ -393,11 +393,11 @@ server: 192.168.0.17 port:3480
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());  
     //$xml=
-    $this->createOrUpdateChildEQ( 'light', 'led', 'led0' );
+    $this->createOrUpdateChildEQ( 'light', 'led', 'led0', $this->getIsEnable() , $this->getIsVisible());
     return; //$xml;
   }
 
-  public function createOrUpdateChildEQ($category,$type,$child) {
+  public function createOrUpdateChildEQ($category,$type,$child,$enable=0,$visible=0) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     //$child = ;
     $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
@@ -409,8 +409,8 @@ server: 192.168.0.17 port:3480
        $eqLogic->setLogicalId( $this->getChildID($child) );
        $eqLogic->setConfiguration('type', $type);
        $eqLogic->setConfiguration('rootid', $this->getId());
-       $eqLogic->setIsEnable(1);
-       $eqLogic->setIsVisible(1);
+       $eqLogic->setIsEnable($enable);
+       $eqLogic->setIsVisible($visible);
        $eqLogic->setCategory( $category ,'1');
        $eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
        $eqLogic->setName( $this->getName() . "_" . $child );
