@@ -194,8 +194,18 @@ public static function deamon_changeAutoMode($mode) {
   // Fonction exécutée automatiquement avant la suppression de l'équipement
   public function preRemove() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
-    
-    // TODO -- remove all child EQ
+
+    // if this is a root EqLogic then lets search for all its children
+    $type = $this->getConfiguration('type',null);
+    if (is_null($type)) { 
+      $idroot = $this->getId();
+      foreach (self::byType(JEEIPXV3) as $eqLogic) {
+        // if it is a children, then remove it
+        if ($idroot == $this->getConfiguration('rootid',null) ) {
+          $eqLogic->remove();    
+        }
+      }
+    }    
   }
 
   // Fonction exécutée automatiquement après la suppression de l'équipement
@@ -321,7 +331,7 @@ public static function deamon_changeAutoMode($mode) {
   public function event() 
   {
      log::add(JEEIPXV3, 'debug', __METHOD__ .' eqlogic id:'.init('id'));
-     log::add(JEEIPXV3, 'debug', __METHOD__ .' I:'.init('I'));
+     log::add(JEEIPXV3, 'debug', __METHOD__ .' O:'.init('O'));
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_GET:'.json_encode($_GET));
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_POST:'.json_encode($_POST));
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
