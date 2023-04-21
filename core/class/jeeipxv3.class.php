@@ -321,6 +321,7 @@ public static function deamon_changeAutoMode($mode) {
   public function event() 
   {
      log::add(JEEIPXV3, 'debug', __METHOD__ .' eqlogic id:'.init('id'));
+     log::add(JEEIPXV3, 'debug', __METHOD__ .' I:'.init('I'));
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_GET:'.json_encode($_GET));
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_POST:'.json_encode($_POST));
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
@@ -330,9 +331,9 @@ public static function deamon_changeAutoMode($mode) {
 
      if (is_object($eqLogic)) {
 
-      $inArray = (string) init('I');
+      $inArray = init('I');
       $len = strlen($inArray);
-      
+
       for ($i = 0; $i < $len; $i++){
         $childid = $this->getChildID( 'led' . $i );
         $child = self::byLogicalId( $childid, JEEIPXV3);
