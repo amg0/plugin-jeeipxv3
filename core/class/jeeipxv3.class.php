@@ -179,12 +179,12 @@ public static function deamon_changeAutoMode($mode) {
         break;
       }
       default: {  // Root Equipment
-        $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+        $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'ENERGY_STATE' );
         $this->createOrUpdateCommand( 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'MAC', 'mac', 'info', 'string', 1, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
-        $this->createOrUpdateCommand( 'Config Push', 'configpush', 'action', 'other', 0, '' );
+        $this->createOrUpdateCommand( 'Config Push', 'configpush', 'action', 'other', 'GENERIC_ACTION', '' );
         $this->readConfigurationFromIPX();
         break;
       }
@@ -305,10 +305,7 @@ public static function deamon_changeAutoMode($mode) {
       $this->getId(),
       $data
     );
-    // $callbackurl = sprintf("/core/api/jeeApi.php?type=event&plugin=jeeipxv3&id=%s&%s",
-    // $this->getId(),
-    // $data
-    // );      
+  
     log::add(JEEIPXV3, 'debug', __METHOD__ . ' callback url ' . $callbackurl); 
     $url =  $ipxurl . sprintf("protect/settings/push3.htm?channel=65&cmd1=%s", urlencode($callbackurl) );
     log::add(JEEIPXV3, 'debug', __METHOD__ . ' calling 2 ' . $url);
@@ -323,11 +320,28 @@ public static function deamon_changeAutoMode($mode) {
   // http://192.168.0.9/core/api/jeeApi.php?apikey=6LXWhtxed1IPbY1mWxHvtG0jYcxCiHMdXOUC1xsvVi30O6LsDNxWKLfhjnHfnDVd&type=event&plugin=jeeipxv3&id=3912&mac=$M&I=$I&O=$O&A=$A
   public function event() 
   {
-     log::add(JEEIPXV3, 'debug', __METHOD__ .' param toto:'.init('toto'));
+     log::add(JEEIPXV3, 'debug', __METHOD__ .' eqlogic id:'.init('id'));
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_GET:'.json_encode($_GET));
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_POST:'.json_encode($_POST));
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
      
+     $eqLogicId = init('id');
+     $eqLogic = self::byLogicalId( eqLogicId , JEEIPXV3);
+     if (is_object($eqLogic)) {
+      $inArray = (string) init('I');
+      $len = strlen($inArray);
+      for ($i = 0; $i < $len; $i++){
+        $childid = $this->getChildID( 'led' . $i );
+        $child = self::byLogicalId( $childid, JEEIPXV3);
+        if (is_object($child)) {
+          $child->checkAndUpdateCmd('status', (int)$inArray[$i]);  
+        } else {
+          log::add(JEEIPXV3, 'warning', __METHOD__ .' did not find child EQlogic for id:' . $childid);
+        }
+      }
+     } else {
+      log::add(JEEIPXV3, 'warning', __METHOD__ .' received events on unknown EQlogic id:' . $eqLogicId);
+     }
      /*
 http://192.168.0.9/core/api/jeeApi.php?apikey=xxxx&type=event&plugin=jeeipxv3&id=2597&toto=titi
 http://192.168.0.9/core/api/jeeApi.php?apikey=xxxxx&type=event&plugin=jeeipxv3&id=3912&mac=$M&I=$I&O=$O&A=$A
@@ -406,7 +420,8 @@ server: 192.168.0.17 port:3480
       $cmd->setSubType($subtype);
       $cmd->setLogicalId($logicalid);
       $cmd->setIsVisible($is_visible);
-      $cmd->setDisplay('generic_type', $generic_type);
+      //$cmd->setDisplay('generic_type', $generic_type);
+      $cmd->setGeneric_type($generic_type);
       if (!is_null($targetcmdid)) {
         $cmd->setValue( (int) $targetcmdid );
       } 
