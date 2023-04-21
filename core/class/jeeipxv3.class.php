@@ -333,8 +333,8 @@ public static function deamon_changeAutoMode($mode) {
 
       $inArray = init('I');
       $len = strlen($inArray);
-
-      for ($i = 0; $i < $len; $i++){
+      log::add(JEEIPXV3, 'debug', __METHOD__ .' len:'.$len);
+      for ($i = 0; $i < $len; $i++) {
         $childid = $this->getChildID( 'led' . $i );
         $child = self::byLogicalId( $childid, JEEIPXV3);
         if (is_object($child)) {
