@@ -354,7 +354,7 @@ server: 192.168.0.17 port:3480
   }
   
   public function updateChild($child, int $value) {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf("child:'%s' value:%s",$child,$value));
+    log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(" name:'%s' value:%s",$child,$value));
     $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
     if (is_object($eqLogic)) {
       $eqLogic->checkAndUpdateCmd('status', $value);
