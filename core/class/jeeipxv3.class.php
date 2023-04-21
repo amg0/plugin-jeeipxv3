@@ -326,7 +326,7 @@ public static function deamon_changeAutoMode($mode) {
      log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
      
      $eqLogicId = init('id');
-     $eqLogic = self::byLogicalId( eqLogicId , JEEIPXV3);
+     $eqLogic = self::byLogicalId( $eqLogicId , JEEIPXV3);
      if (is_object($eqLogic)) {
       $inArray = (string) init('I');
       $len = strlen($inArray);
