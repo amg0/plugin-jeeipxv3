@@ -193,7 +193,8 @@ $eqLogics = eqLogic::byType($plugin->getId());
 											<?php 
 											for ($i=0; $i<32; $i++) { 
 												echo '<label class="checkbox-inline">';
-												echo '<input type="checkbox" id="led'.$i.'" value="led'.$i.'" led'.$i;
+												echo '<input type="checkbox" id="led'.$i.'" value="led'.$i.'" ';
+												echo 'led'.$i;
 												echo '</label>';
 											} 
 											?>
