@@ -20,6 +20,12 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 const JEEIPXV3 = 'jeeipxv3';     // plugin logical name
 
 class jeeipxv3 extends eqLogic {
+
+  private static $ipxDevices = array(
+    "led" => array( 0, 31 ),
+    "btn" => array( 0, 31 )
+  );
+
   /*     * *************************Attributs****************************** */
 
   /*
@@ -384,8 +390,13 @@ server: 192.168.0.17 port:3480
       $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );  // have to cast to string
       $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
 
-      $led0 = $xml->xpath("led0")[0];
-      $this->updateChild( 'led0' , (int)$led0);
+      foreach( self::$ipxDevices as $key => $value ) {
+        for( $i=$value[0] ; $i<=$value[1]; $i++) {
+          $child = $key.$i;
+          $ipxval = $xml->xpath( $child  )[0];
+          $this->updateChild( $child  , (int)$ipxval);
+        }
+      };
       return $xml;
     }
     return null;
