@@ -189,7 +189,15 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
 									<!-- Tab panes -->
 									<div class="tab-content">
-										<div role="tabpanel" class="tab-pane active" id="output">...</div>
+										<div role="tabpanel" class="tab-pane active" id="output">
+											<?php 
+											for ($i=0; $i<32; $i++) { 
+												echo '<label class="checkbox-inline">';
+												echo '<input type="checkbox" id="led'.$i.'" value="led'.$i.'" led'.$i;
+												echo '</label>';
+											} 
+											?>
+										</div>
 										<div role="tabpanel" class="tab-pane" id="input">...</div>
 										<div role="tabpanel" class="tab-pane" id="analogic">...</div>
 									</div>
