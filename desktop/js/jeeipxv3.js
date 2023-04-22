@@ -24,6 +24,10 @@ $("#table_cmd").sortable({
   forcePlaceholderSize: true
 })
 
+$(".jeeipxv3-led").off().on("change",function(event) {
+  console.log($(this));
+});
+
 /* Fonction permettant l'affichage de l'équipement */
 function printEqLogic(eqLogic) {
   // TODO get the proper icon from eqlogic and set it into the IMG attribute
