@@ -174,6 +174,18 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</div>
 							</div>
 						</div>
+
+						<div class="col-lg-6">
+							<legend><i class="fas fa-info"></i> {{Configuration}}</legend>
+							<div class="form-group">
+								<ul class="nav nav-tabs">
+									<li role="presentation" class="active"><a href="#">Home</a></li>
+									<li role="presentation"><a href="#">Profile</a></li>
+									<li role="presentation"><a href="#">Messages</a></li>
+								</ul>
+							</div>
+						</div>
+
 					</fieldset>
 				</form>
 			</div><!-- /.tabpanel #eqlogictab-->
