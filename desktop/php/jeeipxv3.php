@@ -178,11 +178,19 @@ $eqLogics = eqLogic::byType($plugin->getId());
 						<div class="col-lg-6">
 							<legend><i class="fas fa-info"></i> {{Configuration}}</legend>
 							<div class="form-group">
-								<ul class="nav nav-tabs">
-									<li role="presentation" class="active"><a href="#">Home</a></li>
-									<li role="presentation"><a href="#">Profile</a></li>
-									<li role="presentation"><a href="#">Messages</a></li>
+								<!-- Nav tabs -->
+								<ul class="nav nav-tabs" role="tablist">
+									<li role="presentation" class="active"><a href="#output" aria-controls="output" role="tab" data-toggle="tab">Output</a></li>
+									<li role="presentation"><a href="#input" aria-controls="input" role="tab" data-toggle="tab">Inputs</a></li>
+									<li role="presentation"><a href="#analogic" aria-controls="analogic" role="tab" data-toggle="tab">Analogic</a></li>
 								</ul>
+
+								<!-- Tab panes -->
+								<div class="tab-content">
+									<div role="tabpanel" class="tab-pane active" id="output">...</div>
+									<div role="tabpanel" class="tab-pane" id="input">...</div>
+									<div role="tabpanel" class="tab-pane" id="analogic">...</div>
+								</div>
 							</div>
 						</div>
 
