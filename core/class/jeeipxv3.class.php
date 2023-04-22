@@ -393,9 +393,12 @@ server: 192.168.0.17 port:3480
 
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());  
-    //$xml=
-    $this->createOrUpdateChildEQ( 'light', 'led', 'led0', $this->getIsEnable() , $this->getIsVisible());
-    return; //$xml;
+    if ( $this->getConfiguration('led0',0) == 1) {
+      $this->createOrUpdateChildEQ( 'light', 'led', 'led0', $this->getIsEnable() , $this->getIsVisible());
+    } else {
+      $this->removeChildEQ( 'led0' );
+    }
+    return; 
   }
 
   public function createOrUpdateChildEQ($category,$type,$child,$enable=0,$visible=0) {
@@ -421,6 +424,14 @@ server: 192.168.0.17 port:3480
        // todo : if object is not new, try not to change its parent ID
        // but should we verify that the old parent id is still a valid object ???
        //$eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
+    }
+  }
+
+  public function removeChildEQ( $child ) {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+    $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
+    if (is_object($eqLogic)) {
+      $eqLogic->remove();
     }
   }
 

@@ -24,9 +24,9 @@ $("#table_cmd").sortable({
   forcePlaceholderSize: true
 })
 
-$(".jeeipxv3-led").off().on("change",function(event) {
-  console.log($(this));
-});
+// $(".jeeipxv3-led").off().on("change",function(event) {
+//   console.log($(this));
+// });
 
 /* Fonction permettant l'affichage de l'équipement */
 function printEqLogic(eqLogic) {
