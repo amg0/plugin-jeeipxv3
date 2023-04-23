@@ -198,7 +198,7 @@ public static function deamon_changeAutoMode($mode) {
         $this->createOrUpdateCommand( 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Config Push', 'configpush', 'action', 'other', 0, 'GENERIC_ACTION' );
-        $this->readConfigurationFromIPX();
+        $this->updateConfigurationFromIPX();
         break;
       }
     }
@@ -385,10 +385,13 @@ server: 192.168.0.17 port:3480
   }
   
   // find and update a child EQLogic with a value received from the IPX
-  public function updateChild($child, int $value) {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(" name:'%s' value:%s",$child,$value));
+  public function updateChild($child, int $value, int $antype=0 ) {
+    log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(" name:'%s' value:%s anselect:%d",$child,$value,$antype));
     $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
     if (is_object($eqLogic)) {
+      if ( $eqLogic->getConfiguration('anselect',0)  != $antype) {
+        $eqLogic->setConfiguration('anselect',$antype);
+      }
       $eqLogic->checkAndUpdateCmd('status', $value);
     } else {
       log::add(JEEIPXV3, 'debug', __METHOD__ .' did not found the eqlogic for child:' .$child);
@@ -420,7 +423,9 @@ server: 192.168.0.17 port:3480
               $ipxval = 0;
               break;
             }
-            $this->updateChild( $child  , (int)$ipxval);
+
+            $antype = ($key =='analog') ? (int) $xml->xpath( 'anselect'.$i )[0] : 0;
+            $this->updateChild( $child  , (int)$ipxval, $antype );
           }
         }
       };
@@ -429,7 +434,7 @@ server: 192.168.0.17 port:3480
     return null;
   }
 
-  public function readConfigurationFromIPX() {
+  public function updateConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());  
     foreach( self::$ipxDevices as $key => $value ) {
       for( $i=$value[0] ; $i<=$value[1]; $i++) {
