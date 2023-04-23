@@ -615,10 +615,11 @@ class jeeipxv3Cmd extends cmd {
 
   // Exécution d'une commande
   public function execute($_options = array()) {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' options:' . json_encode($_options));
+    $cmdid = $this->getLogicalId();
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' cmd:'. $cmdid .' options:' . json_encode($_options));
     $eqLogic = $this->getEqLogic(); //Récupération de l’eqLogic
     $root = $eqLogic->getRoot();
-    $cmdid = $this->getLogicalId();
+    
     log::add(JEEIPXV3, 'debug', __METHOD__ . sprintf(' root:%s eqlogic:%s cmd:%s',$root->getId(),$eqLogic->getId(), $cmdid));
     switch ($cmdid) {
       case 'configpush':
@@ -627,6 +628,8 @@ class jeeipxv3Cmd extends cmd {
       case 'reboot':
         $root->reboot();
         break;
+      default:
+        log::add(JEEIPXV3, 'info', __METHOD__ .' ignoring unknown command');
     }
   }
 
