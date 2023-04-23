@@ -348,7 +348,7 @@ public static function deamon_changeAutoMode($mode) {
   }
 
   public function setIPXRelay($type,$child,int $value) {
-    log::add(JEEIPXV3, 'debug', __METHOD__ . sprintf('type:%s child:%s value:%s',$type,$child,$value));
+    log::add(JEEIPXV3, 'debug', __METHOD__ . sprintf(' type:%s child:%s value:%s',$type,$child,$value));
     // keep only the numeric index of the child
     $num = (int)str_replace($type,'',$child);
     $ipxurl = $this->getUrl();
@@ -658,19 +658,19 @@ class jeeipxv3Cmd extends cmd {
       case 'reboot':
         $root->reboot();
         break;
-      case 'btn_on':
-        $type = 'btn';
+      case 'led_on':
+        $type = 'led';
         $child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
         $root->setIPXRelay($type,$child,1);
         break;
-      case 'btn_off':
-        $type = 'btn';
+      case 'led_off':
+        $type = 'led';
         $child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
         $root->setIPXRelay($type,$child,0);
         break;
-      case 'led_on':
-      case 'led_off':
-        $type = 'led';
+      case 'btn_on':
+      case 'btn_off':
+        $type = 'btn';
         $child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
         $root->setIPXRelay($type,$child,0); // value does not matter in that case as we use the led.cgi command
         break;
