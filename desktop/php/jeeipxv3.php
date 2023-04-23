@@ -175,7 +175,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 						</div>
 
-						<div class="col-lg-6">
+						<div class="col-lg-6 jeeipxv3-root">
 							<legend><i class="fas fa-cogs"></i> {{Configuration}}</legend>
 							<div class="form-group">
 							<div class="col-sm-1"></div>
