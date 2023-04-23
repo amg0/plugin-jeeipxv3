@@ -254,10 +254,13 @@ public static function deamon_changeAutoMode($mode) {
   }
   */
 
+  // Logical ID for child equipment
+  // rootid_xxxn xxx is ipx class and n is the index
   public function getChildID($suffix) {
     return $this->getId()."_".$suffix;
   }
 
+  // find the root equiment from any equipment, return $this is the eq is a root
   public function getRoot()
   {
      log::add(JEEIPXV3, 'debug', __METHOD__);
@@ -265,6 +268,7 @@ public static function deamon_changeAutoMode($mode) {
      return ( $idroot==null) ? $this : eqLogic::byId($idroot);
   }
 
+  // get root URL of the IPX800 finishing by a /
 	public function getUrl() {
 		$url = 'http://';
 		if ($this->getConfiguration('username') != '') {
@@ -277,6 +281,9 @@ public static function deamon_changeAutoMode($mode) {
     return $url."/";
 	}
 
+  // returns XML object read from the remote IPX url. 
+  // only works on action that produces xml output
+  // throws exception if it fails
   public function ipxHttpCallXML($action) {
     $url = $this->getUrl() . $action;
     log::add(JEEIPXV3, 'debug', __METHOD__ .' url:'.$url);
@@ -292,6 +299,8 @@ public static function deamon_changeAutoMode($mode) {
     return $result;
   }
 
+  // generates if needed a 32chars API key 
+  // ( default is more but it is too long for push URL in IPC )
   private static function genShortKey() {
     log::add(JEEIPXV3, 'debug', __METHOD__ );
     $key = jeedom::getApiKey(JEEIPXV3);
@@ -303,6 +312,8 @@ public static function deamon_changeAutoMode($mode) {
     return $key;
   }
 
+  // configures the push URL on the IPC
+  // throws exception if it fails
 	public function configPush() {
     log::add(JEEIPXV3, 'debug', __METHOD__ );
     $jeedomip = config::byKey("internalAddr");
@@ -335,30 +346,27 @@ public static function deamon_changeAutoMode($mode) {
 	}
 
   // callback push from IPX
-  // http://192.168.0.9/core/api/jeeApi.php?apikey=6LXWhtxed1IPbY1mWxHvtG0jYcxCiHMdXOUC1xsvVi30O6LsDNxWKLfhjnHfnDVd&type=event&plugin=jeeipxv3&id=3912&mac=$M&I=$I&O=$O&A=$A
+  // http://192.168.0.9/core/api/jeeApi.php?apikey=xxxx&type=event&plugin=jeeipxv3&id=3912&mac=$M&I=$I&O=$O&A=$A
   public function event() 
   {
-     log::add(JEEIPXV3, 'debug', __METHOD__ .' eqlogic id:'.init('id'));
-     log::add(JEEIPXV3, 'debug', __METHOD__ .' O:'.init('O'));
-     log::add(JEEIPXV3, 'debug', __METHOD__ .' $_GET:'.json_encode($_GET));
-     log::add(JEEIPXV3, 'debug', __METHOD__ .' $_POST:'.json_encode($_POST));
-     log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
-     
-     $eqLogicId = init('id');
-     $eqLogic = self::byId( $eqLogicId , JEEIPXV3);
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' eqlogic id:'.init('id'));
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' O:'.init('O'));
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' $_GET:'.json_encode($_GET));
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' $_POST:'.json_encode($_POST));
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
 
-     if (is_object($eqLogic)) {
+    $eqLogicId = init('id');
+    $eqLogic = self::byId( $eqLogicId , JEEIPXV3);
 
+    if (is_object($eqLogic)) {
       $outArray = init('O');
       $len = strlen($outArray);
-
       for ($i = 0; $i < $len; $i++) {
         $eqLogic->updateChild( 'led' . $i , (int)$outArray[$i]);
       }
-
-     } else {
+    } else {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' received events on unknown EQlogic id:' . $eqLogicId);
-     }
+    }
      /*
 http://192.168.0.9/core/api/jeeApi.php?apikey=xxxx&type=event&plugin=jeeipxv3&id=2597&toto=titi
 http://192.168.0.9/core/api/jeeApi.php?apikey=xxxxx&type=event&plugin=jeeipxv3&id=3912&mac=$M&I=$I&O=$O&A=$A
@@ -367,10 +375,10 @@ server: 192.168.0.17 port:3480
 0055|[2023-04-20 23:56:30]DEBUG : jeeipxv3::event $_GET:{"apikey":"xxx","type":"event","plugin":"jeeipxv3","id":"3912","I":"00000000000000000000000000000000","O":"00000000000000000000000000000000","A":"183","190":"","0":""}
 0056|[2023-04-20 23:56:30]DEBUG : jeeipxv3::event $_POST:[]
 0057|[2023-04-20 23:56:30]DEBUG : jeeipxv3::event $_REQUEST:{"apikey":"xxx","type":"event","plugin":"jeeipxv3","id":"3912","I":"00000000000000000000000000000000","O":"00000000000000000000000000000000","A":"183","190":"","0":""}
-
      */
   }
   
+  // find and update a child EQLogic with a value received from the IPX
   public function updateChild($child, int $value) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(" name:'%s' value:%s",$child,$value));
     $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
@@ -381,6 +389,7 @@ server: 192.168.0.17 port:3480
     }
   }
 
+  // call IPX and refresh all configured child EQuipments
   public function refreshFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
 
@@ -394,6 +403,7 @@ server: 192.168.0.17 port:3480
       foreach( self::$ipxDevices as $key => $value ) {
         for( $i=$value[0] ; $i<=$value[1]; $i++) {
           $child = $key.$i;
+          // if the EQLogic is supposed to be here, then try to update it
           if ( $this->getConfiguration($child,0) == 1) {
             $ipxval = $xml->xpath( $child  )[0];
             $this->updateChild( $child  , (int)$ipxval);
