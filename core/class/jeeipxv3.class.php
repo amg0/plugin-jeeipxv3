@@ -352,14 +352,21 @@ public static function deamon_changeAutoMode($mode) {
     // keep only the numeric index of the child
     $num = (int)str_replace($type,'',$child);
     $ipxurl = $this->getUrl();
-    if ($value==0) {
+    if (($type!='led') && ($value==0)) {
       // sortie sans mode impulsionel
       $url = $ipxurl . sprintf("preset.htm?set%d=%d",$num+1,$value);
     } else {
       // sortie according to configuration of Tb inside IPX800 ( impulse or normal )
+      if ($type=='led')
+        $num +=100;
       $url = $ipxurl . sprintf("leds.cgi?led=%d",$num);
     }
     log::add(JEEIPXV3, 'warning', __METHOD__ .' simulated url:'.$url);
+    // $result = file_get_contents($url);
+		// if ($result === false) {
+    //   log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
+    //   throw new Exception('L\'ipx ne repond pas.');
+    // }
   }
 
   // configures the push URL on the IPC
@@ -660,6 +667,12 @@ class jeeipxv3Cmd extends cmd {
         $type = 'btn';
         $child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
         $root->setIPXRelay($type,$child,0);
+        break;
+      case 'led_on':
+      case 'led_off':
+        $type = 'led';
+        $child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+        $root->setIPXRelay($type,$child,0); // value does not matter in that case as we use the led.cgi command
         break;
       default:
       log::add(JEEIPXV3, 'info', __METHOD__ .' ignoring unknown command');
