@@ -22,7 +22,7 @@ const JEEIPXV3 = 'jeeipxv3';     // plugin logical name
 class jeeipxv3 extends eqLogic {
 
   private static $ipxDevices = array(
-    "led" => array( 0, 31 ),
+    "led" => array( 0, 31 ),    // min, max idx on IPX card
     "btn" => array( 0, 31 )
   );
 
@@ -47,6 +47,7 @@ public static function daemon() {
   log::add(JEEIPXV3, 'debug', __METHOD__ . ' running: start');
   $starttime = microtime (true);   // current time in sec as a float
 
+  // for all root equipments
   foreach (self::byType(JEEIPXV3) as $eqLogic) {
     // only the root equipment must refresh data from the IPX
     if (is_null( $eqLogic->getConfiguration('type',null) )) {
@@ -67,7 +68,7 @@ public static function daemon() {
 public static function deamon_info() {
   //log::add(JEEIPXV3, 'debug', __METHOD__);
   $return = array();
-  $return['log'] = '';
+  $return['log'] = __CLASS__;
   $return['state'] = 'nok';
   $cron = cron::byClassAndFunction(JEEIPXV3, 'daemon');
   if (is_object($cron) && $cron->running()) {
@@ -393,8 +394,10 @@ server: 192.168.0.17 port:3480
       foreach( self::$ipxDevices as $key => $value ) {
         for( $i=$value[0] ; $i<=$value[1]; $i++) {
           $child = $key.$i;
-          $ipxval = $xml->xpath( $child  )[0];
-          $this->updateChild( $child  , (int)$ipxval);
+          if ( $this->getConfiguration($child,0) == 1) {
+            $ipxval = $xml->xpath( $child  )[0];
+            $this->updateChild( $child  , (int)$ipxval);
+          }
         }
       };
       return $xml;
