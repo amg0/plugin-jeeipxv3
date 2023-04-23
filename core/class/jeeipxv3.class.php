@@ -391,7 +391,7 @@ server: 192.168.0.17 port:3480
     if (is_object($eqLogic)) {
       $eqLogic->checkAndUpdateCmd('status', $value);
     } else {
-      log::add(JEEIPXV3, 'debug', __METHOD__ .' did found the eqlogic for child:' .$child);
+      log::add(JEEIPXV3, 'debug', __METHOD__ .' did not found the eqlogic for child:' .$child);
     }
   }
 
@@ -463,7 +463,7 @@ server: 192.168.0.17 port:3480
   }
 
   public function removeChildEQ( $child ) {
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+    log::add(JEEIPXV3, 'debug', __METHOD__ .' root id:' . $this->getId() . ' child:' . $child);
     $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
     if (is_object($eqLogic)) {
       $eqLogic->remove();
