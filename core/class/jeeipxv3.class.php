@@ -412,6 +412,14 @@ server: 192.168.0.17 port:3480
           // if the EQLogic is supposed to be here, then try to update it
           if ( $this->getConfiguration($child,0) == 1) {
             $ipxval = $xml->xpath( $child  )[0];
+            switch($ipxval) {
+              case 'up':
+                $ipxval = 1;
+                break;
+              case 'dn':
+              $ipxval = 0;
+              break;
+            }
             $this->updateChild( $child  , (int)$ipxval);
           }
         }
