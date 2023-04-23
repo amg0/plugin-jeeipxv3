@@ -368,7 +368,7 @@ public static function deamon_changeAutoMode($mode) {
       $outArray = init('O');
       $len = strlen($outArray);
       for ($i = 0; $i < $len; $i++) {
-        $eqLogic->updateChild( 'led' . $i , (int)$outArray[$i]);
+        $eqLogic->updateChild( 'led' . $i , (float)$outArray[$i]);
       }
     } else {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' received events on unknown EQlogic id:' . $eqLogicId);
@@ -385,18 +385,66 @@ server: 192.168.0.17 port:3480
   }
   
   // find and update a child EQLogic with a value received from the IPX
-  public function updateChild($child, int $value, int $antype=0 ) {
+  public function updateChild($child, float $value, int $antype=0 ) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(" name:'%s' value:%s anselect:%d",$child,$value,$antype));
     $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
     if (is_object($eqLogic)) {
       if ( $eqLogic->getConfiguration('anselect',0)  != $antype) {
         $eqLogic->setConfiguration('anselect',$antype);
-        log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(" setting anselect of eq:%s to anselect=%d",$this->getChildID($child),$antype));
+        log::add(JEEIPXV3, 'info', __METHOD__ .sprintf(" setting anselect of eq:%s to anselect=%d",$this->getChildID($child),$antype));
         $eqLogic->save();
+      }
+      switch ($antype) {
+        case 1: 
+        case 7:
+          $value = $value * 0.00323;
+          break;
+        case 2:
+          $value = $value * 0.323 - 50;
+          break;
+        case 3:
+          $value = $value * 0.09775;         
+          break;
+        case 4:
+          $value = $value * 0.00323;
+          $value = ($value - 1.63) / 0.0326;
+          break;  
+        case 5:
+          // --TODO humidity sensor so needs add hTemp correction but we do not know 
+          // -- hTemp so let's take 15C as an average
+          // -- GetAn	HCTemp	0	10	20	30	40		Delta
+          // -- 0		0	0	0	0	0		
+          // -- 10		9,482268159	9,68054211	9,887284952	10,10305112	10,32844454		0,846176378
+          // -- 20		18,96453632	19,36108422	19,7745699	20,20610224	20,65688907		1,692352755
+          // -- 30		28,44680448	29,04162633	29,66185485	30,30915336	30,98533361		2,538529133
+          // -- 40		37,92907263	38,72216844	39,54913981	40,41220449	41,31377815		3,384705511
+          $value = $value * 0.00323;
+          $value = ($value/3.3 - 0.1515) / 0.00636;
+          $HCtemp=15;
+          $value = $value/ (1.0546 - (0.00216 * $HCtemp));
+          break;
+        case 6:
+          $value = ($value * 0.00323 - 0.25) / 0.028;
+          break;
+        case 8:
+          $value = $value * 0.00646;
+          break;
+        case 9:
+          $value = $value * 0.01615;
+          break;
+        case 10;
+          $value = $value / 100;
+          break;
+        case 11;
+          $value = $value - 2500;
+          break;
+        case 0:
+        default:
+          break;
       }
       $eqLogic->checkAndUpdateCmd('status', $value);
     } else {
-      log::add(JEEIPXV3, 'debug', __METHOD__ .' did not found the eqlogic for child:' .$child);
+      log::add(JEEIPXV3, 'warning', __METHOD__ .' did not found the eqlogic for child:' .$child);
     }
   }
 
@@ -427,7 +475,7 @@ server: 192.168.0.17 port:3480
             }
 
             $antype = ($key =='analog') ? (int) $xml->xpath( 'anselect'.$i )[0] : 0;
-            $this->updateChild( $child  , (int)$ipxval, $antype );
+            $this->updateChild( $child  , (float)$ipxval, $antype );
           }
         }
       };
