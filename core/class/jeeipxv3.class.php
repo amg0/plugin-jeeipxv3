@@ -175,6 +175,10 @@ public static function deamon_changeAutoMode($mode) {
   // Fonction exécutée automatiquement après la mise à jour de l'équipement
   public function postUpdate() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+    $type = $this->getConfiguration('type',null);
+    if (is_null($type)) {
+      $this->updateConfigurationFromIPX();
+    }
   }
 
   // Fonction exécutée automatiquement avant la sauvegarde (création ou mise à jour) de l'équipement
@@ -206,7 +210,6 @@ public static function deamon_changeAutoMode($mode) {
         $this->createOrUpdateCommand( 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Config Push', 'configpush', 'action', 'other', 0, 'GENERIC_ACTION' );
         $this->createOrUpdateCommand( 'Reboot', 'reboot', 'action', 'other', 0, 'GENERIC_ACTION' );
-        $this->updateConfigurationFromIPX();
         break;
       }
     }
