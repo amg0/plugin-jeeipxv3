@@ -198,6 +198,7 @@ public static function deamon_changeAutoMode($mode) {
         $this->createOrUpdateCommand( 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'Config Push', 'configpush', 'action', 'other', 0, 'GENERIC_ACTION' );
+        $this->createOrUpdateCommand( 'Reboot', 'reboot', 'action', 'other', 0, 'GENERIC_ACTION' );
         $this->updateConfigurationFromIPX();
         break;
       }
@@ -316,6 +317,18 @@ public static function deamon_changeAutoMode($mode) {
       log::add(JEEIPXV3, 'debug', __METHOD__ . ' new 32 key:' . $NewsKey);									 
     }
     return $key;
+  }
+
+  public function reboot() {
+    log::add(JEEIPXV3, 'debug', __METHOD__ );
+    $ipxurl = $this->getUrl();
+    $url = $ipxurl . "protect/settings/reboot.htm";
+    $result = file_get_contents($url);
+		if ($result === false) {
+      throw new Exception('L\'ipx ne repond pas.');
+    }
+    log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf('url:%s returned:%s',$url,$result));
+    return $result;
   }
 
   // configures the push URL on the IPC
@@ -596,6 +609,9 @@ class jeeipxv3Cmd extends cmd {
     switch ($cmdid) {
       case 'configpush':
         $root->configPush();
+        break;
+      case 'reboot':
+        $root->reboot();
         break;
     }
   }
