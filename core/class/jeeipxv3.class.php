@@ -391,6 +391,7 @@ server: 192.168.0.17 port:3480
     if (is_object($eqLogic)) {
       if ( $eqLogic->getConfiguration('anselect',0)  != $antype) {
         $eqLogic->setConfiguration('anselect',$antype);
+        log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(" setting antype of eq:%d to anselect=%d",$this->getChildID($child),$antype));
       }
       $eqLogic->checkAndUpdateCmd('status', $value);
     } else {
