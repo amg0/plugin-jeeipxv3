@@ -27,6 +27,13 @@ class jeeipxv3 extends eqLogic {
     "analog" => array( 0, 15 )
   );
 
+  private static $_ipxNamesMap = array(
+    "led" => "output",
+    "btn" => "input",
+    "analog" => "analog",
+    "count" => "counter"
+  );
+
   /*     * *************************Attributs****************************** */
 
   /*
@@ -506,7 +513,8 @@ server: 192.168.0.17 port:3480
       for( $i=$value[0] ; $i<=$value[1]; $i++) {
         $child = $key.$i;
         if ( $this->getConfiguration($child,0) == 1) {
-          $name = $xml->xpath($child)[0];
+          $xpath = self::$_ipxNamesMap[$key] . ((int)$i+1);
+          $name = $xml->xpath($xpath)[0];
           $this->createOrUpdateChildEQ( 'light', $key, $child, $this->getIsEnable() , $this->getIsVisible(), $name);
         } else {
           $this->removeChildEQ( $child );
