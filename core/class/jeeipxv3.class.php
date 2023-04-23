@@ -175,6 +175,8 @@ public static function deamon_changeAutoMode($mode) {
   // Fonction exécutée automatiquement après la mise à jour de l'équipement
   public function postUpdate() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
+
+    // do this only for update such that the initial parameters are set ( ipaddr etc ) and comm can happen with IPX
     $type = $this->getConfiguration('type',null);
     if (is_null($type)) {
       $this->updateConfigurationFromIPX();
@@ -194,8 +196,8 @@ public static function deamon_changeAutoMode($mode) {
       case 'led':
       case 'btn': { // Relay & Input
         $cmdEtat = $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
-        $this->createOrUpdateCommand( 'On', 'btn_on', 'action', 'other', 1, 'LIGHT_ON', (int) $cmdEtat->getId() );
-        $this->createOrUpdateCommand( 'Off', 'btn_off', 'action', 'other', 1, 'LIGHT_OFF', (int) $cmdEtat->getId() );
+        $this->createOrUpdateCommand( 'On', $type.'_on', 'action', 'other', 1, 'LIGHT_ON', (int) $cmdEtat->getId() );
+        $this->createOrUpdateCommand( 'Off', $type.'_off', 'action', 'other', 1, 'LIGHT_OFF', (int) $cmdEtat->getId() );
         break;
       }
       case 'analog': { // Analog
@@ -273,8 +275,12 @@ public static function deamon_changeAutoMode($mode) {
 
   // Logical ID for child equipment
   // rootid_xxxn xxx is ipx class and n is the index
-  public function getChildID($suffix) {
+  public function buildLogicalID($suffix) {
     return $this->getId()."_".$suffix;
+  }
+
+  public function splitLogicalID($lid){
+    return preg_split('/_/',$lid);
   }
 
   // find the root equiment from any equipment, return $this is the eq is a root
@@ -341,6 +347,21 @@ public static function deamon_changeAutoMode($mode) {
     return $result;
   }
 
+  public function setIPXRelay($type,$child,int $value) {
+    log::add(JEEIPXV3, 'debug', __METHOD__ . sprintf('type:%s child:%s value:%s',$type,$child,$value));
+    // keep only the numeric index of the child
+    $num = (int)str_replace($type,'',$child);
+    $ipxurl = $this->getUrl();
+    if ($value==0) {
+      // sortie sans mode impulsionel
+      $url = $ipxurl . sprintf("preset.htm?set%d=%d",$num+1,$value);
+    } else {
+      // sortie according to configuration of Tb inside IPX800 ( impulse or normal )
+      $url = $ipxurl . sprintf("leds.cgi?led=%d",$num);
+    }
+    log::add(JEEIPXV3, 'warning', __METHOD__ .' simulated url:'.$url);
+  }
+
   // configures the push URL on the IPC
   // throws exception if it fails
 	public function configPush() {
@@ -387,12 +408,14 @@ public static function deamon_changeAutoMode($mode) {
     $eqLogicId = init('id');
     $eqLogic = self::byId( $eqLogicId , JEEIPXV3);
 
+    // TODO update Inputs & Analogs, just the code or Output for now
     if (is_object($eqLogic)) {
       $outArray = init('O');
       $len = strlen($outArray);
       for ($i = 0; $i < $len; $i++) {
         $eqLogic->updateChild( 'led' . $i , (float)$outArray[$i]);
       }
+      $eqLogic->checkAndUpdateCmd('updatetime', time());
     } else {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' received events on unknown EQlogic id:' . $eqLogicId);
     }
@@ -410,11 +433,11 @@ server: 192.168.0.17 port:3480
   // find and update a child EQLogic with a value received from the IPX
   public function updateChild($child, float $value, int $antype=0 ) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(" name:'%s' value:%s anselect:%d",$child,$value,$antype));
-    $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
+    $eqLogic = self::byLogicalId( $this->buildLogicalID($child) , JEEIPXV3);
     if (is_object($eqLogic)) {
       if ( $eqLogic->getConfiguration('anselect',0)  != $antype) {
         $eqLogic->setConfiguration('anselect',$antype);
-        log::add(JEEIPXV3, 'info', __METHOD__ .sprintf(" setting anselect of eq:%s to anselect=%d",$this->getChildID($child),$antype));
+        log::add(JEEIPXV3, 'info', __METHOD__ .sprintf(" setting anselect of eq:%s to anselect=%d",$this->buildLogicalID($child),$antype));
         $eqLogic->save();
       }
       $unit='';
@@ -530,13 +553,13 @@ server: 192.168.0.17 port:3480
   public function createOrUpdateChildEQ($category,$type,$child,$enable=0,$visible=0,$name=null) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(' for root:%d child:%s',$this->getId(),$child));
     //$child = ;
-    $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
+    $eqLogic = self::byLogicalId( $this->buildLogicalID($child) , JEEIPXV3);
 
     if (!is_object($eqLogic)) {
        log::add(JEEIPXV3, 'info', __METHOD__.sprintf(' create for child:%s',$child));
        $eqLogic = new jeeipxv3();
        $eqLogic->setEqType_name(JEEIPXV3);
-       $eqLogic->setLogicalId( $this->getChildID($child) );
+       $eqLogic->setLogicalId( $this->buildLogicalID($child) );
        $eqLogic->setConfiguration('type', $type);
        $eqLogic->setConfiguration('rootid', $this->getId());
        $eqLogic->setIsEnable($enable);
@@ -555,7 +578,7 @@ server: 192.168.0.17 port:3480
 
   public function removeChildEQ( $child ) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' root id:' . $this->getId() . ' child:' . $child);
-    $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
+    $eqLogic = self::byLogicalId( $this->buildLogicalID($child) , JEEIPXV3);
     if (is_object($eqLogic)) {
       $eqLogic->remove();
     }
@@ -628,8 +651,18 @@ class jeeipxv3Cmd extends cmd {
       case 'reboot':
         $root->reboot();
         break;
+      case 'btn_on':
+        $type = 'btn';
+        $child = $this->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+        $root->setIPXRelay($type,$child,1);
+        break;
+      case 'btn_off':
+        $type = 'btn';
+        $child = $this->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+        $root->setIPXRelay($type,$child,0);
+        break;
       default:
-        log::add(JEEIPXV3, 'info', __METHOD__ .' ignoring unknown command');
+      log::add(JEEIPXV3, 'info', __METHOD__ .' ignoring unknown command');
     }
   }
 
