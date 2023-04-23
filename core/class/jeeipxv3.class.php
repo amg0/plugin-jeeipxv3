@@ -180,12 +180,17 @@ public static function deamon_changeAutoMode($mode) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());
     $type = $this->getConfiguration('type',null);
     switch($type) {
-      case 'led': { // Relay
+      case 'led':
+      case 'btn': { // Relay & Input
         $cmdEtat = $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
         $this->createOrUpdateCommand( 'On', 'btn_on', 'action', 'other', 1, 'LIGHT_ON', (int) $cmdEtat->getId() );
         $this->createOrUpdateCommand( 'Off', 'btn_off', 'action', 'other', 1, 'LIGHT_OFF', (int) $cmdEtat->getId() );
         break;
       }
+      case 'analog': { // Analog
+          $cmdEtat = $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'numeric', 1, 'GENERIC_INFO' );
+          break;
+        }
       default: {  // Root Equipment
         $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'ENERGY_STATE' );
         $this->createOrUpdateCommand( 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
@@ -418,11 +423,16 @@ server: 192.168.0.17 port:3480
 
   public function readConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());  
-    if ( $this->getConfiguration('led0',0) == 1) {
-      $this->createOrUpdateChildEQ( 'light', 'led', 'led0', $this->getIsEnable() , $this->getIsVisible());
-    } else {
-      $this->removeChildEQ( 'led0' );
-    }
+    foreach( self::$ipxDevices as $key => $value ) {
+      for( $i=$value[0] ; $i<=$value[1]; $i++) {
+        $child = $key.$i;
+        if ( $this->getConfiguration($child,0) == 1) {
+          $this->createOrUpdateChildEQ( 'light', $key, $child, $this->getIsEnable() , $this->getIsVisible());
+        } else {
+          $this->removeChildEQ( $child );
+        }
+      }
+    };
     return; 
   }
 
