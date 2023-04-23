@@ -352,12 +352,12 @@ public static function deamon_changeAutoMode($mode) {
     // keep only the numeric index of the child
     $num = (int)str_replace($type,'',$child);
     $ipxurl = $this->getUrl();
-    if (($type!='led') && ($value==0)) {
+    if (($type=='led') && ($value==0)) {
       // sortie sans mode impulsionel
       $url = $ipxurl . sprintf("preset.htm?set%d=%d",$num+1,$value);
     } else {
       // sortie according to configuration of Tb inside IPX800 ( impulse or normal )
-      if ($type=='led')
+      if ($type=='btn')
         $num +=100;
       $url = $ipxurl . sprintf("leds.cgi?led=%d",$num);
     }
