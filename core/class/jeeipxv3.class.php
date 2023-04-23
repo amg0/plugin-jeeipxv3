@@ -401,6 +401,7 @@ server: 192.168.0.17 port:3480
           break;
         case 2:
           $value = $value * 0.323 - 50;
+          
           break;
         case 3:
           $value = $value * 0.09775;         
@@ -442,7 +443,7 @@ server: 192.168.0.17 port:3480
         default:
           break;
       }
-      $eqLogic->checkAndUpdateCmd('status', $value);
+      $eqLogic->checkAndUpdateCmd('status', round($value,1) );
     } else {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' did not found the eqlogic for child:' .$child);
     }
