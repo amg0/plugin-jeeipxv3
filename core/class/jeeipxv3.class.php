@@ -20,8 +20,8 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 const JEEIPXV3 = 'jeeipxv3';     // plugin logical name
 
 class jeeipxv3 extends eqLogic {
-
-  private static $ipxDevices = array(
+  // prefix by underscore : https://community.jeedom.com/t/mysql-error-code-42s22-1054-unknown-column-utils-in-field-list/64274/6
+  private static $_ipxDevices = array(
     "led" => array( 0, 31 ),    // min, max idx on IPX card
     "btn" => array( 0, 31 ),
     "analog" => array( 0, 15 )
@@ -473,7 +473,7 @@ server: 192.168.0.17 port:3480
       $this->checkAndUpdateCmd('mac', (string) $xml->config_mac );  // have to cast to string
       $this->checkAndUpdateCmd('lastxml', json_encode($xml) );
 
-      foreach( self::$ipxDevices as $key => $value ) {
+      foreach( self::$_ipxDevices as $key => $value ) {
         for( $i=$value[0] ; $i<=$value[1]; $i++) {
           $child = $key.$i;
           // if the EQLogic is supposed to be here, then try to update it
@@ -500,7 +500,7 @@ server: 192.168.0.17 port:3480
 
   public function updateConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());  
-    foreach( self::$ipxDevices as $key => $value ) {
+    foreach( self::$_ipxDevices as $key => $value ) {
       for( $i=$value[0] ; $i<=$value[1]; $i++) {
         $child = $key.$i;
         if ( $this->getConfiguration($child,0) == 1) {
