@@ -407,6 +407,7 @@ server: 192.168.0.17 port:3480
         log::add(JEEIPXV3, 'info', __METHOD__ .sprintf(" setting anselect of eq:%s to anselect=%d",$this->getChildID($child),$antype));
         $eqLogic->save();
       }
+      $unit='';
       switch ($antype) {
         case 1: 
         case 7:
@@ -414,7 +415,6 @@ server: 192.168.0.17 port:3480
           break;
         case 2:
           $value = $value * 0.323 - 50;
-          
           break;
         case 3:
           $value = $value * 0.09775;         
@@ -484,8 +484,8 @@ server: 192.168.0.17 port:3480
                 $ipxval = 1;
                 break;
               case 'dn':
-              $ipxval = 0;
-              break;
+                $ipxval = 0;
+                break;
             }
 
             $antype = ($key =='analog') ? (int) $xml->xpath( 'anselect'.$i )[0] : 0;
@@ -500,11 +500,14 @@ server: 192.168.0.17 port:3480
 
   public function updateConfigurationFromIPX() {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' id:' . $this->getId());  
+    $xml = $this->ipxHttpCallXML('ioname.xml');
+
     foreach( self::$_ipxDevices as $key => $value ) {
       for( $i=$value[0] ; $i<=$value[1]; $i++) {
         $child = $key.$i;
         if ( $this->getConfiguration($child,0) == 1) {
-          $this->createOrUpdateChildEQ( 'light', $key, $child, $this->getIsEnable() , $this->getIsVisible());
+          $name = $xml->xpath($child)[0];
+          $this->createOrUpdateChildEQ( 'light', $key, $child, $this->getIsEnable() , $this->getIsVisible(), $name);
         } else {
           $this->removeChildEQ( $child );
         }
@@ -513,7 +516,7 @@ server: 192.168.0.17 port:3480
     return; 
   }
 
-  public function createOrUpdateChildEQ($category,$type,$child,$enable=0,$visible=0) {
+  public function createOrUpdateChildEQ($category,$type,$child,$enable=0,$visible=0,$name=null) {
     log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(' for root:%d child:%s',$this->getId(),$child));
     //$child = ;
     $eqLogic = self::byLogicalId( $this->getChildID($child) , JEEIPXV3);
@@ -529,7 +532,7 @@ server: 192.168.0.17 port:3480
        $eqLogic->setIsVisible($visible);
        $eqLogic->setCategory( $category ,'1');
        $eqLogic->setObject_id($this->getObject_id());  // same parent as root parent
-       $eqLogic->setName( $this->getName() . "_" . $child );
+       $eqLogic->setName( is_null($name) ? ($this->getName() . "_" . $child) : $name );
        $eqLogic->save(); 
     }
     else {
