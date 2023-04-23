@@ -653,12 +653,12 @@ class jeeipxv3Cmd extends cmd {
         break;
       case 'btn_on':
         $type = 'btn';
-        $child = $this->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+        $child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
         $root->setIPXRelay($type,$child,1);
         break;
       case 'btn_off':
         $type = 'btn';
-        $child = $this->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+        $child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
         $root->setIPXRelay($type,$child,0);
         break;
       default:
