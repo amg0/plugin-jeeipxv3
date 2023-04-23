@@ -23,7 +23,8 @@ class jeeipxv3 extends eqLogic {
 
   private static $ipxDevices = array(
     "led" => array( 0, 31 ),    // min, max idx on IPX card
-    "btn" => array( 0, 31 )
+    "btn" => array( 0, 31 ),
+    "analog" => array( 0, 15 )
   );
 
   /*     * *************************Attributs****************************** */
