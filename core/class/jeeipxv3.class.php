@@ -525,10 +525,10 @@ server: 192.168.0.17 port:3480
             $ipxval = $xml->xpath( $child  )[0];
             switch($ipxval) {
               case 'up':
-                $ipxval = 1;
+                $ipxval = 0;
                 break;
               case 'dn':
-                $ipxval = 0;
+                $ipxval = 1;
                 break;
             }
 
