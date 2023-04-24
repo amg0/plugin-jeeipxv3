@@ -211,7 +211,7 @@ public static function deamon_changeAutoMode($mode) {
 				$this->createOrUpdateCommand( 'Update Time', 'updatetime', 'info', 'string', 0, 'GENERIC_INFO' );
 				$this->createOrUpdateCommand( 'Last XML', 'lastxml', 'info', 'string', 0, 'GENERIC_INFO' );
 				$this->createOrUpdateCommand( 'Config Push', 'configpush', 'action', 'other', 0, 'GENERIC_ACTION' );
-				$this->createOrUpdateCommand( 'RefreshABC', 'refreshabc', 'action', 'other', 1, 'GENERIC_ACTION' );
+				$this->createOrUpdateCommand( 'Refresh', 'refreshipx', 'action', 'other', 1, 'GENERIC_ACTION' );
 				$this->createOrUpdateCommand( 'Reboot', 'reboot', 'action', 'other', 0, 'GENERIC_ACTION' );
 				break;
 			}
@@ -644,7 +644,7 @@ class jeeipxv3Cmd extends cmd {
 			case 'reboot':
 				$root->reboot();
 				break;
-			case 'refresh':
+			case 'refreshipx':
 				$root->refreshFromIPX();
 				break;
 			case 'led_on':
