@@ -24,5 +24,6 @@ Requires IPX800 V3 to run firmware > 3.05.46 ( ioname.xml must be supported )
 [Change Log](changelog.md)
 
 ## Installation
+
 after installation, the device appear on your dashboard this way
 ![ipxdevice](../images/ipxdevice.png)
