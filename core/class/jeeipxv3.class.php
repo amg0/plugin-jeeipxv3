@@ -325,7 +325,7 @@ public static function deamon_changeAutoMode($mode) {
 	// generates if needed a 32chars API key 
 	// ( default is more but it is too long for push URL in IPC )
 	private static function genShortKey() {
-		log::add(JEEIPXV3, 'debug', __METHOD__ );
+		log::add(JEEIPXV3, 'debug', __METHOD__ ); 
 		$key = jeedom::getApiKey(JEEIPXV3);
 		if (strlen($key)>32) {
 			$key = config::genKey($_car=32);															 																							 
