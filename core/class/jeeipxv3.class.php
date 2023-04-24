@@ -413,7 +413,8 @@ public static function deamon_changeAutoMode($mode) {
 
     $eqLogicId = init('id');
     $eqLogic = self::byId( $eqLogicId , JEEIPXV3);
-
+    $eqLogic->refreshFromIPX();
+    /*
     // TODO update Inputs & Analogs, just the code or Output for now
     if (is_object($eqLogic)) {
       foreach( ['O'=>"led", 'I'=>"btn"] as $key => $value ) {
@@ -428,6 +429,7 @@ public static function deamon_changeAutoMode($mode) {
     } else {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' received events on unknown EQlogic id:' . $eqLogicId);
     }
+    */
      /*
 http://192.168.0.9/core/api/jeeApi.php?apikey=xxxx&type=event&plugin=jeeipxv3&id=2597&toto=titi
 http://192.168.0.9/core/api/jeeApi.php?apikey=xxxxx&type=event&plugin=jeeipxv3&id=3912&mac=$M&I=$I&O=$O&A=$A
