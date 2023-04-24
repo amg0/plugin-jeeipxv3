@@ -385,7 +385,7 @@ public static function deamon_changeAutoMode($mode) {
       throw new Exception('L\'ipx ne repond pas.');
     }
 
-    $data='I=$I&O=$O&A=$A'; //'mac=$M&I=$I&O=$O&A=$A';
+    $data='mac=$M'; //'mac=$M&I=$I&O=$O&A=$A';
     $callbackurl = sprintf("/core/api/jeeApi.php?apikey=%s&type=event&plugin=jeeipxv3&id=%s&%s",
       self::genShortKey(),
       $this->getId(),
