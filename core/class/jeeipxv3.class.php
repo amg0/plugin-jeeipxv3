@@ -407,7 +407,6 @@ public static function deamon_changeAutoMode($mode) {
   public function event() 
   {
     log::add(JEEIPXV3, 'debug', __METHOD__ .' eqlogic id:'.init('id'));
-    log::add(JEEIPXV3, 'debug', __METHOD__ .' O:'.init('O'));
     log::add(JEEIPXV3, 'debug', __METHOD__ .' $_GET:'.json_encode($_GET));
     log::add(JEEIPXV3, 'debug', __METHOD__ .' $_POST:'.json_encode($_POST));
     log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
@@ -417,12 +416,15 @@ public static function deamon_changeAutoMode($mode) {
 
     // TODO update Inputs & Analogs, just the code or Output for now
     if (is_object($eqLogic)) {
-      $outArray = init('O');
-      $len = strlen($outArray);
-      for ($i = 0; $i < $len; $i++) {
-        $eqLogic->updateChild( 'led' . $i , (float)$outArray[$i]);
+      foreach( ['O'=>"led", 'I'=>"btn"] as $key => $value ) {
+        $array = init($key);
+        $len = strlen($array);
+        for ($i = 0; $i < $len; $i++) {
+          $eqLogic->updateChild( $value . $i , (float)$array[$i]);
+        }
       }
       $eqLogic->checkAndUpdateCmd('updatetime', time());
+      log::add(JEEIPXV3, 'debug', __METHOD__ .' A:'.init('A'));
     } else {
       log::add(JEEIPXV3, 'warning', __METHOD__ .' received events on unknown EQlogic id:' . $eqLogicId);
     }
