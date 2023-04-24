@@ -212,13 +212,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
 										<div role="tabpanel" class="tab-pane" id="analogic">
 											<?php 
 												for ($i=0; $i<16; $i++) { 
-													echo '<div class="form-group">';
-													echo '<label class="checkbox-inline">';
+													echo '<label class="checkbox">';
 													echo '<input class="jeeipxv3-btn eqLogicAttr" type="checkbox" data-l1key="configuration" data-l2key="analog'.$i.'" id="analog'.$i.'" value="analog'.$i.'" />'; 
 													echo 'analog'.$i;
+													echo '<span>Test</span>';
 													echo '</label>';
-													echo '<p>Test</p>';
-													echo '</div>';
 
 												} 
 											?>										
