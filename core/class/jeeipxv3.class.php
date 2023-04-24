@@ -368,6 +368,8 @@ public static function deamon_changeAutoMode($mode) {
 		  log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
 		  throw new Exception('L\'ipx ne repond pas.');
 		}
+		// do a immediate refresh
+		$this->refreshFromIPX();
 	}
 
 	// configures the push URL on the IPC
