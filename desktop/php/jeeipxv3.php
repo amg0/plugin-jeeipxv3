@@ -210,7 +210,6 @@ $eqLogics = eqLogic::byType($plugin->getId());
 											?>
 										</div>
 										<div role="tabpanel" class="tab-pane" id="analogic">
-											<form class="form-inline">
 											<?php 
 												for ($i=0; $i<16; $i++) { 
 													echo '<div class="form-group">';
@@ -220,10 +219,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
 													echo '</label>';
 													echo '<p>Test</p>';
 													echo '</div>';
-													echo '</div>';
+
 												} 
-											?>
-											</form>											
+											?>										
 										</div>
 									</div>
 								</div>
