@@ -361,12 +361,12 @@ public static function deamon_changeAutoMode($mode) {
 				$num +=100;
 			$url = $ipxurl . sprintf("leds.cgi?led=%d",$num);
 		}
-		log::add(JEEIPXV3, 'warning', __METHOD__ .' simulated url:'.$url);
-		// $result = file_get_contents($url);
-		// if ($result === false) {
-		//   log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
-		//   throw new Exception('L\'ipx ne repond pas.');
-		// }
+		//log::add(JEEIPXV3, 'warning', __METHOD__ .' simulated url:'.$url);
+		$result = file_get_contents($url);
+		if ($result === false) {
+		  log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
+		  throw new Exception('L\'ipx ne repond pas.');
+		}
 	}
 
 	// configures the push URL on the IPC
