@@ -320,6 +320,17 @@ public static function deamon_changeAutoMode($mode) {
 		return $url."/";
 	}
 
+	// return eqlogic's icon
+	public function getImage() 
+	{
+		log::add(JEEIPXV3, 'debug', __METHOD__);	   $icon = null;
+		$configtype = $this->getConfiguration('type',null);
+		if (isset($configtype)) {
+			$icon = 'jeeipxv3_' . $configtype . '.png';
+		}
+		return isset($icon) ? 'plugins/jeeipxv3/desktop/img/'.$icon : parent::getImage();
+	}
+
 	// returns XML object read from the remote IPX url. 
 	// only works on action that produces xml output
 	// throws exception if it fails
