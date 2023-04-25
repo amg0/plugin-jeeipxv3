@@ -40,7 +40,7 @@ try {
           $analogEq = eqLogic::byLogicalId( $eqLogic->buildLogicalID($child) , JEEIPXV3);
           if (is_object($analogEq)) {
             $anselect = $analogEq->getConfiguration('anselect',0);
-            $return[$child] =  jeeipxv3::$_ipxAnselectMap[$anselect];
+            $return[$child] =  (jeeipxv3::$_ipxAnselectMap[$anselect] ?? '?');
           }
         }
       } else {
