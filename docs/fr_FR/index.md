@@ -21,23 +21,25 @@ Requires IPX800 V3 to run firmware > 3.05.46 ( ioname.xml must be supported )
 ## Commandes
 
 IPX800 root equipment
-- refresh (action) : forces a data refresh, otherwise information is refreshed either by the recurrent loop every x seconds as configured in the plugin configuration dialog,  or on any changes if the PUSH url has been configured on the IPX
-- configPush : configure the IPX800 with the push URL that points to the plugin event(). it will update directly the equipements
-- reboot (action) : reboots the IPX800
+- **MAC** (info) : MAC addres of the IPX800
+- **Version** (info) : the IPX firmware information
+- **UpdateTime** (info) : last timestamp of successful communication
+- **refresh** (action) : forces a data refresh, otherwise information is refreshed either by the recurrent loop every x seconds as configured in the plugin configuration dialog,  or on any changes if the PUSH url has been configured on the IPX
+- **configPush** : configure the IPX800 with the push URL that points to the plugin event(). it will update directly the equipements
+- **reboot** (action) : reboots the IPX800
 
 IPX800 Relay ( led ) equipment
-- Etat (info)
-- On (action)
-- Off (action)
+- **Etat** (info) : O or 1 if relay is respectively open or close
+- **On** (action)
+- **Off** (action)
 
 IPX800 Digital Input ( btn ) equipment
-- Etat (info)
-- On (action)
-- Off (action)
+- **Etat** (info)
+- **On** (action)
+- **Off** (action)
 
 IPX800 Analog Input ( btn ) equipment
-- Etat (info)
-
+- **Etat** (info)
 
 ## Change Log
 
