@@ -34,7 +34,7 @@ try {
       $eqLogic = eqLogic::byId(init('eqLogicId'));
       $return = array();
 
-      if (!empty($generalEqLogic)) {
+      if (!empty($eqLogic)) {
         for( $i=0 ; $i<=15; $i++) {
           $child = 'analog'.$i;
           $analogEq = eqLogic::byLogicalId( $eqLogic->buildLogicalID($child) , JEEIPXV3);
