@@ -31,13 +31,22 @@ try {
     ajax::init();
 
     if (init('action') == 'getAnselectTypes') {
-      $generalEqLogic = eqLogic::byId(init('eqLogicId'));
+      $eqLogic = eqLogic::byId(init('eqLogicId'));
+      $return = array();
 
       if (!empty($generalEqLogic)) {
+        for( $i=0 ; $i<=15; $i++) {
+          $child = 'analog'.$i;
+          $analogEq = eqLogic::byLogicalId( $eqLogic->buildLogicalID($child) , JEEIPXV3);
+          if (is_object($analogEq)) {
+            $return[$child] = $analogEq->getId();
+          }
+        }
       } else {
         throw new Exception('missing eqLogicId parameter');
       }
-      ajax::success(array("IDRES"=>$generalEqLogic->getId()));
+      // returns an associative array
+      ajax::success($return);
     }
 
     throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
