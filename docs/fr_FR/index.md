@@ -15,6 +15,9 @@ Requires IPX800 V3 to run firmware > 3.05.46 ( ioname.xml must be supported )
 
 ## Utilisation
 
+- a root IPX equipment must first be created with the IP address, and eventually the port number, the user name , password to reach the IPX. in the configuration dialog right hand size, you select the equipments that you want by ticking the checkboxes. 
+:warning: unticking a checkbox will trigger the delete of the corresponding equipment so be careful before saving
+
 - the Equipment configuration dialog enables to select what IPX relays, digital input, analog input to create in Jeedom. 
 - the type of analog input is coming from the IPX800 configuration and is displayed in the jeedom dialog. to change that type you need to change it in the IPX800 configuration. it will change accordingly in jeedom at the next refresh and the proper calculation formula to display the sensor value will be automatically used in Jeedom
 
@@ -30,8 +33,8 @@ IPX800 root equipment
 
 IPX800 Relay ( led ) equipment
 - **Etat** (info) : O or 1 if relay is respectively open or close
-- **On** (action)
-- **Off** (action)
+- **On** (action) : will trigger a close action on the relay. if the relay is configured in impulse mode on the IPX it triggers the impulse and does not stay close according to the Tb IPX settings
+- **Off** (action) : will open the relay and force to go in OFF state
 
 IPX800 Digital Input ( btn ) equipment
 - **Etat** (info)
