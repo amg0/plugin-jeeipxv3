@@ -17,11 +17,11 @@ Requires IPX800 V3 to run firmware > 3.05.46 ( ioname.xml must be supported )
 
 - a root IPX equipment must first be created with the IP address, and eventually the port number, the user name , password to reach the IPX. 
 
-- the Equipment configuration dialog enables to select what IPX relays, digital input, analog input to create in Jeedom by ticking the checkboxes. 
+- the Equipment configuration dialog enables to select what IPX relays, digital input, analog input to create in Jeedom by ticking the checkboxes. By default the names used in the IPX800 card will be used as names for the jeedom equipment but this can be changed in Jeedom after the initial creation phase.
 
 :warning: unticking a checkbox will trigger the removal of the corresponding equipment so be careful before saving
 
-- the type of analog input is coming from the IPX800 configuration and is displayed in the jeedom dialog. to change that type you need to change it in the IPX800 configuration. it will change accordingly in jeedom at the next refresh and the proper calculation formula to display the sensor value will be automatically used in Jeedom
+- the type of analog input is coming directly from the IPX800 configuration and is displayed in the jeedom dialog. To change it, type you need to change it in the IPX800 configuration. it will change accordingly in jeedom at the next refresh and the proper calculation formula to display the sensor value will be automatically used in Jeedom
 
 ## Commandes
 
