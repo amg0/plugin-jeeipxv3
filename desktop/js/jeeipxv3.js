@@ -37,6 +37,27 @@ function printEqLogic(eqLogic) {
     $(".jeeipxv3-root").hide();
   } else {
     $(".jeeipxv3-root").show();
+
+    $.ajax({
+      type: "POST",
+      url: "plugins/jeeipxv3/core/ajax/jeeipxv3.ajax.php",
+      data: {
+        eqLogicId: eqLogic.id,
+        action: "getAnselectTypes",
+      },
+      dataType: 'json',
+      global: false,
+      error: function(error) {
+        $('#div_alert').showAlert({ message: error.message, level: 'danger' })
+      },
+      success: function(data) {
+        if (data.state != 'ok') {
+          $('#div_alert').showAlert({ message: data.result, level: 'danger' })
+          return
+        }
+        $('#div_alert').showAlert({ message: 'Ajax call success', level: 'success' })
+      }
+    });  
   }
 }
 

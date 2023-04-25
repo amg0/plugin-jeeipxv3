@@ -30,7 +30,15 @@ try {
   */  
     ajax::init();
 
+    if (init('action') == 'getAnselectTypes') {
+      $generalEqLogic = eqLogic::byId(init('eqLogicId'));
 
+      if (!empty($generalEqLogic)) {
+      } else {
+        throw new Exception('missing eqLogicId parameter');
+      }
+      ajax::success($eqLogicId);
+    }
 
     throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
