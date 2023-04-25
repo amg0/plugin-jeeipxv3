@@ -51,6 +51,7 @@ function printEqLogic(eqLogic) {
         $('#div_alert').showAlert({ message: error.message, level: 'danger' })
       },
       success: function(data) {
+        console.log(data);
         if (data.state != 'ok') {
           $('#div_alert').showAlert({ message: data.result, level: 'danger' })
           return

@@ -37,7 +37,7 @@ try {
       } else {
         throw new Exception('missing eqLogicId parameter');
       }
-      ajax::success($eqLogicId);
+      ajax::success(array("IDRES"=>$eqLogicId));
     }
 
     throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
