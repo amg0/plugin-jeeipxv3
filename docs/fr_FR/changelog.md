@@ -6,7 +6,9 @@
 
 ## 25/04/2023
 
+- Documentation update
 - Display proper analog sensor type in the equipment option dialog box ( ajax call ).
+- Display proper equipment Icon per type of IPX sensor for the equipment
 
 ## 24/04/2023
 

@@ -15,9 +15,28 @@ Requires IPX800 V3 to run firmware > 3.05.46 ( ioname.xml must be supported )
 
 ## Utilisation
 
-- the Equipment configuration dialog enables to select what IPX relays, digital input, analog input to create in Jeedom. the type of analog input is coming from the IPX800 configuration and is displayed in the jeedom dialog. to change that type you need to change it in the IPX800 configuration. it will change accordingly in jeedom at the next refresh and the proper calculation formula to display the sensor value will be automatically used in Jeedom
+- the Equipment configuration dialog enables to select what IPX relays, digital input, analog input to create in Jeedom. 
+- the type of analog input is coming from the IPX800 configuration and is displayed in the jeedom dialog. to change that type you need to change it in the IPX800 configuration. it will change accordingly in jeedom at the next refresh and the proper calculation formula to display the sensor value will be automatically used in Jeedom
 
 ## Commandes
+
+IPX800 root equipment
+- refresh (action) : forces a data refresh, otherwise information is refreshed either by the recurrent loop every x seconds as configured in the plugin configuration dialog,  or on any changes if the PUSH url has been configured on the IPX
+- configPush : configure the IPX800 with the push URL that points to the plugin event(). it will update directly the equipements
+- reboot (action) : reboots the IPX800
+
+IPX800 Relay ( led ) equipment
+- Etat (info)
+- On (action)
+- Off (action)
+
+IPX800 Digital Input ( btn ) equipment
+- Etat (info)
+- On (action)
+- Off (action)
+
+IPX800 Analog Input ( btn ) equipment
+- Etat (info)
 
 
 ## Change Log
