@@ -215,7 +215,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 													echo '<label class="checkbox-inline">';
 													echo '<input class="jeeipxv3-btn eqLogicAttr" type="checkbox" data-l1key="configuration" data-l2key="analog'.$i.'" id="analog'.$i.'" value="analog'.$i.'" />'; 
 													echo 'analog'.$i;
-													echo ' <span>Test</span>';
+													echo ' <span id="jeeipxv3_analog'.$i.'">Test</span>';
 													echo '</label><br>';
 												} 
 											?>										

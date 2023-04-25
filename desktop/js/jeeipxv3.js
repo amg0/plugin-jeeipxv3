@@ -56,6 +56,9 @@ function printEqLogic(eqLogic) {
           $('#div_alert').showAlert({ message: data.result, level: 'danger' })
           return
         }
+        $.each( data.result, function( key, value ) {
+          $("#jeeipxv3_"+key).text(value);
+        });
         $('#div_alert').showAlert({ message: 'Ajax call success', level: 'success' })
       }
     });  
