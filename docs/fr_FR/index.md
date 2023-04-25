@@ -1,6 +1,6 @@
-# Plugin Jeedom V4 pour la carte IPX V3 DE CGE
+# Plugin CGE IPX V3 pour Jeedom V4 
 
-plugin-jeeipxv3 is a Jeedom V4 plugin for CGE IPX 800 V3 card.
+plugin-jeeipxv3 is a Jeedom V4 plugin for the CGE IPX 800 V3 card.
 
 Requires IPX800 V3 to run firmware > 3.05.46 ( ioname.xml must be supported )
     
@@ -17,7 +17,9 @@ Requires IPX800 V3 to run firmware > 3.05.46 ( ioname.xml must be supported )
 
 - a root IPX equipment must first be created with the IP address, and eventually the port number, the user name , password to reach the IPX. 
 
-- the Equipment configuration dialog enables to select what IPX relays, digital input, analog input to create in Jeedom by ticking the checkboxes. :warning: unticking a checkbox will trigger the removal of the corresponding equipment so be careful before saving
+- the Equipment configuration dialog enables to select what IPX relays, digital input, analog input to create in Jeedom by ticking the checkboxes. 
+
+:warning: unticking a checkbox will trigger the removal of the corresponding equipment so be careful before saving
 
 - the type of analog input is coming from the IPX800 configuration and is displayed in the jeedom dialog. to change that type you need to change it in the IPX800 configuration. it will change accordingly in jeedom at the next refresh and the proper calculation formula to display the sensor value will be automatically used in Jeedom
 
