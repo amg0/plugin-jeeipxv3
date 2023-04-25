@@ -39,7 +39,8 @@ try {
           $child = 'analog'.$i;
           $analogEq = eqLogic::byLogicalId( $eqLogic->buildLogicalID($child) , JEEIPXV3);
           if (is_object($analogEq)) {
-            $return[$child] = $analogEq->getId();
+            $anselect = $analogEq->getConfiguration('anselect',0);
+            $return[$child] =  jeeipxv3::$_ipxAnselectMap[$anselect];
           }
         }
       } else {

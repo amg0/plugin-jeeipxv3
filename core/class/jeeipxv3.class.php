@@ -34,6 +34,21 @@ class jeeipxv3 extends eqLogic {
 		"count" => "counter"
 	);
 
+	public static $_ipxAnselectMap = array(
+		"0" => "Analog",
+		"1" => "Volt",
+		"2" => "TC4012 Sensor",
+		"3" => "SHT-X3:Light-LS100",
+		"4" => "SHT-X3:Temp-TC5050",
+		"5" => "SHT-X3:RH-SH100",
+		"6" => "TC100 Sensor",
+		"7" => "X400 CT10A",
+		"8" => "X400 CT20A",
+		"9" => "X400 CT50A",
+		"10" => "X200 pH Probe",
+		"11" => "X200 ORP Probe"
+	);
+
 	/*     * *************************Attributs****************************** */
 
 	/*
