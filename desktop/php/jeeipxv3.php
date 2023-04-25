@@ -177,6 +177,10 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
 						<div class="col-lg-6 jeeipxv3-root">
 							<legend><i class="fas fa-cogs"></i> {{Configuration}}</legend>
+							<div class="alert alert-warning col-xs-10 col-xs-offset-1">
+								<i class="fas fa-exclamation-triangle"></i>
+								Décocher une ou plusieurs cases aura pour conséquence la suppression du ou des équipements correspondants.
+							</div>
 							<div class="form-group">
 							<div class="col-sm-1"></div>
 								<div class="col-sm-9">
