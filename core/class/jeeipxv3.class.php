@@ -323,7 +323,7 @@ public static function deamon_changeAutoMode($mode) {
 	// return eqlogic's icon
 	public function getImage() 
 	{
-		log::add(JEEIPXV3, 'debug', __METHOD__);	   $icon = null;
+		//log::add(JEEIPXV3, 'debug', __METHOD__);	   $icon = null;
 		$configtype = $this->getConfiguration('type',null);
 		if (isset($configtype)) {
 			$icon = 'jeeipxv3_' . $configtype . '.png';
