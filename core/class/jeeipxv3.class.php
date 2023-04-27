@@ -389,6 +389,8 @@ public static function deamon_changeAutoMode($mode) {
 			throw new Exception('L\'ipx ne repond pas. url:'.$url);
 		}
 		log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf('url:%s returned:%s',$url,$result));
+		// do a immediate refresh
+		$this->refreshFromIPX();
 		return $result;
 	}
 
