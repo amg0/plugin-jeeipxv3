@@ -217,11 +217,11 @@ public static function deamon_changeAutoMode($mode) {
 				break;
 			}
 			case 'analog': { // Analog
-				$cmdEtat = $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'numeric', 1, 'GENERIC_INFO' );
+				$this->createOrUpdateCommand( 'Etat', 'status', 'info', 'numeric', 1, 'GENERIC_INFO' );
 				break;
 			}
 			case 'count': {
-				$this->createOrUpdateCommand( 'Count', 'status', 'info', 'numeric', 1, 'GENERIC_INFO' );
+				$cmdEtat = $this->createOrUpdateCommand( 'Count', 'status', 'info', 'numeric', 1, 'GENERIC_INFO' );
 				$this->createOrUpdateCommand( 'Reset', 'reset', 'action', 'other', 1, 'GENERIC_ACTION', (int) $cmdEtat->getId() );
 				break;
 			}
