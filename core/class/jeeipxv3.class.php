@@ -222,6 +222,7 @@ public static function deamon_changeAutoMode($mode) {
 			}
 			case 'count': {
 				$this->createOrUpdateCommand( 'Count', 'status', 'info', 'numeric', 1, 'GENERIC_INFO' );
+				$this->createOrUpdateCommand( 'Reset', 'reset', 'action', 'other', 1, 'GENERIC_ACTION', (int) $cmdEtat->getId() );
 				break;
 			}
 			default: {  // Root Equipment
@@ -371,6 +372,18 @@ public static function deamon_changeAutoMode($mode) {
 		log::add(JEEIPXV3, 'debug', __METHOD__ );
 		$ipxurl = $this->getUrl();
 		$url = $ipxurl . "protect/settings/reboot.htm";
+		$result = file_get_contents($url);
+		if ($result === false) {
+			throw new Exception('L\'ipx ne repond pas.');
+		}
+		log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf('url:%s returned:%s',$url,$result));
+		return $result;
+	}
+
+	public function setCounter( $child, $val ) {
+		log::add(JEEIPXV3, 'debug', __METHOD__ );
+		$ipxurl = $this->getUrl();
+		$url = $ipxurl . sprintf("/protect/assignio/counter1.htm?num=%d&counter=%d",$child,$val);
 		$result = file_get_contents($url);
 		if ($result === false) {
 			throw new Exception('L\'ipx ne repond pas.');
@@ -689,6 +702,10 @@ class jeeipxv3Cmd extends cmd {
 				$type = 'led';
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
 				$root->setIPXRelay($type,$child,0);
+				break;
+			case 'reset':
+				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+				$root->setCounter($child,0);
 				break;
 			case 'btn_on':
 			case 'btn_off':
