@@ -5,7 +5,7 @@ plugin-jeeipxv3 is a Jeedom V4 plugin for the CGE IPX 800 V3 card.
 Requires IPX800 V3 to run firmware > 3.05.46 ( ioname.xml must be supported )
     
 - supports as many IPX card as you want as individual jeedom equipments with configuPush and Reboot action
-- support Analog, Output Relay, and Digital Inputs ( analog, led and btn entries in IPX )
+- support Analog, Output Relay,  Digital Inputs ( analog, led and btn entries in IPX ) and Counters
 - presents the IPX card output relays and digital inputs as individual Jeedom equipement usable in scenario and dashboards
 - gets the equipment names by default from the IPX configuration for Jeedom equipement ( but can be changed afterward )
 - configurable regular polled refresh for all data with a ConfigPush action  ( shortens the API Key to 32 chars to fit IPX )  
@@ -44,6 +44,9 @@ IPX800 Digital Input ( btn ) equipment
 - **Off** (action)
 
 IPX800 Analog Input ( btn ) equipment
+- **Etat** (info)
+
+IPX800 Counter ( count ) equipment
 - **Etat** (info)
 
 ## Change Log
