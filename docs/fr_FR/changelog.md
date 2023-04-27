@@ -6,7 +6,7 @@
 
 ## 27/04/2023
 
-- Add support for 8 IPX counters
+- Add support for 8 IPX counters and a reset action to reset to 0
 
 ## 25/04/2023
 
