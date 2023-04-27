@@ -48,6 +48,7 @@ IPX800 Analog Input ( btn ) equipment
 
 IPX800 Counter ( count ) equipment
 - **Etat** (info)
+- **Reset** (action) : will reset counter to 0
 
 ## Change Log
 
