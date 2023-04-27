@@ -189,6 +189,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 										<li role="presentation" class="active"><a href="#output" aria-controls="output" role="tab" data-toggle="tab">Output</a></li>
 										<li role="presentation"><a href="#input" aria-controls="input" role="tab" data-toggle="tab">Inputs</a></li>
 										<li role="presentation"><a href="#analogic" aria-controls="analogic" role="tab" data-toggle="tab">Analogic</a></li>
+										<li role="presentation"><a href="#counter" aria-controls="counter" role="tab" data-toggle="tab">Counter</a></li>
 									</ul>
 
 									<!-- Tab panes -->
@@ -223,6 +224,16 @@ $eqLogics = eqLogic::byType($plugin->getId());
 													echo '</label><br>';
 												} 
 											?>										
+										</div>
+										<div role="tabpanel" class="tab-pane" id="counter">
+										<?php 
+												for ($i=0; $i<7; $i++) { 
+													echo '<label class="checkbox-inline">';
+													echo '<input class="jeeipxv3-btn eqLogicAttr" type="checkbox" data-l1key="configuration" data-l2key="count'.$i.'" id="count'.$i.'" value="count'.$i.'" />'; 
+													echo 'count'.$i;
+													echo '</label>';
+												} 
+											?>	
 										</div>
 									</div>
 								</div>

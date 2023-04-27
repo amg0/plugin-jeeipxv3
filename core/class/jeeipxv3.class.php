@@ -24,7 +24,8 @@ class jeeipxv3 extends eqLogic {
 	private static $_ipxDevices = array(
 		"led" => array( 0, 31 ),    // min, max idx on IPX card
 		"btn" => array( 0, 31 ),
-		"analog" => array( 0, 15 )
+		"analog" => array( 0, 15 ),
+		"count" => array( 0, 7 )
 	);
 
 	private static $_ipxNamesMap = array(
@@ -216,9 +217,13 @@ public static function deamon_changeAutoMode($mode) {
 				break;
 			}
 			case 'analog': { // Analog
-					$cmdEtat = $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'numeric', 1, 'GENERIC_INFO' );
-					break;
-				}
+				$cmdEtat = $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'numeric', 1, 'GENERIC_INFO' );
+				break;
+			}
+			case 'count': {
+				$this->createOrUpdateCommand( 'Count', 'status', 'info', 'numeric', 1, 'GENERIC_INFO' );
+				break;
+			}
 			default: {  // Root Equipment
 				$this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'ENERGY_STATE' );
 				$this->createOrUpdateCommand( 'Version', 'version', 'info', 'string', 1, 'GENERIC_INFO' );
