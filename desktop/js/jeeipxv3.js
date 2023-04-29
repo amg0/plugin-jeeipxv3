@@ -41,16 +41,12 @@ function printEqLogic(eqLogic) {
     $("#jeeipxv3-configpush").off().on("click",function(elem) {
       // retrieve ID of configpush command
       idpush = mapEqToCommands[eqLogic.id].configpush;
-      idpush = 11001;
-      alert('configpush cmd is '+idpush);
       jeedom.cmd.execute({
         id: idpush,
         async: false,
         success:  function(newvalue) {
-          console.log(newvalue);
           $("#jeeipxv3-configpushok").show();
           $("#jeeipxv3-configpush").removeClass('btn-default').addClass('btn-success')
-          alert('new value :'+newvalue);
         }
       });
     });

@@ -21,6 +21,8 @@ Requires IPX800 V3 to run firmware > 3.05.46 ( ioname.xml must be supported )
 
 :warning: unticking a checkbox will trigger the removal of the corresponding equipment so be careful before saving
 
+- Once proper IP, and optional user & pwd are entered, the Equipment configuration dialog also has a "configpush" button to send the Push URL configuration to the IPX card so that jeedom is updated in near real time from the IPX.  that configpush is also a command on the IPX equipment and can be called later or by a scenario
+
 - the type of analog input is coming directly from the IPX800 configuration and is displayed in the jeedom dialog. To change it, type you need to change it in the IPX800 configuration. it will change accordingly in jeedom at the next refresh and the proper calculation formula to display the sensor value will be automatically used in Jeedom
 
 ## Commandes
