@@ -245,7 +245,7 @@ sendVarToJS('mapEqToCommands', $mapEqToCommands);
 										</div>
 										<div role="tabpanel" class="tab-pane" id="counter">
 										<?php 
-												for ($i=0; $i<7; $i++) { 
+												for ($i=0; $i<8; $i++) { 
 													echo '<label class="checkbox-inline">';
 													echo '<input class="jeeipxv3-btn eqLogicAttr" type="checkbox" data-l1key="configuration" data-l2key="count'.$i.'" id="count'.$i.'" value="count'.$i.'" />'; 
 													echo 'count'.$i;
