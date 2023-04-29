@@ -34,8 +34,10 @@ function printEqLogic(eqLogic) {
   // console.log(eqLogic);
   //$('#icon_visu').attr('src', 'plugins/reolink/desktop/img/camera' + _eqLogic.id + '.png')
   if (eqLogic.configuration.type != null ) {
+    // non root equipment
     $(".jeeipxv3-root").hide();
   } else {
+    // root equipment
     $(".jeeipxv3-root").show();
     $("#jeeipxv3-testurlok").hide();
     $("#jeeipxv3-configpushok").hide();
@@ -46,6 +48,12 @@ function printEqLogic(eqLogic) {
       jeedom.cmd.execute({
         id: idpush,
         async: false,
+        error: function(error) {
+          $.fn.showAlert({
+            message: 'la commande a échoué',
+            level: 'danger'
+          });
+        },
         success:  function(newvalue) {
           $("#jeeipxv3-configpushok").show();
           $("#jeeipxv3-configpush").removeClass('btn-default').addClass('btn-success')
@@ -60,6 +68,12 @@ function printEqLogic(eqLogic) {
       jeedom.cmd.execute({
         id: idcmd,
         async: false,
+        error: function(error) {
+          $.fn.showAlert({
+            message: 'la commande a échoué',
+            level: 'danger'
+          });
+        },
         success:  function(newvalue) {
           //console.log('Refresh IPX success');
           jeedom.cmd.execute({
