@@ -185,7 +185,7 @@ sendVarToJS('mapEqToCommands', $mapEqToCommands);
 							<legend><i class="fas fa-play"></i> {{Actions de Préparation}}</legend>
 							<div class="jeeipxv3-root">
 								<div class="alert alert-info col-xs-10 col-xs-offset-1">
-									<i class="fas fa-square-info"></i>
+									<i class="fas fa-info"></i>
 									Sauver les parametres avant d'utiliser ces actions.
 								</div>
 								<div class="form-group">
