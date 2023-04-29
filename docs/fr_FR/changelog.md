@@ -7,6 +7,7 @@
 ## 29/04/2023
 
 - Add ConfigPush button on the eq configuration dialog to trigger the configuration of the push url on the IPX card
+- Add TestAccess button on the eq configuration dialog to test the reachability of the IPX card from the jeedom backend
 
 ## 27/04/2023
 
