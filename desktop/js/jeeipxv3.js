@@ -54,7 +54,8 @@ function printEqLogic(eqLogic) {
     });
     
     $("#jeeipxv3-testurl").off().on("click",function(elem) {
-      alert('test');
+      $("#jeeipxv3-testurlok").show();
+      $("#jeeipxv3-testurlok").removeClass('btn-default').addClass('btn-success');
     });
 
     $.ajax({

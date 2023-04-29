@@ -4,19 +4,28 @@ if (!isConnect('admin')) {
 }
 // Déclaration des variables obligatoires
 $plugin = plugin::byId('jeeipxv3');
-sendVarToJS('eqType', $plugin->getId());
-$mapEqToCommands = array();
 $eqLogics = eqLogic::byType($plugin->getId());
+$mapEqToCommands = array();
+
+$cmds = [
+	'configpush'=> 'action',
+	'refreshipx'=> 'action',
+	'status' => 'info'
+];
+
 foreach ($eqLogics as $eqLogic) {
 	if (is_null( $eqLogic->getConfiguration('type',null) )) {
 		$id = $eqLogic->getId();
 		$mapEqToCommands[$id] = array();
-		$cmd = $eqLogic->getCmd('action', 'configpush');
-		if (is_object($cmd)) {
-			$mapEqToCommands[$id]['configpush'] = $cmd->getId();
+		foreach ($cmds as $key=>$value ) {
+			$cmd = $eqLogic->getCmd($value, $key);
+			if (is_object($cmd)) {
+				$mapEqToCommands[$id][$key] = $cmd->getId();
+			}
 		}
 	}
 }	
+sendVarToJS('eqType', $plugin->getId());
 sendVarToJS('mapEqToCommands', $mapEqToCommands);
 ?>
 
