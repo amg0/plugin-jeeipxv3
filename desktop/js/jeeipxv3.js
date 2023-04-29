@@ -37,9 +37,13 @@ function printEqLogic(eqLogic) {
     $(".jeeipxv3-root").hide();
   } else {
     $(".jeeipxv3-root").show();
+    
     $("#jeeipxv3-configpush").off().on("click",function(elem) {
-      alert('test');
+      // retrieve ID of configpush command
+      idpush = mapEqToCommands[eqLogic.id].configpush;
+      alert('configpush cmd is '+idpush);
     });
+    
     $.ajax({
       type: "POST",
       url: "plugins/jeeipxv3/core/ajax/jeeipxv3.ajax.php",
