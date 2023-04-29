@@ -37,7 +37,9 @@ function printEqLogic(eqLogic) {
     $(".jeeipxv3-root").hide();
   } else {
     $(".jeeipxv3-root").show();
+    $("#jeeipxv3-testurlok").hide();
     $("#jeeipxv3-configpushok").hide();
+
     $("#jeeipxv3-configpush").off().on("click",function(elem) {
       // retrieve ID of configpush command
       idpush = mapEqToCommands[eqLogic.id].configpush;
@@ -51,6 +53,10 @@ function printEqLogic(eqLogic) {
       });
     });
     
+    $("#jeeipxv3-testurl").off().on("click",function(elem) {
+      alert('test');
+    });
+
     $.ajax({
       type: "POST",
       url: "plugins/jeeipxv3/core/ajax/jeeipxv3.ajax.php",
