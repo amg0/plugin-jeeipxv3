@@ -67,8 +67,8 @@ function printEqLogic(eqLogic) {
             async: false,
             success:  function(newvalue) {
               console.log('new value '+newvalue);
-              $("#jeeipxv3-configpushok").show();
-              $("#jeeipxv3-configpush").removeClass('btn-default').addClass('btn-success')
+              $("#jeeipxv3-testurlok").show();
+              $("#jeeipxv3-testurl").removeClass('btn-default').addClass('btn-success')
             }
           });
         }
