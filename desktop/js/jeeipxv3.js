@@ -37,7 +37,7 @@ function printEqLogic(eqLogic) {
     $(".jeeipxv3-root").hide();
   } else {
     $(".jeeipxv3-root").show();
-    
+    $("#jeeipxv3-configpushok").hide();
     $("#jeeipxv3-configpush").off().on("click",function(elem) {
       // retrieve ID of configpush command
       idpush = mapEqToCommands[eqLogic.id].configpush;
@@ -48,6 +48,7 @@ function printEqLogic(eqLogic) {
         async: false,
         success:  function(newvalue) {
           console.log(newvalue);
+          $("#jeeipxv3-configpushok").show();
           $("#jeeipxv3-configpush").removeClass('btn-default').addClass('btn-success')
           alert('new value :'+newvalue);
         }
