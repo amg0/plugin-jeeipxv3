@@ -5,7 +5,19 @@ if (!isConnect('admin')) {
 // Déclaration des variables obligatoires
 $plugin = plugin::byId('jeeipxv3');
 sendVarToJS('eqType', $plugin->getId());
+$mapEqToCommands = array();
 $eqLogics = eqLogic::byType($plugin->getId());
+foreach ($eqLogics as $eqLogic) {
+	if (is_null( $eqLogic->getConfiguration('type',null) )) {
+		$id = $eqLogic->getId();
+		$mapEqToCommands[$id] = array();
+		$cmd = $eqLogic->getCmd('action', 'configpush');
+		if (is_object($cmd)) {
+			$mapEqToCommands[$id]['configpush'] = $cmd->getId();
+		}
+	}
+}	
+sendVarToJS('mapEqToCommands', $mapEqToCommands);
 ?>
 
 <div class="row row-overflow">
@@ -226,7 +238,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 													echo '<label class="checkbox-inline">';
 													echo '<input class="jeeipxv3-btn eqLogicAttr" type="checkbox" data-l1key="configuration" data-l2key="analog'.$i.'" id="analog'.$i.'" value="analog'.$i.'" />'; 
 													echo 'analog'.$i;
-													echo ' <span id="jeeipxv3_analog'.$i.'">?</span>';
+													echo ' : <span id="jeeipxv3_analog'.$i.'">?</span>';
 													echo '</label><br>';
 												} 
 											?>										
