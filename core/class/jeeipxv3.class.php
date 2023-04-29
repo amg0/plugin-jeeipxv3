@@ -449,6 +449,7 @@ public static function deamon_changeAutoMode($mode) {
 			log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
 			throw new Exception('L\'ipx ne repond pas.');
 		}
+		return 1;
 	}
 
 	// callback push from IPX

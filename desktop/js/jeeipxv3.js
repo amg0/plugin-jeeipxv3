@@ -48,6 +48,7 @@ function printEqLogic(eqLogic) {
         async: false,
         success:  function(newvalue) {
           console.log(newvalue);
+          $("#jeeipxv3-configpush").removeClass('btn-default').addClass('btn-success')
           alert('new value :'+newvalue);
         }
       });
