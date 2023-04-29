@@ -54,8 +54,25 @@ function printEqLogic(eqLogic) {
     });
     
     $("#jeeipxv3-testurl").off().on("click",function(elem) {
-      $("#jeeipxv3-testurlok").show();
-      $("#jeeipxv3-testurlok").removeClass('btn-default').addClass('btn-success');
+      // retrieve ID of configpush command
+      idcmd = mapEqToCommands[eqLogic.id].refreshipx;
+      idstatus = mapEqToCommands[eqLogic.id].status;
+      jeedom.cmd.execute({
+        id: idcmd,
+        async: false,
+        success:  function(newvalue) {
+          console.log('Refresh IPX success');
+          jeedom.cmd.execute({
+            id: idstatus,
+            async: false,
+            success:  function(newvalue) {
+              console.log('new value '+newvalue);
+              $("#jeeipxv3-configpushok").show();
+              $("#jeeipxv3-configpush").removeClass('btn-default').addClass('btn-success')
+            }
+          });
+        }
+      });
     });
 
     $.ajax({
