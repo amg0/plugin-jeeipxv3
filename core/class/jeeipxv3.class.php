@@ -211,7 +211,7 @@ public static function deamon_changeAutoMode($mode) {
 		switch($type) {
 			case 'led':
 			case 'btn': { // Relay & Input
-				$cmdEtat = $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'GENERIC_INFO' );
+				$cmdEtat = $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'ENERGY_STATE' );
 				$this->createOrUpdateCommand( 'On', $type.'_on', 'action', 'other', 1, 'LIGHT_ON', (int) $cmdEtat->getId() );
 				$this->createOrUpdateCommand( 'Off', $type.'_off', 'action', 'other', 1, 'LIGHT_OFF', (int) $cmdEtat->getId() );
 				break;
@@ -416,6 +416,7 @@ public static function deamon_changeAutoMode($mode) {
 		}
 		// do a immediate refresh
 		$this->refreshFromIPX();
+		return $result;
 	}
 
 	// configures the push URL on the IPC
