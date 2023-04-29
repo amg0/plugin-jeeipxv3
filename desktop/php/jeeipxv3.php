@@ -182,7 +182,7 @@ sendVarToJS('mapEqToCommands', $mapEqToCommands);
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-4 control-label">Actions</label>
+									<label class="col-sm-4 control-label">Actions (Press Save before)</label>
 									<div class="col-sm-6 btn-group" role="group" aria-label="...">
 										<button id="jeeipxv3-testurl" type="button" class="btn btn-default"><i id="jeeipxv3-testurlok" class="fas fa-check"></i>Test Access</button>
 										<button id="jeeipxv3-configpush" type="button" class="btn btn-default"><i id="jeeipxv3-configpushok" class="fas fa-check"></i>Config Push</button>

@@ -61,12 +61,12 @@ function printEqLogic(eqLogic) {
         id: idcmd,
         async: false,
         success:  function(newvalue) {
-          console.log('Refresh IPX success');
+          //console.log('Refresh IPX success');
           jeedom.cmd.execute({
             id: idstatus,
             async: false,
             success:  function(newvalue) {
-              console.log('new value '+newvalue);
+              //console.log('new value '+newvalue);
               $("#jeeipxv3-testurlok").show();
               $("#jeeipxv3-testurl").removeClass('btn-default').addClass('btn-success')
             }
