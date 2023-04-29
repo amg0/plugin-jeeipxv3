@@ -160,6 +160,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 										<input type="text" class="eqLogicAttr form-control inputPassword" data-l1key="configuration" data-l2key="password">
 									</div>
 								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label">Actions</label>
+									<div class="col-sm-6 btn-group" role="group" aria-label="...">
+										<button id="jeeipxv3-configpush" type="button" class="btn btn-default">Config Push</button>
+									</div>
+								</div>
 							</div>
 						</div>
 

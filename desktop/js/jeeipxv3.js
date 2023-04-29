@@ -37,7 +37,9 @@ function printEqLogic(eqLogic) {
     $(".jeeipxv3-root").hide();
   } else {
     $(".jeeipxv3-root").show();
-
+    $("#jeeipxv3-configpush").off().on("click",function(elem) {
+      alert('test');
+    });
     $.ajax({
       type: "POST",
       url: "plugins/jeeipxv3/core/ajax/jeeipxv3.ajax.php",
@@ -59,7 +61,7 @@ function printEqLogic(eqLogic) {
         $.each( data.result, function( key, value ) {
           $("#jeeipxv3_"+key).text(value);
         });
-        $('#div_alert').showAlert({ message: 'Ajax call success', level: 'success' })
+        //$('#div_alert').showAlert({ message: 'Ajax call success', level: 'success' })
       }
     });  
   }
