@@ -184,8 +184,12 @@ sendVarToJS('mapEqToCommands', $mapEqToCommands);
 							</div>
 							<legend><i class="fas fa-play"></i> {{Actions de Préparation}}</legend>
 							<div class="jeeipxv3-root">
-							<div class="form-group">
-									<label class="col-sm-4 control-label">Actions (Press Save before)</label>
+								<div class="alert alert-info col-xs-10 col-xs-offset-1">
+									<i class="fas fa-exclamation-triangle"></i>
+									Sauver les parametres avant d'utiliser ces actions.
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label">Actions</label>
 									<div class="col-sm-6 btn-group" role="group" aria-label="...">
 										<button id="jeeipxv3-testurl" type="button" class="btn btn-default"><i id="jeeipxv3-testurlok" class="fas fa-check"></i>Test Access</button>
 										<button id="jeeipxv3-configpush" type="button" class="btn btn-default"><i id="jeeipxv3-configpushok" class="fas fa-check"></i>Config Push</button>
