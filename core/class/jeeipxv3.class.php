@@ -458,7 +458,7 @@ public static function deamon_changeAutoMode($mode) {
 	public function event() 
 	{
 		//log::add(JEEIPXV3, 'debug', __METHOD__ .' eqlogic id:'.init('id'));
-		log::add(JEEIPXV3, 'debug', __METHOD__ .' $_GET:'.json_encode($_GET));
+		log::add(JEEIPXV3, 'info', __METHOD__ .' $_GET:'.json_encode($_GET));
 		//log::add(JEEIPXV3, 'debug', __METHOD__ .' $_POST:'.json_encode($_POST));
 		//log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
 
