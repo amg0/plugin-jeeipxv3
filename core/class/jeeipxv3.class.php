@@ -458,7 +458,7 @@ public static function deamon_changeAutoMode($mode) {
 	public function event() 
 	{
 		//log::add(JEEIPXV3, 'debug', __METHOD__ .' eqlogic id:'.init('id'));
-		log::add(JEEIPXV3, 'info', __METHOD__ .' $_GET:'.json_encode($_GET));
+		log::add(JEEIPXV3, 'debug', __METHOD__ .' $_GET:'.json_encode($_GET));
 		//log::add(JEEIPXV3, 'debug', __METHOD__ .' $_POST:'.json_encode($_POST));
 		//log::add(JEEIPXV3, 'debug', __METHOD__ .' $_REQUEST:'.json_encode($_REQUEST));
 
@@ -475,7 +475,7 @@ public static function deamon_changeAutoMode($mode) {
 	
 	// find and update a child EQLogic with a value received from the IPX
 	public function updateChild($child, float $value, int $antype=0 ) {
-		log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(" name:'%s' value:%s anselect:%d",$child,$value,$antype));
+		log::add(JEEIPXV3, 'info', __METHOD__ .sprintf(" name:'%s' value:%s anselect:%d",$child,$value,$antype));
 		$eqLogic = self::byLogicalId( $this->buildLogicalID($child) , JEEIPXV3);
 		if (is_object($eqLogic)) {
 			if ( $eqLogic->getConfiguration('anselect',0)  != $antype) {
