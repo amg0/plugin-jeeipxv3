@@ -4,6 +4,10 @@
 >
 >Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+## 07/05/2023
+
+- Display counter as "tile" template by default, can be changed by user after
+
 ## 29/04/2023
 
 - Add ConfigPush button on the eq configuration dialog to trigger the configuration of the push url on the IPX card

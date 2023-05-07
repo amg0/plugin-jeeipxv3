@@ -221,7 +221,7 @@ public static function deamon_changeAutoMode($mode) {
 				break;
 			}
 			case 'count': {
-				$cmdEtat = $this->createOrUpdateCommand( 'Count', 'status', 'info', 'numeric', 1, 'GENERIC_INFO' );
+				$cmdEtat = $this->createOrUpdateCommand( 'Count', 'status', 'info', 'numeric', 1, 'GENERIC_INFO', null, 'tile' );
 				$this->createOrUpdateCommand( 'Reset', 'reset', 'action', 'other', 1, 'GENERIC_ACTION', (int) $cmdEtat->getId() );
 				break;
 			}
@@ -627,7 +627,7 @@ public static function deamon_changeAutoMode($mode) {
 		}
 	}
 
-	public function createOrUpdateCommand( $name, $logicalid, $type, $subtype, $is_visible, $generic_type, $targetcmdid=NULL) {
+	public function createOrUpdateCommand( $name, $logicalid, $type, $subtype, $is_visible, $generic_type, $targetcmdid=null, $template=null) {
 		log::add(JEEIPXV3, 'debug', __METHOD__ .' name:' . $name);
 		$cmd = $this->getCmd(null, $logicalid);
 		if (!is_object($cmd)) {
@@ -643,6 +643,10 @@ public static function deamon_changeAutoMode($mode) {
 			if (!is_null($targetcmdid)) {
 				$cmd->setValue( (int) $targetcmdid );
 			} 
+			if (!is_null($template)) {
+				$cmd->setTemplate('dashboard',$template);    //special case for this device
+				$cmd->setTemplate('mobile',$template );    
+			}
 			// $cmd->setUnite('');
 			// $cmd->setIsHistorized(0);
 			$cmd->save();
