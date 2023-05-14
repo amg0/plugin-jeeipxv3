@@ -53,16 +53,19 @@ IPX800 Relay ( led ) equipment
 - **Etat** (info) : O or 1 if relay is respectively open or close
 - **On** (action) : will trigger a close action on the relay. if the relay is configured in impulse mode on the IPX it triggers the impulse and does not stay close according to the Tb IPX settings
 - **Off** (action) : will open the relay and force to go in OFF state
+
 The default generic type for the on off comment and LIGHT ON  , LIGHT OFF but that can be changed by the user
 
 IPX800 Digital Input ( btn ) equipment
 - **Etat** (info) : O or 1 if input digital is respectively off or on
 - **On** (action) : forces the input to be on 
 - **Off** (action)  : forces the input to be off 
+
 The default generic type for the on off comment and LIGHT ON  , LIGHT OFF but that can be changed by the user
 
 IPX800 Analog Input ( btn ) equipment
 - **Etat** (info - Numeric) : the analog value received from the IPX, corrected by the correct calculation that depends on the IPX analog sensor type selected in the IPX configuration 
+
 The default generic type for the on off comment and TEMPERATURE but that can be changed by the user
 
 IPX800 Counter ( count ) equipment
