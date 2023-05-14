@@ -51,7 +51,7 @@ IPX800 root equipment
 
 IPX800 Relay ( led ) equipment
 - **Etat** (info) : O or 1 if relay is respectively open or close
-- **On** (action) : will trigger a close action on the relay. if the relay is configured in impulse mode on the IPX it triggers the impulse and does not stay close according to the Tb IPX settings
+- **On** (action) : will trigger a close action on the relay. if the relay is configured in impulse mode on the IPX (Ta Tb values are not zero) it triggers the impulse and does not stay in close position, according to the Tb IPX settings
 - **Off** (action) : will open the relay and force to go in OFF state
 
 The default generic type for the on off command is LIGHT ON  , LIGHT OFF but that can be changed by the user
