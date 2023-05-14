@@ -6,7 +6,7 @@
 
 ## 07/05/2023
 
-- afficher les compteurs avec le template "tile" par defaut. cela est changeable a posteriori par l'utilisateur
+- Display counter as "tile" template by default, can be changed by user after
 
 ## 29/04/2023
 
@@ -15,13 +15,13 @@
 
 ## 27/04/2023
 
-- Support les 8 compteurs IPX counters avec une action 'reset' pour les remettre a zero 0
+- Add support for 8 IPX counters and a reset action to reset to 0
 
 ## 25/04/2023
 
-- mise a jour Documentation 
-- afficher les types de sonde analogique dans la boite de dialgue de configuration de l'equipement. la configuration du type se fait dans l'IPX directement
-- affiche des icones differents par type de sonde IPX pour l'equipement.
+- Documentation update
+- Display proper analog sensor type in the equipment option dialog box ( ajax call ).
+- Display proper equipment Icon per type of IPX sensor for the equipment
 
 ## 24/04/2023
 
