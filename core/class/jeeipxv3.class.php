@@ -223,7 +223,7 @@ public static function deamon_changeAutoMode($mode) {
 			case 'count': {
 				$cmdEtat = $this->createOrUpdateCommand( 'Count', 'status', 'info', 'numeric', 1, 'GENERIC_INFO', null, 'tile' );
 				$this->createOrUpdateCommand( 'Reset', 'reset', 'action', 'other', 1, 'GENERIC_ACTION', (int) $cmdEtat->getId() );
-				$this->createOrUpdateCommand( 'Set', 'setcounter', 'action', 'slider', 1, 'GENERIC_ACTION', (int) $cmdEtat->getId() );
+				$this->createOrUpdateCommand( 'Set', 'setcounter', 'action', 'slider', 1, 'GENERIC_ACTION', (int) $cmdEtat->getId(), 'value');
 				break;
 			}
 			default: {  // Root Equipment
