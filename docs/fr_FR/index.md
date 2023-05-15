@@ -71,6 +71,7 @@ The default generic type for the on off command is TEMPERATURE but that can be c
 IPX800 Counter ( count ) equipment
 - **Count** (info - Numeric) : the value of the counter
 - **Reset** (action) : will reset counter to 0
+- **Set** (action) : will set counter to a specified value ( slider )
 
 ## Change Log
 
