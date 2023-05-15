@@ -382,7 +382,8 @@ public static function deamon_changeAutoMode($mode) {
 	}
 
 	public function setCounter( $child, $val ) {
-		log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(' child:%d val:%d',$child,$val));
+		log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(' child:%s val:%d',$child,$val));
+		$child = (int) substr($child,-1);	// get only the counter number
 		$ipxurl = $this->getUrl();
 		$url = $ipxurl . sprintf("protect/assignio/counter1.htm?num=%d&counter=%d",$child,$val);
 		$result = file_get_contents($url);
