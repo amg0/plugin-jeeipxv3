@@ -223,6 +223,7 @@ public static function deamon_changeAutoMode($mode) {
 			case 'count': {
 				$cmdEtat = $this->createOrUpdateCommand( 'Count', 'status', 'info', 'numeric', 1, 'GENERIC_INFO', null, 'tile' );
 				$this->createOrUpdateCommand( 'Reset', 'reset', 'action', 'other', 1, 'GENERIC_ACTION', (int) $cmdEtat->getId() );
+				$this->createOrUpdateCommand( 'Set', 'setcounter', 'action', 'slider', 1, 'GENERIC_ACTION', (int) $cmdEtat->getId() );
 				break;
 			}
 			default: {  // Root Equipment
@@ -714,6 +715,8 @@ class jeeipxv3Cmd extends cmd {
 			case 'reset':
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
 				$root->setCounter($child,0);
+				break;
+			case 'setcounter':
 				break;
 			case 'btn_on':
 			case 'btn_off':
