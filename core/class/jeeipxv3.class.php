@@ -223,6 +223,7 @@ public static function deamon_changeAutoMode($mode) {
 			case 'count': {
 				$cmdEtat = $this->createOrUpdateCommand( 'Count', 'status', 'info', 'numeric', 1, 'GENERIC_INFO', null, 'tile' );
 				$this->createOrUpdateCommand( 'Reset', 'reset', 'action', 'other', 1, 'GENERIC_ACTION', (int) $cmdEtat->getId() );
+				$this->createOrUpdateCommand( 'Set', 'setcounter', 'action', 'slider', 1, 'GENERIC_ACTION', (int) $cmdEtat->getId() );
 				break;
 			}
 			default: {  // Root Equipment
@@ -381,7 +382,8 @@ public static function deamon_changeAutoMode($mode) {
 	}
 
 	public function setCounter( $child, $val ) {
-		log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(' child:%d val:%d',$child,$val));
+		log::add(JEEIPXV3, 'debug', __METHOD__ .sprintf(' child:%s val:%d',$child,$val));
+		$child = (int) substr($child,-1);	// get only the counter number
 		$ipxurl = $this->getUrl();
 		$url = $ipxurl . sprintf("protect/assignio/counter1.htm?num=%d&counter=%d",$child,$val);
 		$result = file_get_contents($url);
@@ -714,6 +716,11 @@ class jeeipxv3Cmd extends cmd {
 			case 'reset':
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
 				$root->setCounter($child,0);
+				break;
+			case 'setcounter':
+				$val = $_options['slider'];
+				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+				$root->setCounter($child,$val);
 				break;
 			case 'btn_on':
 			case 'btn_off':
