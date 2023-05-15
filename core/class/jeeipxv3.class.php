@@ -719,7 +719,7 @@ class jeeipxv3Cmd extends cmd {
 			case 'setcounter':
 				$val = $_options['slider'];
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
-				$root->setCounter($child,val);
+				$root->setCounter($child,$val);
 				break;
 			case 'btn_on':
 			case 'btn_off':
