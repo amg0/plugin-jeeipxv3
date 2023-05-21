@@ -44,7 +44,7 @@ IPX800 root equipment
 - **MAC** (info) : MAC addres of the IPX800
 - **Version** (info) : the IPX firmware information
 - **UpdateTime** (info) : last timestamp of successful communication
-- **refresh** (action) : forces a data refresh, otherwise information is refreshed either by the recurrent loop every x seconds as configured in the plugin configuration dialog,  or on any changes if the PUSH url has been configured on the IPX
+- **Rafraichir** (action) : forces a data refresh, otherwise information is refreshed either by the recurrent loop every x seconds as configured in the plugin configuration dialog,  or on any changes if the PUSH url has been configured on the IPX
 - **configPush** : configure the IPX800 with the push URL that points to the plugin event(). it will update directly the equipements
 - **reboot** (action) : reboots the IPX800
 - **Last XML** : a json encoded version of the last status information received from the IPX
