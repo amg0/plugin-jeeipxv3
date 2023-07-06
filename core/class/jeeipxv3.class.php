@@ -436,7 +436,7 @@ public static function deamon_changeAutoMode($mode) {
 		}
 		*/
 
-		//log::add(JEEIPXV3, 'warning', __METHOD__ .' simulated url:'.$url);
+		log::add(JEEIPXV3, 'debug', __METHOD__ .' about to call url:'.$url);
 		$result = file_get_contents($url);
 		if ($result === false) {
 		  log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
