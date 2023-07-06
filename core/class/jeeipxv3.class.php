@@ -739,6 +739,11 @@ class jeeipxv3Cmd extends cmd {
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
 				$root->setIPXRelay($type,$child,0);
 				break;
+			case 'led_com':
+				$type = 'led';
+				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+				$root->setIPXRelay($type,$child,-1);
+				break;
 			case 'reset':
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
 				$root->setCounter($child,0);
@@ -758,8 +763,13 @@ class jeeipxv3Cmd extends cmd {
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
 				$root->setIPXRelay($type,$child,0); // value does not matter in that case as we use the led.cgi command
 				break;
+			case 'btn_com':
+				$type = 'btn';
+				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+				$root->setIPXRelay($type,$child,-1); // value does not matter in that case as we use the led.cgi command
+				break;
 			default:
-			log::add(JEEIPXV3, 'info', __METHOD__ .' ignoring unknown command');
+				log::add(JEEIPXV3, 'info', __METHOD__ .' ignoring unknown command');
 		}
 	}
 
