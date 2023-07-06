@@ -4,6 +4,11 @@
 >
 >Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+## 06/07/2023
+
+- create action 'Commute' not visible by defaut on the relay and the digital entries to commute the state  ( 0 to 1, 1 to 0 )
+- fix action ON , OFF on the relay to force the state ( 1 or 0 ) independently of the current state
+
 ## 15/05/2023
 
 - set action 'Set' on counter to set it to a specified value ( slider ) 
