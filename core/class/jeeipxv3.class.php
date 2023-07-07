@@ -751,7 +751,7 @@ class jeeipxv3Cmd extends cmd {
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
 				$statuscmd = $eqLogic->getCmd(  'info',  'status' );
 				if ( is_object($statuscmd) ) {
-					$oldval = (int) $statuscmd->exec();
+					$oldval = (int) $statuscmd->execCmd();
 					if ($oldval != 1)
 						$root->setIPXRelay($type,$child,1); // value does not matter in that case as we use the led.cgi command
 				}
@@ -761,7 +761,7 @@ class jeeipxv3Cmd extends cmd {
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
 				$statuscmd = $eqLogic->getCmd(  'info',  'status' );
 				if ( is_object($statuscmd) ) {
-					$oldval = (int) $statuscmd->exec();
+					$oldval = (int) $statuscmd->execCmd();
 					if ($oldval != 0)
 						$root->setIPXRelay($type,$child,0); // value does not matter in that case as we use the led.cgi command
 				}
