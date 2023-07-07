@@ -4,6 +4,11 @@
 >
 >Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+## 06/07/2023
+
+- implemente l'action 'Commute' non visible par defaut sur les relais et les entrees digitales pour commuter l'etat ( 0 a 1, 1 a 0 )
+- corrige l'action ON ou OFF sur le relai pour forcer l'etat 1 ou 0, independement de l'etat courant
+
 ## 15/05/2023
 
 - implemente l'action 'Set' sur le compteur pour le mettre a une valeur specifiee ( par le slider ou le parametre de l'action )

@@ -214,6 +214,7 @@ public static function deamon_changeAutoMode($mode) {
 				$cmdEtat = $this->createOrUpdateCommand( 'Etat', 'status', 'info', 'binary', 1, 'ENERGY_STATE' );
 				$this->createOrUpdateCommand( 'On', $type.'_on', 'action', 'other', 1, 'LIGHT_ON', (int) $cmdEtat->getId() );
 				$this->createOrUpdateCommand( 'Off', $type.'_off', 'action', 'other', 1, 'LIGHT_OFF', (int) $cmdEtat->getId() );
+				$this->createOrUpdateCommand( 'Commute', $type.'_com', 'action', 'other', 0, 'LIGHT_TOGGLE', (int) $cmdEtat->getId() );
 				break;
 			}
 			case 'analog': { // Analog
@@ -401,16 +402,34 @@ public static function deamon_changeAutoMode($mode) {
 		// keep only the numeric index of the child
 		$num = (int)str_replace($type,'',$child);
 		$ipxurl = $this->getUrl();
-		if (($type=='led') && ($value==0)) {
-			// sortie sans mode impulsionel
-			$url = $ipxurl . sprintf("preset.htm?set%d=%d",$num+1,$value);
+		if ($type=='led') {
+			switch( $value ) {
+				case 0:
+					// sortie sans mode impulsionel
+					$url = $ipxurl . sprintf("preset.htm?set%d=%d",$num+1,$value);
+					break;
+				case 1:
+					// sortie sans mode impulsionel
+					$url = $ipxurl . sprintf("preset.htm?set%d=%d",$num+1,$value);
+					break;
+				case -1:
+					// sortie according to configuration of Tb inside IPX800 ( impulse or normal )
+					$url = $ipxurl . sprintf("leds.cgi?led=%d",$num);
+					break;
+			}	
 		} else {
-			// sortie according to configuration of Tb inside IPX800 ( impulse or normal )
-			if ($type=='btn')
-				$num +=100;
-			$url = $ipxurl . sprintf("leds.cgi?led=%d",$num);
+			$num +=100;
+			switch( $value ) {
+				case 0:
+				case 1:
+				case -1:
+					// sortie according to configuration of Tb inside IPX800 ( impulse or normal )
+					$url = $ipxurl . sprintf("leds.cgi?led=%d",$num);
+					break;
+			}	
 		}
-		//log::add(JEEIPXV3, 'warning', __METHOD__ .' simulated url:'.$url);
+
+		log::add(JEEIPXV3, 'debug', __METHOD__ .' about to call url:'.$url);
 		$result = file_get_contents($url);
 		if ($result === false) {
 		  log::add(JEEIPXV3, 'error', __METHOD__ .' IPX does not respond, url:'.$url);
@@ -713,6 +732,11 @@ class jeeipxv3Cmd extends cmd {
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
 				$root->setIPXRelay($type,$child,0);
 				break;
+			case 'led_com':
+				$type = 'led';
+				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+				$root->setIPXRelay($type,$child,-1);
+				break;
 			case 'reset':
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
 				$root->setCounter($child,0);
@@ -723,13 +747,22 @@ class jeeipxv3Cmd extends cmd {
 				$root->setCounter($child,$val);
 				break;
 			case 'btn_on':
+				$type = 'btn';
+				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+				$root->setIPXRelay($type,$child,1); // value does not matter in that case as we use the led.cgi command
+				break;
 			case 'btn_off':
 				$type = 'btn';
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
 				$root->setIPXRelay($type,$child,0); // value does not matter in that case as we use the led.cgi command
 				break;
+			case 'btn_com':
+				$type = 'btn';
+				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+				$root->setIPXRelay($type,$child,-1); // value does not matter in that case as we use the led.cgi command
+				break;
 			default:
-			log::add(JEEIPXV3, 'info', __METHOD__ .' ignoring unknown command');
+				log::add(JEEIPXV3, 'info', __METHOD__ .' ignoring unknown command');
 		}
 	}
 
