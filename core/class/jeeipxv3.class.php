@@ -749,12 +749,22 @@ class jeeipxv3Cmd extends cmd {
 			case 'btn_on':
 				$type = 'btn';
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
-				$root->setIPXRelay($type,$child,1); // value does not matter in that case as we use the led.cgi command
+				$statuscmd = $eqLogic->getCmd(  'info',  'status' );
+				if ( is_object($statuscmd) ) {
+					$oldval = (int) $statuscmd->execCmd();
+					if ($oldval != 1)
+						$root->setIPXRelay($type,$child,1); // value does not matter in that case as we use the led.cgi command
+				}
 				break;
 			case 'btn_off':
 				$type = 'btn';
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
-				$root->setIPXRelay($type,$child,0); // value does not matter in that case as we use the led.cgi command
+				$statuscmd = $eqLogic->getCmd(  'info',  'status' );
+				if ( is_object($statuscmd) ) {
+					$oldval = (int) $statuscmd->execCmd();
+					if ($oldval != 0)
+						$root->setIPXRelay($type,$child,0); // value does not matter in that case as we use the led.cgi command
+				}
 				break;
 			case 'btn_com':
 				$type = 'btn';
