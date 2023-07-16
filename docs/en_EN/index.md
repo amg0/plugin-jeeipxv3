@@ -54,7 +54,7 @@ IPX800 Relay ( led ) equipment
 - **On** (action) : will trigger a close action on the relay. if the relay is configured in impulse mode on the IPX (Ta Tb values are not zero) it triggers the impulse and does not stay in close position, according to the Tb IPX settings
 - **Off** (action) : will open the relay and force to go in OFF state
 - **Commute** (action) : will toggle the state of the relay ( ON=>OFF or OFF=>ON )
-- **Impulse** (action) : will force a impulse ( ON then OFF ) on the relay 
+- **Impulse** (action) : will force a impulse ( ON then OFF ) on the relay whatever the configuration on IPX is
 
 The default generic type for the on off command is LIGHT ON  , LIGHT OFF but that can be changed by the user
 
