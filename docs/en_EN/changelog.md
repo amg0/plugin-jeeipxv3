@@ -4,6 +4,10 @@
 >
 >Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+## 16/07/2023
+
+- create action 'Impulse' on relay (only on relay) to force a ON OFF impulse even if the relay is not programmed as impulse on IPX ( with Ta Tb )
+
 ## 06/07/2023
 
 - create action 'Commute' not visible by defaut on the relay and the digital entries to commute the state  ( 0 to 1, 1 to 0 )

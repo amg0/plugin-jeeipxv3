@@ -215,6 +215,9 @@ public static function deamon_changeAutoMode($mode) {
 				$this->createOrUpdateCommand( 'On', $type.'_on', 'action', 'other', 1, 'LIGHT_ON', (int) $cmdEtat->getId() );
 				$this->createOrUpdateCommand( 'Off', $type.'_off', 'action', 'other', 1, 'LIGHT_OFF', (int) $cmdEtat->getId() );
 				$this->createOrUpdateCommand( 'Commute', $type.'_com', 'action', 'other', 0, 'LIGHT_TOGGLE', (int) $cmdEtat->getId() );
+				if (($type)=='led') {
+					$this->createOrUpdateCommand( 'Impulse', $type.'_imp', 'action', 'other', 0, 'LIGHT_TOGGLE', (int) $cmdEtat->getId() );
+				}
 				break;
 			}
 			case 'analog': { // Analog
@@ -735,6 +738,12 @@ class jeeipxv3Cmd extends cmd {
 			case 'led_com':
 				$type = 'led';
 				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+				$root->setIPXRelay($type,$child,-1);
+				break;
+			case 'led_imp':
+				$type = 'led';
+				$child = $root->splitLogicalID($eqLogic->getLogicalId())[1];  // return child
+				$root->setIPXRelay($type,$child,1);
 				$root->setIPXRelay($type,$child,-1);
 				break;
 			case 'reset':
