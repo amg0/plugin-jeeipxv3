@@ -9,7 +9,7 @@ $mapEqToCommands = array();
 
 $cmds = [
 	'configpush'=> 'action',
-	'refreshipx'=> 'action',
+	'refresh'=> 'action',
 	'status' => 'info'
 ];
 
