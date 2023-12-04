@@ -4,6 +4,10 @@
 >
 >Pour rappel s'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+## 04/12/2023
+
+- Corrige le bug sur le boutton Test Access
+
 ## 16/07/2023
 
 - cree l'action 'Impulse' sur le relai (seulement le relai) pour forcer une impulsion ON puis OFF meme si le relai n'est pas programmé comme impulsion sur l'IPX ( avec le Ta Tb )
