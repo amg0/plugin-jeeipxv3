@@ -63,7 +63,7 @@ function printEqLogic(eqLogic) {
     
     $("#jeeipxv3-testurl").off().on("click",function(elem) {
       // retrieve ID of configpush command
-      idcmd = mapEqToCommands[eqLogic.id].refreshipx;
+      idcmd = mapEqToCommands[eqLogic.id].refresh;
       idstatus = mapEqToCommands[eqLogic.id].status;
       jeedom.cmd.execute({
         id: idcmd,
